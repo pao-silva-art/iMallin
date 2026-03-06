@@ -51,6 +51,7 @@
                 left: 2%;
                 top: 50%;
                 z-index: 15;
+                touch-action: none;
             }
 
             #bg{
@@ -115,19 +116,17 @@ const text = document.getElementById("text");
 
 let dragging = false;
 
-strawberry.addEventListener("mousedown", () => dragging = true);
-document.addEventListener("mouseup", () => dragging = false);
+strawberry.addEventListener("pointerdown", () => dragging = true);
+document.addEventListener("pointerup", () => dragging = false);
 
-document.addEventListener("mousemove", (e) => {
+document.addEventListener("pointermove", (e) => {
     if (!dragging) return;
 
     const sliderRect = slider.getBoundingClientRect();
     const berryRect = strawberry.getBoundingClientRect();
 
-    // calculate horizontal position inside slider
     let x = e.clientX - sliderRect.left - berryRect.width / 2;
 
-    // clamp movement inside slider
     const min = 0;
     const max = sliderRect.width - berryRect.width;
 
@@ -135,13 +134,10 @@ document.addEventListener("mousemove", (e) => {
 
     strawberry.style.left = x + "px";
 
-    // progress from 0 → 1
     let progress = x / max;
 
-    // fade text
     text.style.opacity = 1 - progress;
 
-    // redirect when reaching end
     if (progress >= 0.98) {
         window.location.href = "page2.html";
     }
