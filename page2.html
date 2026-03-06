@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            @keyframes orbit {
+                from {  -webkit-transform: rotate(0deg) translateX(20px) rotate(0deg); }
+                to   {  -webkit-transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+            #bg{
+                position: absolute;
+                height: 100%;
+                z-index: 1;
+            }
+
+            #icons {
+                position: absolute;
+                z-index: 2;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 50%;
+            }
+
+        </style>
+    </head>
+    <body>
+        <div id="icons">
+            <img src="images/page2_icon1.png" id="icon1" class="stretch">
+            <img src="images/page2_icon2.png" id="icon2" class="stretch">
+            <img src="images/page2_icon3.png" id="icon3" class="stretch">
+        </div>
+        <img src="images/page2_bg.png" class="stretch" id="bg">
+    </body>
+</html>
