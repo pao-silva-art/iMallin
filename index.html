@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            @keyframes orbit {
+                from {  -webkit-transform: rotate(0deg) translateX(20px) rotate(0deg); }
+                to   {  -webkit-transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+           
+            #box {
+                position: absolute;
+                height: 100%;
+                z-index: 10;
+            }
+
+            #slider {
+                position: absolute;
+                height: 9%;
+                width: 90%;
+                background-color: rgba(0, 0, 255, 0.5);
+                left: 4%;
+                top: 84%;
+                z-index: 13;
+            }
+
+            #text {
+                position: relative;
+                height: 100%;
+                top: 50%;
+                transform: translateY(-50%);
+                margin: 0;
+                z-index: 14;
+            }
+
+            #strawberry {
+                position: absolute;
+                height: 100%;
+                transform: translateY(-50%);
+                margin: 0;
+                left: 2%;
+                top: 50%;
+                z-index: 15;
+            }
+
+            #bg{
+                position: absolute;
+                height: 100%;
+                z-index: 1;
+            }
+
+            #apps {
+                position: absolute;
+                height: 100%;
+                z-index: 2;
+                animation: orbit 2s backwards infinite;
+                animation-timing-function: linear;
+            }
+
+            #mouth {
+                position: absolute;
+                height: 100%;
+                z-index: 3;
+                animation: orbit 5s infinite;
+                animation-timing-function: linear;
+            }
+
+            #banana {
+                position: absolute;
+                height: 100%;
+                z-index: 6;
+                animation: orbit 1s infinite;
+                animation-timing-function: linear;
+            }
+
+            #supernova {
+                position: absolute;
+                height: 100%;
+                z-index: 5;
+            }
+
+        </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="strawBox">
+            <div id="slider">
+            <img src="images/slideText_home_icon.png" id="text" class="stretch">
+            <img src="images/strawberry_home_icon.png" id="strawberry">
+            </div>
+            <img src="images/boxslider_home_icon.png" id="box" class="stretch">
+        </div>
+        <div id="bananaHome">
+            <img src="images/banana_home_icon.png" id="banana" class="stretch">
+            <img src="images/supernova_home_icon.png" id="supernova" class="stretch">
+        </div>
+        <img src="images/mouth_home_icon.png" id="mouth" class="stretch">
+        <img src="images/home_icon_bg.png" id="apps" class="stretch">
+        <img src="images/home_bg.png" id="bg" class="stretch">
+
+<script>
+const strawberry = document.getElementById("strawberry");
+const slider = document.getElementById("slider");
+const text = document.getElementById("text");
+
+let dragging = false;
+
+strawberry.addEventListener("mousedown", () => dragging = true);
+document.addEventListener("mouseup", () => dragging = false);
+
+document.addEventListener("mousemove", (e) => {
+    if (!dragging) return;
+
+    const sliderRect = slider.getBoundingClientRect();
+    const berryRect = strawberry.getBoundingClientRect();
+
+    // calculate horizontal position inside slider
+    let x = e.clientX - sliderRect.left - berryRect.width / 2;
+
+    // clamp movement inside slider
+    const min = 0;
+    const max = sliderRect.width - berryRect.width;
+
+    x = Math.max(min, Math.min(x, max));
+
+    strawberry.style.left = x + "px";
+
+    // progress from 0 → 1
+    let progress = x / max;
+
+    // fade text
+    text.style.opacity = 1 - progress;
+
+    // redirect when reaching end
+    if (progress >= 0.98) {
+        window.location.href = "page2.html";
+    }
+});
+</script>
+    </body>
+</html>
