@@ -2,13 +2,16 @@
 <html>
     <head>
         <style>
-            body{
+            html,body{
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
                 background-color: black;
                 font-family: Arial, Helvetica, sans-serif;
                 color: aliceblue;
+                height: 100%;
+                position: fixed;
+                width: 100%;
             }
             .stretch {
                 height: auto;
@@ -39,30 +42,25 @@
 #textContainer {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
-  bottom: -200vh;
+  transform: translate(-50%, 200vh); /* start off screen */
   width: 80%;
   max-width: 800px;
-  font-size: 10vh;
-  color: white;
-  text-shadow: 0 0 4px blue, 0 0 10px blue, 0 0 15px blue;
-  opacity: 0;
-  text-align: center;
-  z-index: 2;
-  transition: opacity 1s ease;
+  font-size: 10dvh; /* slightly smaller helps too */
+  bottom: auto;   /* remove bottom entirely */
 }
 
 #textContainer.show {
   animation: scrollUp 8s linear forwards;
   opacity: 1;
+
 }
 
-  @keyframes scrollUp {
+@keyframes scrollUp {
   from {
-    bottom: -200vh;
+    transform: translate(-50%, 200vh);
   }
   to {
-    bottom: 40%;
+    transform: translate(-50%, -40%);
   }
 }
 
@@ -102,7 +100,7 @@
   top: 50%;
   left: 50%;
   width: 300vw;         /* 3x viewport width */
-  height: 300vh;        /* 3x viewport height */
+  height: 300dvh;        /* 3x viewport height */
   object-fit: cover;    /* cover while keeping aspect ratio */
   transform: translate(-50%, -50%) rotate(0deg); /* centered */
   z-index: 1;           /* behind randomImage */
@@ -182,7 +180,7 @@ function startSequence() {
 
   textBox.classList.remove("show");
   void textBox.offsetWidth;
-  textBox.style.bottom = "-100vh";
+  textBox.style.bottom = "-100dvh";
 
   img.style.opacity = 1;
   img.classList.remove("animate");
