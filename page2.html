@@ -3,7 +3,229 @@
     <head>
         <style>
             body{
+                margin: 0;<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html,body{
                 margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: black;
+                font-family: Arial, Helvetica, sans-serif;
+                color: aliceblue;
+                height: 100%;
+                position: fixed;
+                width: 100%;
+            }
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+            #bg{
+                position: absolute;
+                height: 100%;
+                z-index: 0;
+                transform: translateY(0);
+            }
+            #imageContainer {
+                position: absolute;
+                width: 100%;
+                 height: 100%;
+                z-index: 1;
+            }
+
+  #imageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 1;
+    transition: opacity 2s ease;
+  }
+
+#textContainer {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 200vh); /* start off screen */
+  width: 80%;
+  max-width: 800px;
+  font-size: clamp(10vh, 60px); /* slightly smaller helps too */
+  bottom: auto;   /* remove bottom entirely */
+}
+
+#textContainer.show {
+  animation: scrollUp 8s linear forwards;
+  opacity: 1;
+
+}
+
+@keyframes scrollUp {
+  from {
+    transform: translate(-50%, 200vh);
+  }
+  to {
+    transform: translate(-50%, -40%);
+  }
+}
+
+  #buttonContainer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: none;
+  }
+
+  /* random image (zoom + fade) */
+#randomImage {
+  position: relative;
+  z-index: 2;
+  transform: scale(0.1);
+  opacity: 1;
+}
+
+/* when active */
+#randomImage.animate {
+  animation: zoomIn 2s ease forwards;
+}
+
+/* zoom animation */
+@keyframes zoomIn {
+  from {
+    transform: scale(0.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* supernova spinning */
+#supernova {
+  position: fixed;      /* always relative to viewport */
+  top: 50%;
+  left: 50%;
+  width: 300vw;         /* 3x viewport width */
+  height: 300dvh;        /* 3x viewport height */
+  object-fit: cover;    /* cover while keeping aspect ratio */
+  transform: translate(-50%, -50%) rotate(0deg); /* centered */
+  z-index: 1;           /* behind randomImage */
+  opacity: 0.8;
+  pointer-events: none; /* don’t block clicks */
+}
+
+#randomImage, #supernova {
+  transition: opacity 2s ease; /* smooth fade */
+}
+
+/* spinning animation */
+#supernova.animate {
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+  button {
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+ <img src="images/divination-bg.png" id="bg" class="stretch"> 
+ <img id="supernova" src="images/supernova.png">
+<div id="imageContainer">
+ 
+  <img id="randomImage" src="">
+</div>
+
+<div id="textContainer"></div>
+
+<div id="buttonContainer">
+  <button onclick="startSequence()">Try Again</button>
+</div>
+
+<script>
+const images = [
+  "images/unicornCake1.png",
+  "images/unicornCake2.png",
+  "images/unicornCake3.png",
+  "images/unicornCake4.png",
+  "images/unicornCake5.png"
+];
+
+const texts = [
+`Just because it's compelling doesn't mean it's true. You believe the worst outcome is the only possible one because you think life is a movie. No amount of analysis will change the outcome. Don't try to be brave.`,
+
+`At least twenty-three more rejections coming your way. Speed through them. Be smart but be stupid about it. You have rotten veggies in the fridge, toss them. Sometimes you get rejected because you weren't the best.`,
+
+`You will fall on your ass soon. Literally. Like slip and fall on your ass. Someone will block you. Tomorrow, good luck parking. Block someone yourself and feel the balance reshared. Wear red underwear for good luck.`,
+
+`You overhear a conversation that confirms your impulse to dislike someone. Stop waiting for vindication on your opinions of people. You can't have revenge and self-pity. If you're going to be a bitch do it right.`,
+
+`A beautiful creative opportunity is coming your way. You'll get really close, but you won't get it. You deserved it, but it's not your time. Wash your ass more aggressively. You need to switch shampoos.`
+];
+
+
+function getRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function startSequence() {
+  const img = document.getElementById("randomImage");
+  const supernova = document.getElementById("supernova");
+  const textBox = document.getElementById("textContainer");
+  const button = document.getElementById("buttonContainer");
+
+  // reset
+  button.style.display = "none";
+
+  textBox.classList.remove("show");
+  void textBox.offsetWidth;
+  textBox.style.bottom = "-100dvh";
+
+  img.style.opacity = 1;
+  img.classList.remove("animate");
+
+  supernova.style.opacity = 1;
+  supernova.classList.remove("animate");
+
+  // force reset animations
+  void img.offsetWidth;
+  void supernova.offsetWidth;
+
+  // content
+  img.src = getRandom(images);
+  textBox.innerText = getRandom(texts);
+
+  // start animations immediately
+  img.classList.add("animate");
+  supernova.classList.add("animate");
+
+  // fade both out after 2s
+  setTimeout(() => {
+    img.style.opacity = 0;
+    supernova.style.opacity = 0;
+  }, 2000);
+
+  // show text
+  setTimeout(() => {
+    textBox.classList.add("show");
+  }, 4000);
+
+  // show button
+  setTimeout(() => {
+    button.style.display = "block";
+  }, 12000);
+}
+// start automatically
+startSequence();
+</script>
+</body>
+</html>
                 padding: 0;
                 overflow: hidden;
             }
