@@ -42,34 +42,37 @@
 
 #textContainer {
   position: absolute;
-    text-align: center;
+  text-align: center;
   left: 50%;
-  transform: translate(-50%, 200vh); /* start off screen */
+  transform: translate(-50%, 100vh); /* start off screen */
   width: 80%;
   max-width: 800px;
-  font-size: 9dvh; /* slightly smaller helps too */ 
+  font-size: 9dvh; /* slightly smaller helps too */
   bottom: auto;   /* remove bottom entirely */
 }
 
 #textContainer.show {
-  animation: scrollUp 8s linear forwards;
+  animation: scrollUp 20s linear forwards;
   opacity: 1;
 
 }
 
 @keyframes scrollUp {
   from {
-    transform: translate(-50%, 200vh);
+    transform: translate(-50%, 100vh);
   }
   to {
-    transform: translate(-50%, -40%);
+    transform: translate(-50%, -100%);
   }
 }
 
   #buttonContainer {
     position: absolute;
+    z-index: 200;
+    left: 50%;
+    transform: translateX(-50%);
     bottom: 20px;
-    width: 100%;
+    width: auto;
     display: none;
   }
 
@@ -126,8 +129,15 @@
 
   button {
     padding: 10px 20px;
-    font-size: 18px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+    font-size: large;
     cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    box-shadow: 0px 0px 15px blue;
   }
 </style>
 </head>
@@ -142,7 +152,7 @@
 <div id="textContainer"></div>
 
 <div id="buttonContainer">
-  <button onclick="startSequence()">Try Again</button>
+  <button onclick="location.reload()">Try Again</button>
 </div>
 
 <script>
@@ -163,7 +173,60 @@ const texts = [
 
 `You overhear a conversation that confirms your impulse to dislike someone. Stop waiting for vindication on your opinions of people. You can't have revenge and self-pity. If you're going to be a bitch do it right.`,
 
-`A beautiful creative opportunity is coming your way. You'll get really close, but you won't get it. You deserved it, but it's not your time. Wash your ass more aggressively. You need to switch shampoos.`
+`A beautiful creative opportunity is coming your way. You'll get really close, but you won't get it. You deserved it, but it's not your time. Wash your ass more aggressively. You need to switch shampoos.`,
+
+`You're mad at your dad but he's right. Don't text your ex. Impusiveness will be destructive today. You're grumpy because you have to fart. Squat for ten minutes and let it all hang loose. It's ok to be gross.`,
+`Times feel hopeless. It seems your worst fear has come true, but you have to wait and see if the other shoe drops. The wait is agony. Focus on taking naps, flossing, writing things down. Go easy on the banana bread.`,
+`You can't get better until you accept you are sick. Sickness makes you grow a little meaner. The people who love you will understand. But make sure you stop eating sour candy. Don't sleep with headphones.`,
+`Your opinion on a friend changed. You dislike them, but can't admit it to yourself. The kindest thing you can do is be selfish. Break the friendship before you turn meaner. Rice noodles will change your life tonight.`,
+`You think being self-deprecating only hurts yourself, but you're becoming an arrogant bitch without realizing. It's making other people uncomfortable. Other people can't be your garbage can. Remember to stretch.`,
+`Good day to experiment. Shoutout to my grandfather who eats chicken soup with a banana. I think it's so disgusting. It's a good time for a weird combination. You're stuck between two choices, why not both?`,
+`You really hate someone and everything they do. It's actually because there is something unsaid between you. Try to let them know of your conflict without being mean. You still will probably not get along.`,
+`It will never be a good time. It will never be the perfect time. Might as well do it now. Holding feelings in makes you sick. You think you're balding but you actually look the same.`,
+`You're not ovulating, it's a yeast infection.`,
+`It's not a yeast infection, you're just ovulating.`,
+`Your shoes are starting to stink. Stop being cheap and get a new pair. Master the art of meal-planning. You shouldn't have a pet, you are too anxious. Stop looking for tarot card readings on Instagram.`,
+`She doesn't like you back. Honestly, why would you think that? Move forward through the path of curiosity; feel a genuine desire to get to know someone. People love reveals and questions. Make it exciting.`,
+`You like confronting people. It's so much fun. You will confront someone but you will be wrong. Laugh about it and move on. Not everything is make or break. You will watch three Warren Beatty movies.`,
+`You read into people's words too much. Not everyone has an unknown agenda against you. I think you're just projecting the way you feel. Ever thought you're the one against them? Go outside on an errand.`,
+`You feel too sure about something, but it will fail. You disregard an idea as too easy and weird... This is your actual calling. You will spend too much money on a failure project. Give away your work to friends.`,
+`You feel jealous over a missed opportunity. But when you think about it, you never belonged. You like the potential prestige, but you don't actually like them. For better or worse, you already know what to do.`,
+`You meet someone you like and it's terrifying. Go up to them with naked words: say you're nervous, say you hate beating around the bush, say you like them because you mean it. The rest will work.`,
+`Your vanity is making your artwork suffer. Collaborate to release control, and to make your work better. Beauty is calling to you, but beauty won't make you worthy. Donate one piece of beautiful clothing.`,
+`You're stuck between two options. One is your duty, the other feels interesting. What will you regret missing out on in five years? Be a little selfish today. It will feel wrong, but it's necessary.`,
+`He is happier without you. You don't realize it yet, but so are you. You thought he would be an American embrace, but he just smelled like fart. Time to give in to loneliness. Your angst will bring great work.`,
+`Today you miss the dearly departed. You find out another way they loved you. It's time to sit with tears. My grandmother's tamales are still in the freezer. They outlived her. Something else outlives us both.`,
+`You feel upset because you won't let yourself be spoiled. You won't let yourself be angry. Be the spoiled bitch child in private. You will get over your pain quickly. Throw tantrums and then dance.`,
+`Yes you're the bad guy for now. I think when you sit back, both of you were right. The people that care about you truly are still there. They know your ugliness, but they accept it. You want to be better for them.`,
+`Stop eating things you don't like. Don't finish the book you hate. Stop fighting for people who don't care. You're not getting a medal for enduring pain. Be weak. Walk away already.`,
+`Massive breakdown coming soon. Your self-flagellation is not noble. When there's nothing you can do, remember love. When you think you're better than everyone else, don't be surprised if they dislike you.`,
+`It's a good day today. Afternoon in the park, inside jokes, funny conversations that build and build. Time with friends, seeing art that blows your mind. You have a piece of salmon. It's so good you just sit back.`,
+`The cusp of a big break. A gorgeous spectacle. You think it will come in a big bang, but it actually creeps in. You will meet someone important in your field. You will get the one award you wanted.`,
+`Don't assume people know what you want. Spell it out. You're going to watch a horrible movie soon. Other people around you will like it and this will ruin the friendship. It's ok to walk away.`,
+`Let's chase pavements. Drink the milkshake that's a little tart. Write the awful love letter. Lean in to touch the art. Tell someone you dislike them. Imagine that ideal you and wear the costume for one day.`,
+`Yeah everybody dies, but you knew this going in. Is the pain worth the gain? Is the loss worth the beauty? Buy a cake for yourself, cut a piece. Have a good meal and take yourself on a date. The day is nice.`,
+`The fear takes you far and away. You are sitting here but in your mind you're abandoned, dying, and damned. Feel your toes wiggle. You're sitting watching Postcards from the Edge. You don't yet know.`,
+`That nosy coworker is not your friend. Do not bite the bait. Sometimes, too much choice is worse. A painful conversation makes you think things are over, but they’re just beginning. You’re scared you will end the loser.`,
+`You are horny all the time. Do not feel ashamed. You think you have to put it into words. Just describe the feeling. You have too many books on your desk. You will encounter someone obsessed with Princess Diana.`,
+`New job incoming. Nothing to do with your passions. Possible betrayal in your midst. You knew it should have ended but you kept going. Painful transformation but zen is just within reach. Give up pride to begin healing.`,
+`Grief becomes control. Emotions can’t be thought over, they can’t be dominated through reason. The feeling is so painful. Be wary of anyone claiming to have the “cure.” The human body is more complicated than that.`,
+`Falling in love and loving is not the same. Finally you find someone who understands you, but too quickly they try to control you. Do what you do best, speak the truth. Maybe they can understand you. Love is coming no matter what.`,
+`An unexpected collaboration with someone you used to talk shit about. Turns out you two have a lot in common. You will get mad at them but if you just say it out loud you won’t resent them. Your pants will rip soon.`,
+`Take a Screenwriting class. You’re not going to be good but the ideas will flow so fast you will consider taking it seriously. Just because people reject you doesn’t mean they dislike you. Don’t be a weirdo, say hi.`,
+`He doesn’t like you back. Cry for three hours then go out and do something a little impulsive. Remember how much you loved Hannah Montana? It’s the climb, baby. You never loved this guy. Better stuff to come.`,
+`No matter what you feel like a failure. It’s time to finish things. Take a stupid idea very seriously. Give it the most expensive materials. Find a place to show it. Get your friends involved. Make a book you can give away.`,
+`Like a piñata you put care and craft to something that is meant to be destroyed. It’s not futile. It is to make a spectacular disaster. Make this year a piñata. Know it’s meant to break. Swing a bat and take the candy.`,
+`Try it for one year. If that’s too long, try it for six months. Give it a chance. Say thank you. If it makes you feel better, tell yourself it’s a joke. Give your loved ones a kiss. Write a snail mail letter. Use your favorite sticker.`,
+`Time to move out. I see a pet coming your way. You will feel better. Go to the grocery store and freak out about meat. It’s a good day to fall asleep at 7pm. Think about all the people who have come and gone.`,
+`Sometimes you’re just in a bad mood because you need a shower. Or a snack. Or a good nap. It’s really that simple. Disassociate, pretend you are a Sim. What do you need? What problem seems silly? Think it over.`,
+`I think you’re convincing yourself because you feel guilty about your actual desire. You keep making lists on whether to keep a friend in your life. Fact is, you just don’t feel they should be there. Honor that.`,
+`Don’t start projects when you’re tired. You will make mistakes, and you will have to try again. Don’t make any big decisions. Go to sleep. You’re a baby. You have a diaper fetish. You like piss. `,
+`You’re thinking a boundary over. You meant it when you said it but now you’ve changed your mind, but can’t admit it to yourself. You’re scared that this change says something about you. Just admit it.`,
+`Say it how you just said it. Exactly like that. Be straight up. Ask to talk in person. Say it and walk away. Don’t buy that sweet snack. You need to budget. Refuse to go out. This time you need to be alone.`,
+`He never loved you. He feigned hesitation ending things with you because confrontation is hard, not because he wants to get back together. Write a big long angry text and don’t send it. Print out all his pictures, burn them, then delete them off your phone. He said he was going to think it over once he did shrooms but he just said that to feel less guilty.`,
+`Strap in for the ride. You are going insane for three weeks. It will be easier after these three weeks are over. Some big shock, loss, betrayal. Keep your friends close. Have screaming matches to decompress. You may get some foot fungus. Make sure to have plenty of yoghurt on standby. `,
+`Your medical test will come back abnormal. Strap in for a month of scary feelings. Live day by day. Lots of betrayal. Disappointment from someone close to you. Endless rejection. It’s easy to take it personally but people close to you are also going through it. Lean on them for a day. `,
+`Everybody thinks this is going to be them, but for you it is actually true. Like one of few people. You are getting back together. You will be farting in a very public place soon. Your close friend has an embarrassing fetish. After this, you will never judge anyone.`
 ];
 
 
@@ -211,7 +274,7 @@ function startSequence() {
   // show text
   setTimeout(() => {
     textBox.classList.add("show");
-  }, 4000);
+  }, 400);
 
   // show button
   setTimeout(() => {
