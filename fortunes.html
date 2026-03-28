@@ -44,7 +44,7 @@
   position: absolute;
   text-align: center;
   left: 50%;
-  transform: translate(-50%, 100vh); /* start off screen */
+  transform: translate(-50%, 200vh); /* start off screen */
   width: 80%;
   max-width: 800px;
   font-size: 9dvh; /* slightly smaller helps too */
@@ -59,7 +59,7 @@
 
 @keyframes scrollUp {
   from {
-    transform: translate(-50%, 100vh);
+    transform: translate(-50%, 200vh);
   }
   to {
     transform: translate(-50%, -100%);
@@ -274,7 +274,7 @@ function startSequence() {
   // show text
   setTimeout(() => {
     textBox.classList.add("show");
-  }, 400);
+  }, 2000);
 
   // show button
   setTimeout(() => {
