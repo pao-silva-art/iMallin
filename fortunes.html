@@ -44,7 +44,7 @@
   position: absolute;
   text-align: center;
   left: 50%;
-  transform: translate(-50%, 200vh); /* start off screen */
+  transform: translate(-50%, 100vh); /* start off screen */
   width: 80%;
   max-width: 800px;
   font-size: 9dvh; /* slightly smaller helps too */
@@ -52,14 +52,14 @@
 }
 
 #textContainer.show {
-  animation: scrollUp 15s linear forwards;
+  animation: scrollUp 20s linear forwards;
   opacity: 1;
 
 }
 
 @keyframes scrollUp {
   from {
-    transform: translate(-50%, 200vh);
+    transform: translate(-50%, 100vh);
   }
   to {
     transform: translate(-50%, -100%);
@@ -69,10 +69,8 @@
   #buttonContainer {
     position: absolute;
     z-index: 200;
-    left: 50%;
-    transform: translateX(-50%);
-    bottom: 20px;
-    width: auto;
+    top: 85%;
+    width: 100%;
     display: none;
   }
 
@@ -127,12 +125,31 @@
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-  button {
+  #tryAgainBtn {
+    position: absolute;
+    left: 30%;
+    transform: translateX(-50%);
     padding: 10px 20px;
     font-family: Arial, Helvetica, sans-serif;
     color: aliceblue;
     text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
-    font-size: xx-large ;
+    font-size: 5dvh;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    box-shadow: 0px 0px 15px blue;
+  }
+
+  #goBackBtn {
+    position: absolute;
+    right: 30%;
+    transform: translateX(50%);
+    padding: 10px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+    font-size: 5dvh;
     cursor: pointer;
     border-radius: 5px;
     border: none;
@@ -152,7 +169,8 @@
 <div id="textContainer"></div>
 
 <div id="buttonContainer">
-  <button onclick="location.reload()">Try Again</button>
+  <button id="tryAgainBtn" onclick="location.reload()">Try Again</button>
+  <button id="goBackBtn" onclick="location.href='page2.html'">Go Back</button>
 </div>
 
 <script>
@@ -217,7 +235,7 @@ const texts = [
 `Don’t start projects when you’re tired. You will make mistakes, and you will have to try again. Don’t make any big decisions. Go to sleep. You’re a baby. You have a diaper fetish. You like piss. `,
 `You’re thinking a boundary over. You meant it when you said it but now you’ve changed your mind, but can’t admit it to yourself. You’re scared that this change says something about you. Just admit it.`,
 `Say it how you just said it. Exactly like that. Be straight up. Ask to talk in person. Say it and walk away. Don’t buy that sweet snack. You need to budget. Refuse to go out. This time you need to be alone.`,
-`He never loved you. He feigned hesitation ending things with you because confrontation is hard, not because he wants to get back together. Write a big long angry text and don’t send it. Print out all his pictures, burn them, then delete them off your phone. He said he was going to think it over once he did shrooms but he just said that to feel less guilty.`,
+`He never loved you. He feigned hesitation ending things with you because confrontation is hard, not because he wants to get back together. Write a big long angry text and don’t send it.`,
 `Strap in for the ride. You are going insane for three weeks. It will be easier after these three weeks are over. Some big shock, loss, betrayal. Keep your friends close. Have screaming matches to decompress. You may get some foot fungus. Make sure to have plenty of yoghurt on standby. `,
 `Your medical test will come back abnormal. Strap in for a month of scary feelings. Live day by day. Lots of betrayal. Disappointment from someone close to you. Endless rejection. It’s easy to take it personally but people close to you are also going through it. Lean on them for a day. `,
 `Everybody thinks this is going to be them, but for you it is actually true. Like one of few people. You are getting back together. You will be farting in a very public place soon. Your close friend has an embarrassing fetish. After this, you will never judge anyone.`
@@ -268,12 +286,12 @@ function startSequence() {
   // show text
   setTimeout(() => {
     textBox.classList.add("show");
-  }, 2000);
+  }, 400);
 
   // show button
   setTimeout(() => {
     button.style.display = "block";
-  }, 12000);
+  }, 15000);
 }
 // start automatically
 startSequence();
