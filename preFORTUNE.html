@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+            #bg{
+                position: absolute;
+                top: 0%;
+                width: 100%;
+                z-index: 2;
+            }
+
+            #option1 {
+                position: absolute;
+                z-index: 20;
+                width: 30%;
+                top: 65%;
+                left: 15%;
+                animation: fade 5s;
+            }
+
+            #option2 {
+                position: absolute;
+                z-index: 20;
+                width: 30%;
+                top: 65%;
+                right: 15%;
+                animation: fade 5s;
+            }
+
+            #controlContainer {
+                position: relative;
+                z-index: 12;
+                width: 100%;
+                height: 100%;
+                transition: transform 0.5s ease;
+            }
+
+            #controlContainer.shifted {
+                transform: translate(-24%, 0%);
+            }
+
+            #control {
+                position: relative;
+                width: 100%;
+                z-index: 10;
+                top: 0%;
+                left: 0%;
+            }
+
+            .cards {
+                position: absolute;
+                width: 100%;
+                top: 30%;
+                z-index: 4;
+                animation: fade 5s;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            #storyBUTTON {
+                position: absolute;
+                background-color: rgba(0, 0, 255, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 5%;
+                left: 4%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #suggestBUTTON {
+                position: absolute;
+                background-color: rgba(174, 255, 0, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 12%;
+                left: 15%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #catalogBUTTON {
+                position: absolute;
+                background-color: rgba(255, 0, 102, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 17%;
+                left: 4%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #homeBUTTON {
+                position: absolute;
+                background-color: rgba(255, 204, 0, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 22%;
+                left: 15%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #aboutBUTTON {
+                position: absolute;
+                background-color: rgba(0, 255, 170, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 29%;
+                left: 4%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #translateBUTTON {
+                position: absolute;
+                background-color: rgba(191, 0, 255, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 53%;
+                left: 2%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #toggle {
+                position: absolute;
+                background-color: rgba(0, 106, 255, 0.8);
+                width: 5%;
+                height: 28%;
+                top: 1%;
+                left: 26%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            @keyframes fade {
+                from {
+                    opacity: 0%;
+                }
+                to {
+                    opacity: 100%;
+                }
+            }
+
+            @keyframes remote {
+                from{
+                    transform: translate(-10%, 0%);
+                }
+                to {
+                    transform: translate(0, 0%);
+                }
+            }
+
+             @keyframes remotePerm {
+                from{
+                    transform: translate(0%, 0%);
+                }
+                to {
+                    transform: translate(-24%, 0%);
+                }
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <img src="images/pre-fortune-BG.png" class="stretch" id="bg">
+        <img src="images/preFORTUNE-eng1.png" class="stretch cards">
+        <img src="images/preFORTUNE-eng1-option1.png" class="stretch" id="option1">
+        <a href="fortunes.html">
+            <img src="images/preFORTUNE-eng1-option2.png" class="stretch" id="option2">
+        </a>      
+        
+        <div id="controlContainer">
+            <img src="images/remoteCONTROL.png" class="stretch" id="control">
+            <div id="storyBUTTON"></div>
+            <div id="suggestBUTTON"></div>
+        <a href="page2.html">
+            <div id="homeBUTTON"></div>
+        </a>
+            <div id="catalogBUTTON"></div>
+            <div id="aboutBUTTON"></div>
+            <div id="translateBUTTON"></div>
+            <div id="toggle"></div>
+        </div>
+        
+        
+
+        <script>
+            const toggle = document.getElementById("toggle");
+            const container = document.getElementById("controlContainer");
+
+                toggle.addEventListener("click", () => {
+             container.classList.toggle("shifted");
+        });
+        </script>
+    </body>
+</html>
