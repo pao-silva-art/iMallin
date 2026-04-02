@@ -20,6 +20,8 @@
                 z-index: 2;
             }
 
+
+
             #option1 {
                 position: absolute;
                 z-index: 20;
@@ -89,6 +91,55 @@
                 z-index: 11;
                 cursor: pointer;
             }
+
+            #suggestOverlay {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+#suggestOverlay.active {
+    display: flex;
+}
+
+#suggestBox {
+    width: 80%;
+    max-width: 400px;
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#suggestText {
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+    font-size: 5vW;
+    border: none;
+    margin-bottom: 10px;
+}
+
+#suggestActions button {
+   font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    font-size: 3vw;
+    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+    height: 5dvh;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    border: NONE;
+    cursor: pointer;
+}
 
             #catalogBUTTON {
                 position: absolute;
@@ -196,7 +247,15 @@
             <div id="toggle"></div>
         </div>
         
-        
+    <div id="suggestOverlay">
+    <div id="suggestBox">
+       <textarea id="suggestText" placeholder="Type your comments and suggestions here."></textarea>
+        <div id="suggestActions">
+            <button id="submitSuggest">Submit</button>
+            <button id="closeSuggest">Go Back</button>
+        </div>
+    </div>
+</div>    
 
         <script>
             const toggle = document.getElementById("toggle");
@@ -206,6 +265,36 @@
              container.classList.toggle("shifted");
         });
 
+const suggestBtn = document.getElementById("suggestBUTTON");
+const overlay = document.getElementById("suggestOverlay");
+const closeBtn = document.getElementById("closeSuggest");
+const submitBtn = document.getElementById("submitSuggest");
+const textArea = document.getElementById("suggestText");
+
+// Open popup
+suggestBtn.addEventListener("click", () => {
+    overlay.classList.add("active");
+});
+
+// Close popup
+closeBtn.addEventListener("click", () => {
+    overlay.classList.remove("active");
+});
+
+submitBtn.addEventListener("click", () => {
+    const message = textArea.value;
+
+    emailjs.send("service_dt37n1f", "template_8cpvrgh", {
+        message: message
+    }).then(() => {
+        alert("Suggestion sent!");
+        overlay.classList.remove("active");
+        textArea.value = "";
+    }, (error) => {
+        alert("Failed to send. Try again.");
+        console.error(error);
+    });
+});
         </script>
     </body>
 </html>
