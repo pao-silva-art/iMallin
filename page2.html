@@ -8,6 +8,41 @@
                 overflow: hidden;
             }
 
+            #fortune {
+                position: absolute;
+                top: 37%;
+                left: 22%;
+                width: 35%;
+                z-index: 14;
+                cursor: pointer;
+            }
+
+            #desktopBlock {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: black;
+                color: white;
+                font-size: 2rem;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+            }
+
+           /* When desktop detected */
+            body.desktop #desktopBlock {
+              display: flex;
+            }
+
+                /* Hide everything else */
+                body.desktop *:not(#desktopBlock) {
+              display: none !important;
+                }
+
             @keyframes orbit {
                 from {  -webkit-transform: rotate(0deg) translateX(20px) rotate(0deg); }
                 to   {  -webkit-transform: rotate(360deg) translateX(20px) rotate(-360deg); }
@@ -24,6 +59,141 @@
                 z-index: 1;
             }
 
+            #divider {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                z-index: 4;
+            }
+
+            #frutaContainer {
+                position: relative;
+                z-index: 10;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            #grape {
+                z-index: 6;
+                position: absolute;
+                background-color: blue;
+                top: 20%;
+                left: 70%;
+                width: 10%;
+                height: 10%;
+            }
+
+            #fruta {
+                position: absolute;
+                z-index: 5;
+                animation: orbit 2s backwards infinite;
+                animation-timing-function: linear;
+            }
+
+            #weather {
+                position: absolute;
+                z-index: 2;
+            }
+
+              #controlContainer {
+                position: relative;
+                z-index: 12;
+                width: 100%;
+                height: 100%;
+                transition: transform 0.5s ease;
+            }
+
+            #controlContainer.shifted {
+                transform: translate(-24%, 0%);
+            }
+
+            #control {
+                position: relative;
+                width: 100%;
+                z-index: 10;
+                top: 0%;
+                left: 0%;
+            }
+
+             #storyBUTTON {
+                position: absolute;
+                background-color: rgba(0, 0, 255, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 5%;
+                left: 4%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #suggestBUTTON {
+                position: absolute;
+                background-color: rgba(174, 255, 0, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 12%;
+                left: 15%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #catalogBUTTON {
+                position: absolute;
+                background-color: rgba(255, 0, 102, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 17%;
+                left: 4%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #homeBUTTON {
+                position: absolute;
+                background-color: rgba(255, 204, 0, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 22%;
+                left: 15%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #aboutBUTTON {
+                position: absolute;
+                background-color: rgba(0, 255, 170, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 29%;
+                left: 4%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #translateBUTTON {
+                position: absolute;
+                background-color: rgba(191, 0, 255, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 53%;
+                left: 2%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #toggle {
+                position: absolute;
+                background-color: rgba(0, 106, 255, 0.8);
+                width: 5%;
+                height: 28%;
+                top: 1%;
+                left: 26%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
             #icons {
                 position: absolute;
                 z-index: 2;
@@ -32,14 +202,66 @@
                 width: 50%;
             }
 
+             @keyframes orbit {
+                from {  -webkit-transform: rotate(0deg) translateX(20px) rotate(0deg); }
+                to   {  -webkit-transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+            }
+
         </style>
     </head>
     <body>
-        <div id="icons">
-            <a href="preFORTUNE.html"><img src="images/page2_icon1.png" id="icon1" class="stretch"></a>
-            <img src="images/page2_icon2.png" id="icon2" class="stretch">
-            <img src="images/page2_icon3.png" id="icon3" class="stretch">
-        </div>
+
+        <!-- <div id="desktopBlock">
+         this website is intended for mobile browsers
+        </div> -->
+         <a href="preFORTUNE.html">
+            <img src="images/page2_fortuneAD.png" id="fortune">
+         </a>
+            <img src="images/page2_fruta.png" class="stretch" id="fruta">
+        <img src="images/page2_divider.png" class="stretch" id="divider">
+        <img src="images/page2_weatherDIV.png" class="stretch" id="weather">
         <img src="images/page2_bg.png" class="stretch" id="bg">
+
+        <div id="controlContainer">
+            <img src="images/remoteCONTROL.png" class="stretch" id="control">
+            <div id="storyBUTTON"></div>
+            <div id="suggestBUTTON"></div>
+        <a href="page2.html">
+            <div id="homeBUTTON"></div>
+        </a>
+            <div id="catalogBUTTON"></div>
+            <div id="aboutBUTTON"></div>
+            <div id="translateBUTTON"></div>
+            <div id="toggle"></div>
+        </div>
+
+     <script>
+            const toggle = document.getElementById("toggle");
+            const container = document.getElementById("controlContainer");
+
+                toggle.addEventListener("click", () => {
+             container.classList.toggle("shifted");
+        });
+
+        const translateBtn = document.getElementById("translateBUTTON");
+const fortuneImg = document.getElementById("fortune");
+
+translateBtn.addEventListener("click", () => {
+    if (fortuneImg.src.includes("ESP")) {
+        fortuneImg.src = "images/page2_fortuneAD.png";
+    } else {
+        fortuneImg.src = "images/page2_fortuneAD-ESP.png";
+    }
+});
+
+        /* function isMobile() {
+            return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+          || window.innerWidth <= 768;
+        }
+
+            if (!isMobile()) {
+              document.body.classList.add("desktop");
+            } */
+        </script>
     </body>
 </html>
