@@ -76,9 +76,12 @@
             }
 
             #time {
-                position: absolute;
-                height: 100%;
-                z-index: 7;
+               position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 40%;
+                height: 20%;
+                z-index: 20;
             }
 
             #banana {
@@ -99,7 +102,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <img src="images/timeDate_home_icon.png" id="time" class="stretch">
+        <a href="ipad.html">
+            <img src="images/timeDate_home_icon.png" id="time" class="stretch">
+        </a>
         <div id="strawBox">
             <div id="slider">
             <img src="images/slideText_home_icon.png" id="text" class="stretch">
