@@ -20,7 +20,31 @@
                 z-index: 2;
             }
 
+            #desktopBlock {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: black;
+                color: white;
+                font-size: 2rem;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+            }
 
+           /* When desktop detected */
+            body.desktop #desktopBlock {
+              display: flex;
+            }
+
+                /* Hide everything else */
+                body.desktop *:not(#desktopBlock) {
+              display: none !important;
+                }
 
             #option1 {
                 position: absolute;
@@ -39,6 +63,11 @@
                 right: 15%;
                 animation: fade 5s;
             }
+
+            #countdown {
+    font-size: 5 em;
+    display: inline-block;
+}
 
             #controlContainer {
                 position: relative;
@@ -80,6 +109,41 @@
                 z-index: 11;
                 cursor: pointer;
             }
+
+             #idlePopup {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#idlePopup.active {
+    display: flex;
+}
+
+#idleBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#idleTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 4vw;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
 
             #suggestBUTTON {
                 position: absolute;
@@ -257,7 +321,12 @@
             <button id="closeSuggest">Go Back</button>
         </div>
     </div>
-</div>    
+</div>  
+<div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+    </div>
+</div>  
 
         <script>
             const toggle = document.getElementById("toggle");
@@ -297,6 +366,46 @@ submitBtn.addEventListener("click", () => {
         console.error(error);
     });
 });
+let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 10000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "index.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
         </script>
     </body>
 </html>
