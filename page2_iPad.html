@@ -152,32 +152,37 @@
     cursor: pointer;
 }
 
-            #frutaContainer {
-                position: relative;
-                z-index: 10;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-            }
-
-            #grape {
-                z-index: 6;
+            #banana_I{
                 position: absolute;
-                background-color: blue;
-                top: 20%;
-                left: 70%;
+                top: 72%;
+                left: 10%;
                 width: 10%;
-                height: 10%;
+                height: auto;
+                z-index: 30;
+                animation: orbit 5s backwards infinite;
+                animation-timing-function: linear;
             }
 
-            #fruta {
-                width: 100%;
-                height: 100%;
+            #fresa{
                 position: absolute;
+                top: 70%;
+                left: 30%;
+                width: 10%;
+                height: auto;
                 z-index: 5;
-                /*animation: orbit 2s backwards infinite;
-                animation-timing-function: linear;*/
+                animation: orbit 1s backwards infinite;
+                animation-timing-function: linear;
+            }
+
+            #zanahoria{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 10%;
+                height: auto;
+                z-index: 5;
+                animation: orbit 3s forwards infinite;
+                animation-timing-function: linear;
             }
 
               #controlContainer {
@@ -306,10 +311,11 @@
          <a href="preFORTUNE_iPad.html">
             <img src="images/page2_fortuneAD.png" id="fortune">
          </a>
-            <img src="images/page2_fruta.png" class="stretch" id="fruta">
         <img src="images/page2_divider.png" id="divider">
         <img src="images/page2_bg.png" class="stretch" id="bg">
-
+        <img src="images/banana_iPad.png" id="banana_I">
+        <img src="images/fresa_iPad.png" id="fresa">
+        <img src="images/zanahora_iPad.png" id="zanahoria">
         <div id="controlContainer">
             <img src="images/remoteCONTROL.png" id="control">
             <div id="storyBUTTON"></div>
