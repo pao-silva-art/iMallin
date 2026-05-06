@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+            #bg{
+                position: absolute;
+                top: 0%;
+                width: 100%;
+                z-index: 2;
+            }
+
+            #desktopBlock {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: black;
+                color: white;
+                font-size: 2rem;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+            }
+
+           /* When desktop detected */
+            body.desktop #desktopBlock {
+              display: flex;
+            }
+
+                /* Hide everything else */
+                body.desktop *:not(#desktopBlock) {
+              display: none !important;
+                }
+
+            #option1 {
+                position: absolute;
+                z-index: 20;
+                width: 30%;
+                top: 65%;
+                left: 15%;
+                animation: fade 5s;
+            }
+
+            #option2 {
+                position: absolute;
+                z-index: 20;
+                width: 30%;
+                top: 65%;
+                right: 15%;
+                animation: fade 5s;
+            }
+
+            #countdown {
+    font-size: 5 em;
+    display: inline-block;
+}
+
+             #idlePopup {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#idlePopup.active {
+    display: flex;
+}
+
+#idleBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#idleTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 4vw;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
+
+            @keyframes fade {
+                from {
+                    opacity: 0%;
+                }
+                to {
+                    opacity: 100%;
+                }
+            }
+
+            @keyframes remote {
+                from{
+                    transform: translate(-10%, 0%);
+                }
+                to {
+                    transform: translate(0, 0%);
+                }
+            }
+
+             @keyframes remotePerm {
+                from{
+                    transform: translate(0%, 0%);
+                }
+                to {
+                    transform: translate(-24%, 0%);
+                }
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <img src="images/pre-fortune-BG.png" class="stretch" id="bg">
+        <img src="images/preFORTUNE-eng1.png" class="stretch cards">
+        <a href="fortunes_R5.html">
+            <img src="images/preFORTUNE-eng1-option1.png" class="stretch" id="option1">
+        </a>
+        <a href="page2_R5.html">
+            <img src="images/preFORTUNE-eng1-option2.png" class="stretch" id="option2">
+        </a>      
+        
+    <div id="suggestOverlay">
+    <div id="suggestBox">
+       <textarea id="suggestText" placeholder="Type your comments and suggestions here."></textarea>
+        <div id="suggestActions">
+            <button id="submitSuggest">Submit</button>
+            <button id="closeSuggest">Go Back</button>
+        </div>
+    </div>
+</div>  
+<div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+    </div>
+</div>  
+
+        <script>
+            const toggle = document.getElementById("toggle");
+            const container = document.getElementById("controlContainer");
+
+                toggle.addEventListener("click", () => {
+             container.classList.toggle("shifted");
+        });
+
+const suggestBtn = document.getElementById("suggestBUTTON");
+const overlay = document.getElementById("suggestOverlay");
+const closeBtn = document.getElementById("closeSuggest");
+const submitBtn = document.getElementById("submitSuggest");
+const textArea = document.getElementById("suggestText");
+
+// Open popup
+suggestBtn.addEventListener("click", () => {
+    overlay.classList.add("active");
+});
+
+// Close popup
+closeBtn.addEventListener("click", () => {
+    overlay.classList.remove("active");
+});
+
+submitBtn.addEventListener("click", () => {
+    const message = textArea.value;
+
+    emailjs.send("service_dt37n1f", "template_8cpvrgh", {
+        message: message
+    }).then(() => {
+        alert("Suggestion sent!");
+        overlay.classList.remove("active");
+        textArea.value = "";
+    }, (error) => {
+        alert("Failed to send. Try again.");
+        console.error(error);
+    });
+});
+let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 10000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "unlock_R5.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
+        </script>
+    </body>
+</html>
