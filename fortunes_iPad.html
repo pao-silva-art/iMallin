@@ -97,6 +97,46 @@
   }
 }
 
+  #countdown {
+                font-size: 5em;
+                 display: inline-block;
+            }
+
+            #idlePopup {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#idlePopup.active {
+    display: flex;
+}
+
+#idleBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#idleTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 4vw;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
 /* supernova spinning */
 #supernova {
   position: fixed;      /* always relative to viewport */
@@ -171,6 +211,11 @@
 <div id="buttonContainer">
   <button id="tryAgainBtn" onclick="location.reload()">Try Again</button>
   <button id="goBackBtn" onclick="location.href='page2_iPad.html'">Go Back</button>
+</div>
+<div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+    </div>
 </div>
 
 <script>
@@ -291,10 +336,50 @@ function startSequence() {
   // show button
   setTimeout(() => {
     button.style.display = "block";
-  }, 15000);
+  }, 10000);
 }
+let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
 // start automatically
 startSequence();
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 15000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "unlock.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
+
 </script>
 </body>
 </html>
