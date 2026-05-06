@@ -15,6 +15,8 @@
                 width: 30%;
                 z-index: 14;
                 cursor: pointer;
+                animation: orbit 2s backwards infinite;
+                animation-timing-function: linear;
             }
 
             #desktopBlock {
@@ -128,7 +130,7 @@
 }
 
 #suggestText {
-    width: 100%;
+    width: 90%;
     font-family: Arial, Helvetica, sans-serif;
     color: aliceblue;
     text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
@@ -140,7 +142,7 @@
 #suggestActions button {
    font-family: Arial, Helvetica, sans-serif;
     color: aliceblue;
-    font-size: 3vw;
+    font-size: 2vw;
     text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
     height: 5dvh;
     margin: 5px;
@@ -200,9 +202,9 @@
             }
 
             #countdown {
-    font-size: 5 em;
-    display: inline-block;
-}
+                font-size: 5em;
+                 display: inline-block;
+            }
 
              #storyBUTTON {
                 position: absolute;
@@ -305,7 +307,7 @@
             <img src="images/page2_fortuneAD.png" id="fortune">
          </a>
             <img src="images/page2_fruta.png" class="stretch" id="fruta">
-        <img src="images/page2_divider.png" class="stretch" id="divider">
+        <img src="images/page2_divider.png" id="divider">
         <img src="images/page2_bg.png" class="stretch" id="bg">
 
         <div id="controlContainer">
@@ -332,7 +334,7 @@
 </div>
 <div id="idlePopup">
     <div id="idleBox">
-        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+        <h1 id="idleTitle">Press anywhere <br>to continue<br><span id="countdown">5</span></h1>
     </div>
 </div>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
