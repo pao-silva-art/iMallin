@@ -478,14 +478,17 @@ function startCountdown() {
 // Initialize
 resetIdle();
 
-const burp = document.getElementById("burpSound");
-
 document.addEventListener("pointerdown", () => {
-    burp.currentTime = 0;
+
+    const burp = new Audio("burp.m4a");
+
+    burp.playsInline = true;
+    burp.volume = 1;
 
     burp.play().catch(err => {
         console.log(err);
     });
+
 });
         </script>
     </body>
