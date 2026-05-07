@@ -371,6 +371,9 @@
         <h1 id="idleTitle">Press anywhere <br>to continue<br><span id="countdown">5</span></h1>
     </div>
 </div>
+<audio id="burpSound" preload="auto">
+    <source src="burp.m4a" type="audio/mp4">
+</audio>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
      <script>
     (function(){
@@ -474,6 +477,24 @@ function startCountdown() {
 
 // Initialize
 resetIdle();
+
+const burp = document.getElementById("burpSound");
+
+// Mobile-safe sound playback
+function playBurp() {
+    burp.currentTime = 0;
+
+    const playPromise = burp.play();
+
+    if (playPromise !== undefined) {
+        playPromise.catch(() => {});
+    }
+}
+
+// Play on ALL taps/clicks
+["pointerdown", "touchstart", "click"].forEach(eventType => {
+    document.addEventListener(eventType, playBurp);
+});
         </script>
     </body>
 </html>
