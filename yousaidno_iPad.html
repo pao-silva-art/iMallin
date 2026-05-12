@@ -37,7 +37,7 @@
                 min-height: 100%;
                 width: auto;
                 height: 100%;
-                z-index: 0;
+                z-index: -1;
                 object-fit: cover;
 
             }
@@ -80,6 +80,53 @@
                     0 0 20px blue,
                     0 0 40px blue;
             }
+
+            #audioPopup {
+    display: none;
+    position: fixed;
+    z-index: 200000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#audioPopup.active {
+    display: flex;
+}
+
+#audioBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    animation: pulse 1s infinite alternate;
+}
+
+#audioTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 6vw;
+    margin: 0;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.08);
+    }
+}
         </style>
     </head>
     <body>
@@ -92,6 +139,11 @@
         <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
     </div>
 </div> 
+<div id="audioPopup" class="active">
+    <div id="audioBox">
+        <h1 id="audioTitle">TAP ME</h1>
+    </div>
+</div>
    <video 
     autoplay 
     muted 
@@ -146,14 +198,22 @@ resetIdle();
 
 const video = document.getElementById("bg-video");
 
+const audioPopup = document.getElementById("audioPopup");
+
 window.addEventListener("load", () => {
 
-    if (localStorage.getItem("audioUnlocked") === "true") {
+    const unlocked = localStorage.getItem("audioUnlocked");
+
+    if (unlocked === "true") {
 
         video.muted = false;
         video.volume = 1;
 
         video.play().catch(() => {});
+
+    } else {
+
+        audioPopup.classList.add("active");
     }
 });
 
@@ -164,13 +224,19 @@ function unlockAudio() {
 
     video.play()
         .then(() => {
-            localStorage.setItem("audioUnlocked", "true");
-        });
 
+            localStorage.setItem("audioUnlocked", "true");
+
+            audioPopup.classList.remove("active");
+
+        })
+        .catch(err => {
+            console.log(err);
+        });
 }
 
-document.addEventListener("touchstart", unlockAudio, { once: true });
-
+audioPopup.addEventListener("touchstart", unlockAudio, { once: true });
+audioPopup.addEventListener("click", unlockAudio, { once: true });
         </script>
     </body>
 </html>
