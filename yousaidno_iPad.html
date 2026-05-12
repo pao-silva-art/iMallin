@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            @keyframes bg-cycle {
+  0%   { background-color: blue; }
+  50%  { background-color: red; }
+  100% { background-color: yellow; }
+}
+
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: blue;
+                animation: bg-cycle 10s ease infinite alternate;
+            }
+
+            #back {
+                z-index: 20;
+                width: 12%;
+                height: auto;
+                position: absolute;
+                left: 10%;
+                top: 65%;
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+            #bg-video{
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 0;
+                min-height: 100%;
+                width: auto;
+                height: 100%;
+                z-index: -100;
+                object-fit: cover;
+
+            }
+            #countdown {
+            font-size: 5em;
+            display: inline-block;
+        }
+            
+            #idlePopup {
+                display: none;
+                position: fixed;
+                z-index: 100000;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.6);
+                justify-content: center;
+                align-items: center;
+            }
+
+            #idlePopup.active {
+                display: flex;
+            }
+
+            #idleBox {
+                background-image: linear-gradient(to bottom, red, yellow);
+                padding: 30px;
+                border-radius: 20px;
+                text-align: center;
+            }
+
+            #idleTitle {
+                font-family: Arial, Helvetica, sans-serif;
+                color: white;
+                font-size: 4vw;
+                text-shadow:
+                    0 0 5px blue,
+                    0 0 10px blue,
+                    0 0 20px blue,
+                    0 0 40px blue;
+            }
+        </style>
+    </head>
+    <body>
+     <a href="page2_iPad.html">
+            <img src="images/dressUp_back.png" id="back" class="stretch">
+        </a>
+    <video autoplay id="bg-video">
+        <source src="video/MALinAMERICA_PaoSilva.mp4" type="video/mp4">
+    </video>
+        <script>
+            let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 10000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "unlock.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
+        </script>
+    </body>
+</html>
