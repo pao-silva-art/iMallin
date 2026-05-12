@@ -146,35 +146,31 @@ resetIdle();
 
 const video = document.getElementById("bg-video");
 
+window.addEventListener("load", () => {
+
+    if (localStorage.getItem("audioUnlocked") === "true") {
+
+        video.muted = false;
+        video.volume = 1;
+
+        video.play().catch(() => {});
+    }
+});
+
 function unlockAudio() {
 
     video.muted = false;
+    video.volume = 1;
 
     video.play()
         .then(() => {
-            console.log("Audio unlocked");
             localStorage.setItem("audioUnlocked", "true");
-        })
-        .catch(err => {
-            console.log(err);
         });
+
 }
 
 document.addEventListener("touchstart", unlockAudio, { once: true });
 
-window.addEventListener("load", () => {
-
-    const unlocked = localStorage.getItem("audioUnlocked");
-
-    if (unlocked === "true") {
-
-        video.muted = false;
-
-        video.play().catch(err => {
-            console.log(err);
-        });
-    }
-});
         </script>
     </body>
 </html>
