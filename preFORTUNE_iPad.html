@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+            #bg{
+                position: absolute;
+                top: 0%;
+                width: 100%;
+                z-index: 2;
+            }
+
+            #desktopBlock {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: black;
+                color: white;
+                font-size: 2rem;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+            }
+
+           /* When desktop detected */
+            body.desktop #desktopBlock {
+              display: flex;
+            }
+
+                /* Hide everything else */
+                body.desktop *:not(#desktopBlock) {
+              display: none !important;
+                }
+
+            #option1 {
+                position: absolute;
+                z-index: 20;
+                width: 20%;
+                top: 65%;
+                left: 15%;
+                animation: fade 5s;
+            }
+
+            #option2 {
+                position: absolute;
+                z-index: 20;
+                width: 20%;
+                top: 65%;
+                right: 15%;
+                animation: fade 5s;
+            }
+
+            #countdown {
+    font-size: 5em;
+    display: inline-block;
+}
+
+            #controlContainer {
+                position: relative;
+                z-index: 12;
+                width: 50%;
+                height: 100%;
+                transition: transform 0.5s ease;
+            }
+
+            #controlContainer.shifted {
+                transform: translate(-24%, 0%);
+            }
+
+            #control {
+                position: relative;
+                width: 100%;
+                z-index: 10;
+                top: 0%;
+                left: 0%;
+            }
+
+            .cards {
+                position: absolute;
+                width: 50%;
+                top: 30%;
+                z-index: 4;
+                animation: fade 5s;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            #storyBUTTON {
+                position: absolute;
+                background-color: rgba(0, 0, 255, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 5%;
+                left: 4%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+             #idlePopup {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#idlePopup.active {
+    display: flex;
+}
+
+#idleBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#idleTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 4vw;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
+            #suggestBUTTON {
+                position: absolute;
+                background-color: rgba(174, 255, 0, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 12%;
+                left: 15%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #suggestOverlay {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+#suggestOverlay.active {
+    display: flex;
+}
+
+#suggestBox {
+     width: 80%;
+    max-width: 80%;
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#suggestText {
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+    font-size: 5vW;
+    border: none;
+    margin-bottom: 10px;
+}
+
+#suggestActions button {
+   font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    font-size: 2vw;
+    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+    height: 5dvh;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    border: NONE;
+    cursor: pointer;
+}
+
+            #catalogBUTTON {
+                position: absolute;
+                background-color: rgba(255, 0, 102, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 17%;
+                left: 4%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #homeBUTTON {
+                position: absolute;
+                background-color: rgba(255, 204, 0, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 22%;
+                left: 15%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #aboutBUTTON {
+                position: absolute;
+                background-color: rgba(0, 255, 170, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 29%;
+                left: 4%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #translateBUTTON {
+                position: absolute;
+                background-color: rgba(191, 0, 255, 0.8);
+                width: 8%;
+                aspect-ratio: 1 / 1;
+                top: 53%;
+                left: 2%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #toggle {
+                position: absolute;
+                background-color: rgba(0, 106, 255, 0.8);
+                width: 5%;
+                height: 28%;
+                top: 1%;
+                left: 26%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            @keyframes fade {
+                from {
+                    opacity: 0%;
+                }
+                to {
+                    opacity: 100%;
+                }
+            }
+
+            @keyframes remote {
+                from{
+                    transform: translate(-10%, 0%);
+                }
+                to {
+                    transform: translate(0, 0%);
+                }
+            }
+
+             @keyframes remotePerm {
+                from{
+                    transform: translate(0%, 0%);
+                }
+                to {
+                    transform: translate(-24%, 0%);
+                }
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <img src="images/pre-fortune-BG.png" class="stretch" id="bg">
+        <img src="images/preFORTUNE-eng1.png" class="stretch cards">
+        <a href="fortunes_iPad.html">
+            <img src="images/preFORTUNE-eng1-option1.png" class="stretch" id="option1">
+        </a>
+        <a href="yousaidno_iPad.html">
+            <img src="images/preFORTUNE-eng1-option2.png" class="stretch" id="option2">
+        </a>      
+        
+        <div id="controlContainer">
+            <img src="images/remoteCONTROL.png" class="stretch" id="control">
+            <div id="storyBUTTON"></div>
+            <div id="suggestBUTTON"></div>
+        <a href="page2.html">
+            <div id="homeBUTTON"></div>
+        </a>
+            <div id="catalogBUTTON"></div>
+            <div id="aboutBUTTON"></div>
+            <div id="translateBUTTON"></div>
+            <div id="toggle"></div>
+        </div>
+        
+    <div id="suggestOverlay">
+    <div id="suggestBox">
+       <textarea id="suggestText" placeholder="Type your comments and suggestions here."></textarea>
+        <div id="suggestActions">
+            <button id="submitSuggest">Submit</button>
+            <button id="closeSuggest">Go Back</button>
+        </div>
+    </div>
+</div>  
+<div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+    </div>
+</div>  
+
+        <script>
+            const toggle = document.getElementById("toggle");
+            const container = document.getElementById("controlContainer");
+
+                toggle.addEventListener("click", () => {
+             container.classList.toggle("shifted");
+        });
+
+const suggestBtn = document.getElementById("suggestBUTTON");
+const overlay = document.getElementById("suggestOverlay");
+const closeBtn = document.getElementById("closeSuggest");
+const submitBtn = document.getElementById("submitSuggest");
+const textArea = document.getElementById("suggestText");
+
+// Open popup
+suggestBtn.addEventListener("click", () => {
+    overlay.classList.add("active");
+});
+
+// Close popup
+closeBtn.addEventListener("click", () => {
+    overlay.classList.remove("active");
+});
+
+submitBtn.addEventListener("click", () => {
+    const message = textArea.value;
+
+    emailjs.send("service_dt37n1f", "template_8cpvrgh", {
+        message: message
+    }).then(() => {
+        alert("Suggestion sent!");
+        overlay.classList.remove("active");
+        textArea.value = "";
+    }, (error) => {
+        alert("Failed to send. Try again.");
+        console.error(error);
+    });
+});
+let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 10000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "unlock.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
+        </script>
+    </body>
+</html>

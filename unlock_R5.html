@@ -110,58 +110,28 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <a href="ipad.html">
+        
         <div id="test"></div>
-        </a>
+        
         <img src="images/text_home_icon.png" id="time" class="stretch">
         <div id="strawBox">
+        <a href="page2_R5.html">
             <div id="slider">
             <img src="images/slideText_home_icon.png" id="text" class="stretch">
             <img src="images/strawberry_home_icon.png" id="strawberry">
             </div>
+        </a>
             <img src="images/boxslider_home_icon.png" id="box" class="stretch">
         </div>
         <div id="bananaHome">
             <img src="images/banana_home_icon.png" id="banana" class="stretch">
             <img src="images/supernova_home_icon.png" id="supernova" class="stretch">
         </div>
+        <a href="page2_R5.html">
         <img src="images/mouth_home_icon.png" id="mouth" class="stretch">
         <img src="images/home_icon_bg.png" id="apps" class="stretch">
         <img src="images/home_bg.png" id="bg" class="stretch">
+        </a>
 
-<script>
-const strawberry = document.getElementById("strawberry");
-const slider = document.getElementById("slider");
-const text = document.getElementById("text");
-
-let dragging = false;
-
-strawberry.addEventListener("pointerdown", () => dragging = true);
-document.addEventListener("pointerup", () => dragging = false);
-
-document.addEventListener("pointermove", (e) => {
-    if (!dragging) return;
-
-    const sliderRect = slider.getBoundingClientRect();
-    const berryRect = strawberry.getBoundingClientRect();
-
-    let x = e.clientX - sliderRect.left - berryRect.width / 2;
-
-    const min = 0;
-    const max = sliderRect.width - berryRect.width;
-
-    x = Math.max(min, Math.min(x, max));
-
-    strawberry.style.left = x + "px";
-
-    let progress = x / max;
-
-    text.style.opacity = 1 - progress;
-
-    if (progress >= 0.98) {
-        window.location.href = "page2.html";
-    }
-});
-</script>
     </body>
 </html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            #fortune {
+                position: absolute;
+                top: 18%;
+                left: 4%;
+                width: 55%;
+                z-index: 14;
+                cursor: pointer;
+            }
+
+            #desktopBlock {
+                display: none;
+                position: fixed;
+                z-index: 9999;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: black;
+                color: white;
+                font-size: 2rem;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+            }
+
+           /* When desktop detected */
+            body.desktop #desktopBlock {
+              display: flex;
+            }
+
+                /* Hide everything else */
+                body.desktop *:not(#desktopBlock) {
+              display: none !important;
+                }
+
+            @keyframes orbit {
+                from {  -webkit-transform: rotate(0deg) translateX(20px) rotate(0deg); }
+                to   {  -webkit-transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+            #bg{
+                position: absolute;
+                height: 100%;
+                z-index: 1;
+            }
+
+            #divider {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                z-index: 4;
+            }
+
+            #idlePopup {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#idlePopup.active {
+    display: flex;
+}
+
+#idleBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#idleTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 4vw;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
+            #frutaContainer {
+                position: relative;
+                z-index: 10;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            #grape {
+                z-index: 6;
+                position: absolute;
+                background-color: blue;
+                top: 20%;
+                left: 70%;
+                width: 10%;
+                height: 10%;
+            }
+
+            #fruta {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                z-index: 5;
+                /*animation: orbit 2s backwards infinite;
+                animation-timing-function: linear;*/
+            }
+
+            #countdown {
+    font-size: 5em;
+    display: inline-block;
+}
+
+
+            #translateBUTTON {
+                position: absolute;
+                width: 40%;
+                aspect-ratio: 1 / 1;
+                top: 75%;
+                left: 60%;
+                z-index: 11;
+                cursor: pointer;
+            }
+
+            #icons {
+                position: absolute;
+                z-index: 2;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 50%;
+            }
+
+             @keyframes orbit {
+                from {  -webkit-transform: rotate(0deg) translateX(20px) rotate(0deg); }
+                to   {  -webkit-transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <!-- <div id="desktopBlock">
+         this website is intended for mobile browsers
+        </div> -->
+         <a href="preFORTUNE_R5.html">
+            <img src="images/page2_fortuneAD.png" id="fortune">
+         </a>
+            <img src="images/page2_fruta.png" class="stretch" id="fruta">
+        <img src="images/page2_divider.png" class="stretch" id="divider">
+        <img src="images/page2_bg.png" class="stretch" id="bg">
+ <      <div id="controlContainer">
+            <img src="images/remoteCONTROL.png" id="control">
+            <div id="storyBUTTON"></div>
+            <div id="suggestBUTTON"></div>
+        <a href="page2.html">
+            <div id="homeBUTTON"></div>
+        </a>
+            <div id="catalogBUTTON"></div>
+            <div id="aboutBUTTON"></div>
+            <img src="images/translateBTN_R5.png" id="translateBUTTON">
+            <div id="toggle"></div>
+        </div>
+
+        <div id="suggestOverlay">
+    <div id="suggestBox">
+       <textarea id="suggestText" placeholder="Type your comments and suggestions here."></textarea>
+        <div id="suggestActions">
+            <button id="submitSuggest">Submit</button>
+            <button id="closeSuggest">Go Back</button>
+        </div>
+    </div>
+</div>
+<div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+     <script>
+    (function(){
+    emailjs.init("r5fGUVRdcRUG5ROJG");
+})();
+    
+            const toggle = document.getElementById("toggle");
+            const container = document.getElementById("controlContainer");
+
+                toggle.addEventListener("click", () => {
+             container.classList.toggle("shifted");
+        });
+
+        const translateBtn = document.getElementById("translateBUTTON");
+const fortuneImg = document.getElementById("fortune");
+
+translateBtn.addEventListener("click", () => {
+    if (fortuneImg.src.includes("ESP")) {
+        fortuneImg.src = "images/page2_fortuneAD.png";
+    } else {
+        fortuneImg.src = "images/page2_fortuneAD-ESP.png";
+    }
+});
+
+const suggestBtn = document.getElementById("suggestBUTTON");
+const overlay = document.getElementById("suggestOverlay");
+const closeBtn = document.getElementById("closeSuggest");
+const submitBtn = document.getElementById("submitSuggest");
+const textArea = document.getElementById("suggestText");
+
+// Open popup
+suggestBtn.addEventListener("click", () => {
+    overlay.classList.add("active");
+});
+
+// Close popup
+closeBtn.addEventListener("click", () => {
+    overlay.classList.remove("active");
+});
+
+submitBtn.addEventListener("click", () => {
+    const message = textArea.value;
+
+    emailjs.send("service_dt37n1f", "template_8cpvrgh", {
+        message: message
+    }).then(() => {
+        alert("Suggestion sent!");
+        overlay.classList.remove("active");
+        textArea.value = "";
+    }, (error) => {
+        alert("Failed to send. Try again.");
+        console.error(error);
+    });
+});
+
+        /* function isMobile() {
+            return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+          || window.innerWidth <= 768;
+        }
+
+            if (!isMobile()) {
+              document.body.classList.add("desktop");
+            } */
+    let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 10000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "unlock_R5.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
+        </script>
+    </body>
+</html>

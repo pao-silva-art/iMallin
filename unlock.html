@@ -8,17 +8,6 @@
                 overflow: hidden;
             }
 
-            #test {
-                background-color: none;
-                position: absolute;
-                top: 3%;
-                left: 50%;
-                transform: translateX(-50%);
-                width: 50%;
-                height: 20%;
-                z-index: 100;
-            }
-
             @keyframes orbit {
                 from {  -webkit-transform: rotate(0deg) translateX(20px) rotate(0deg); }
                 to   {  -webkit-transform: rotate(360deg) translateX(20px) rotate(-360deg); }
@@ -26,11 +15,18 @@
 
             .stretch {
                 height: auto;
+                width: 60%;
+            }
+
+            .stretch1 {
+                height: auto;
                 width: 100%;
             }
            
             #box {
                 position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
                 height: 100%;
                 z-index: 10;
             }
@@ -46,6 +42,7 @@
 
             #text {
                 position: relative;
+                left: 19%;
                 height: 100%;
                 top: 50%;
                 transform: translateY(-50%);
@@ -58,7 +55,7 @@
                 height: 100%;
                 transform: translateY(-50%);
                 margin: 0;
-                left: 2%;
+                left: 22%;
                 top: 50%;
                 z-index: 15;
                 touch-action: none;
@@ -72,6 +69,7 @@
 
             #apps {
                 position: absolute;
+                left: 17%;
                 height: 100%;
                 z-index: 2;
                 animation: orbit 2s backwards infinite;
@@ -80,6 +78,7 @@
 
             #mouth {
                 position: absolute;
+                left: 10%;
                 height: 100%;
                 z-index: 3;
                 animation: orbit 5s infinite;
@@ -88,12 +87,17 @@
 
             #time {
                 position: absolute;
-                height: 100%;
-                z-index: 7;
+                left: 50%;
+                top: 5%;
+                transform: translateX(-50%);
+                width: 40%;
+                height: 20%;
+                z-index: 20;
             }
 
             #banana {
                 position: absolute;
+                left: 17%;
                 height: 100%;
                 z-index: 6;
                 animation: orbit 1s infinite;
@@ -110,29 +114,28 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <a href="ipad.html">
-        <div id="test"></div>
-        </a>
-        <img src="images/text_home_icon.png" id="time" class="stretch">
+            <img src="images/timeDate_home_icon.png" id="time" class="stretch">
+        
         <div id="strawBox">
             <div id="slider">
             <img src="images/slideText_home_icon.png" id="text" class="stretch">
-            <img src="images/strawberry_home_icon.png" id="strawberry">
+            <img src="images/strawberry_home_icon.png" id="strawberry" >
             </div>
             <img src="images/boxslider_home_icon.png" id="box" class="stretch">
         </div>
         <div id="bananaHome">
             <img src="images/banana_home_icon.png" id="banana" class="stretch">
-            <img src="images/supernova_home_icon.png" id="supernova" class="stretch">
+            <img src="images/supernova_home_icon.png" id="supernova" class="stretch1">
         </div>
         <img src="images/mouth_home_icon.png" id="mouth" class="stretch">
         <img src="images/home_icon_bg.png" id="apps" class="stretch">
-        <img src="images/home_bg.png" id="bg" class="stretch">
+        <img src="images/home_bg.png" id="bg" class="stretch1">
 
 <script>
 const strawberry = document.getElementById("strawberry");
 const slider = document.getElementById("slider");
 const text = document.getElementById("text");
+const box = document.getElementById("box");
 
 let dragging = false;
 
@@ -144,23 +147,22 @@ document.addEventListener("pointermove", (e) => {
 
     const sliderRect = slider.getBoundingClientRect();
     const berryRect = strawberry.getBoundingClientRect();
+    const boxRect = box.getBoundingClientRect();
 
     let x = e.clientX - sliderRect.left - berryRect.width / 2;
 
     const min = 0;
-    const max = sliderRect.width - berryRect.width;
+    const stopEarly = 0.80;
+    const max = (sliderRect.width - berryRect.width) * stopEarly;
 
     x = Math.max(min, Math.min(x, max));
-
     strawberry.style.left = x + "px";
 
     let progress = x / max;
 
-    text.style.opacity = 1 - progress;
-
-    if (progress >= 0.98) {
-        window.location.href = "page2.html";
-    }
+        if (progress >= 1) {
+    window.location.href = "page2_iPad.html";
+        }
 });
 </script>
     </body>
