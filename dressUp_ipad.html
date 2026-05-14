@@ -192,60 +192,97 @@
         <audio id="burpSound" preload="auto" playsinline>
             <source src="burp.m4a" type="audio/mp4">
         </audio>
-    <script>
-            let idleTimer;
+<script>
+
+let idleTimer;
 let countdownTimer;
-let countdownValue = 5;
+let countdownValue = 10;
+
+let secretUnlocked = false;
 
 const popup = document.getElementById("idlePopup");
-const countdownEl = document.getElementById("countdown");
 
-// Reset everything on activity
+
+// =========================
+// IDLE SYSTEM
+// =========================
+
 function resetIdle() {
+
+    // Don't interrupt secret popup
+    if (secretUnlocked) {
+        return;
+    }
+
     clearTimeout(idleTimer);
     clearInterval(countdownTimer);
-    popup.classList.remove("active");
-    countdownValue = 10;
-    countdownEl.textContent = countdownValue;
 
-    idleTimer = setTimeout(startCountdown, 10000); // 10 seconds idle
+    popup.classList.remove("active");
+
+    countdownValue = 10;
+
+    document.getElementById("idleTitle").innerHTML = `
+        Press anywhere <br>
+        to continue<br>
+        <span id="countdown">${countdownValue}</span>
+    `;
+
+    idleTimer = setTimeout(startCountdown, 10000);
 }
 
-// Start countdown popup
+
 function startCountdown() {
+
     popup.classList.add("active");
 
     countdownTimer = setInterval(() => {
+
         countdownValue--;
-        countdownEl.textContent = countdownValue;
+
+        const countdownEl = document.getElementById("countdown");
+
+        if (countdownEl) {
+            countdownEl.textContent = countdownValue;
+        }
 
         if (countdownValue <= 0) {
+
             clearInterval(countdownTimer);
+
             window.location.href = "unlock.html";
         }
+
     }, 1000);
 }
 
-// Listen for ANY pointer activity
+
+// Activity listeners
 ["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
     document.addEventListener(event, resetIdle);
 });
 
-// Initialize
+
+// Start idle system
 resetIdle();
 
 
+
+// =========================
+// CHARACTER CUSTOMIZATION
+// =========================
+
 const hair = document.getElementById("hair");
+const body = document.getElementById("body");
+const clothing = document.getElementById("clothing");
+
+
+// HAIR STYLE
 const scissors = document.getElementById("scissors");
 
 scissors.addEventListener("click", () => {
 
-    // Example current src:
-    // images/hair3_color1.png
-
     const currentSrc = hair.getAttribute("src");
 
-    // Extract current hair number + color number
     const match = currentSrc.match(/hair(\d+)_color(\d+)\.png$/);
 
     if (!match) return;
@@ -253,53 +290,49 @@ scissors.addEventListener("click", () => {
     let currentHair = parseInt(match[1]);
     const currentColor = match[2];
 
-    // Cycle 1 → 2 → 3 → 4 → 5 → 1
     currentHair++;
 
     if (currentHair > 5) {
         currentHair = 1;
     }
 
-    // Keep SAME color
     hair.src = `images/hair${currentHair}_color${currentColor}.png`;
+
+    checkSecretCombo();
 });
 
+
+// HAIR COLOR
 const spray = document.getElementById("spray");
 
 spray.addEventListener("click", () => {
 
-    // Example:
-    // images/hair3_color2.png
-
     const currentSrc = hair.getAttribute("src");
 
-    // Extract hair number + color number
     const match = currentSrc.match(/hair(\d+)_color(\d+)\.png$/);
 
     if (!match) return;
 
     const currentHair = match[1];
+
     let currentColor = parseInt(match[2]);
 
-    // Cycle colors
     currentColor++;
 
-    // Change this number if you have more colors
     if (currentColor > 6) {
         currentColor = 1;
     }
 
-    // Keep SAME hair style
     hair.src = `images/hair${currentHair}_color${currentColor}.png`;
+
+    checkSecretCombo();
 });
 
-const body = document.getElementById("body");
+
+// BODY COLOR
 const brush = document.getElementById("brush");
 
 brush.addEventListener("click", () => {
-
-    // Example:
-    // images/body_color3.png
 
     const currentSrc = body.getAttribute("src");
 
@@ -309,24 +342,22 @@ brush.addEventListener("click", () => {
 
     let currentSkin = parseInt(match[1]);
 
-    // Cycle skins
     currentSkin++;
 
-    // Change max number if needed
     if (currentSkin > 5) {
         currentSkin = 1;
     }
 
     body.src = `images/body_color${currentSkin}.png`;
+
+    checkSecretCombo();
 });
 
-const clothing = document.getElementById("clothing");
+
+// CLOTHING COLOR
 const dryer = document.getElementById("dryer");
 
 dryer.addEventListener("click", () => {
-
-    // Example:
-    // images/clothing_color4.png
 
     const currentSrc = clothing.getAttribute("src");
 
@@ -336,24 +367,98 @@ dryer.addEventListener("click", () => {
 
     let currentClothing = parseInt(match[1]);
 
-    // Cycle clothing
     currentClothing++;
 
-    // Change max number if needed
     if (currentClothing > 5) {
         currentClothing = 1;
     }
 
     clothing.src = `images/clothing_color${currentClothing}.png`;
+
+    checkSecretCombo();
 });
 
 
+
+// =========================
+// SECRET COMBO
+// =========================
+
+function checkSecretCombo() {
+
+    const hairSrc = hair.getAttribute("src");
+    const bodySrc = body.getAttribute("src");
+    const clothingSrc = clothing.getAttribute("src");
+
+    const hairMatch = hairSrc.match(/hair(\d+)_color(\d+)\.png$/);
+    const bodyMatch = bodySrc.match(/body_color(\d+)\.png$/);
+    const clothingMatch = clothingSrc.match(/clothing_color(\d+)\.png$/);
+
+    if (!hairMatch || !bodyMatch || !clothingMatch) return;
+
+    const hairStyle = parseInt(hairMatch[1]);
+    const hairColor = parseInt(hairMatch[2]);
+    const bodyColor = parseInt(bodyMatch[1]);
+    const clothingColor = parseInt(clothingMatch[1]);
+
+    if (
+        hairStyle === 1 &&
+        hairColor === 4 &&
+        clothingColor === 3 &&
+        bodyColor === 2
+    ) {
+
+        if (secretUnlocked) return;
+
+        secretUnlocked = true;
+
+        clearTimeout(idleTimer);
+        clearInterval(countdownTimer);
+
+        popup.classList.add("active");
+
+        document.getElementById("idleTitle").innerHTML = `
+            You've unlocked<br>
+            1 free print.<br><br>
+
+            To receive it,<br>
+            find me, and say:<br><br>
+
+            <span style="
+                font-size: 0.65em;
+                display: inline-block;
+                margin-top: 10px;
+            ">
+                "I am a citizen<br>
+                of the Mall."
+            </span>
+        `;
+
+        // Hide popup after 9 seconds
+        setTimeout(() => {
+
+            popup.classList.remove("active");
+
+            secretUnlocked = false;
+
+            resetIdle();
+
+        }, 9000);
+    }
+}
+
+
+
+// =========================
+// BURP SOUND
+// =========================
 
 document.addEventListener("pointerdown", () => {
 
     const burp = new Audio("burp.m4a");
 
     burp.playsInline = true;
+
     burp.volume = 1;
 
     burp.play().catch(err => {
@@ -362,8 +467,6 @@ document.addEventListener("pointerdown", () => {
 
 });
 
-
-
-    </script>
+</script>
 </body>
 </html>
