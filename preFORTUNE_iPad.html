@@ -101,7 +101,7 @@
 
             #storyBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(0, 0, 255, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 5%;
@@ -147,7 +147,7 @@
 
             #suggestBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(174, 255, 0, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 12%;
@@ -207,7 +207,7 @@
 
             #catalogBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(255, 0, 102, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 17%;
@@ -218,7 +218,7 @@
 
             #homeBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(255, 204, 0, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 22%;
@@ -229,7 +229,7 @@
 
             #aboutBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(0, 255, 170, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 29%;
@@ -240,7 +240,7 @@
 
             #translateBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(191, 0, 255, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 53%;
@@ -251,7 +251,7 @@
 
             #toggle {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(0, 106, 255, 0.8);
                 width: 5%;
                 height: 28%;
                 top: 1%;
@@ -296,15 +296,15 @@
         <a href="fortunes_iPad.html">
             <img src="images/preFORTUNE-eng1-option1.png" class="stretch" id="option1">
         </a>
-        <a href="yousaidno_iPad.html">
+        <a href="#" id="option2Link">
             <img src="images/preFORTUNE-eng1-option2.png" class="stretch" id="option2">
-        </a>      
+        </a>     
         
         <div id="controlContainer">
             <img src="images/remoteCONTROL.png" class="stretch" id="control">
             <div id="storyBUTTON"></div>
             <div id="suggestBUTTON"></div>
-        <a href="page2_iPad.html">
+        <a href="page2.html">
             <div id="homeBUTTON"></div>
         </a>
             <div id="catalogBUTTON"></div>
@@ -406,6 +406,22 @@ function startCountdown() {
 
 // Initialize
 resetIdle();
+
+const option2Link = document.getElementById("option2Link");
+
+option2Link.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    // 8/9 chance for yousaidNo2_iPad.html
+    // 1/9 chance for yousaidno_iPad.html
+    const randomChoice = Math.random();
+
+    if (randomChoice < 8 / 9) {
+        window.location.href = "yousaidno2_iPad.html";
+    } else {
+        window.location.href = "yousaidno_iPad.html";
+    }
+});
         </script>
     </body>
 </html>
