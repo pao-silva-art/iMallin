@@ -87,12 +87,14 @@
                 z-index: 4;
                 width: 100%;
                 height: auto;
-                animation: fade 2s forwards linear;
+                opacity: 1;
+                animation: fade 2s linear forwards;
+                -webkit-animation: fade 2s linear forwards;
             }
 
             @keyframes fade {
-                from {opacity: 0%;}
-                to {opacity: 100%;}
+                from {opacity: 0;}
+                to {opacity: 1;}
             }
 
             @keyframes orbit {
