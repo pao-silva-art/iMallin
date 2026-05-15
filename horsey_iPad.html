@@ -424,8 +424,8 @@
 
             const elapsed = Date.now() - gameStartTime;
 
-            // must get 4 correct within 1.5 seconds
-            if(elapsed >= 1500){
+            // must get 4 correct within 1 second
+            if(elapsed >= 1000){
 
                 loseGame();
                 return;
