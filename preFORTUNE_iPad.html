@@ -89,6 +89,16 @@
                 left: 0%;
             }
 
+            #text {
+                position: absolute;
+                width: 50%;
+                top: 30%;
+                z-index: 4;
+                animation: fade 5s;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
             .cards {
                 position: absolute;
                 width: 50%;
@@ -292,8 +302,8 @@
     </head>
     <body>
         <img src="images/pre-fortune-BG.png" class="stretch" id="bg">
-        <img src="images/preFORTUNE-eng1.png" class="stretch cards">
-        <a href="fortunes_iPad.html">
+        <img src="images/preFORTUNE-eng1.png" class="stretch" id="text">
+        <a href="fortunes_iPad.html" id="option1Link">
             <img src="images/preFORTUNE-eng1-option1.png" class="stretch" id="option1">
         </a>
         <a href="#" id="option2Link">
@@ -417,9 +427,36 @@ option2Link.addEventListener("click", (e) => {
     const randomChoice = Math.random();
 
     if (randomChoice < 8 / 9) {
-        window.location.href = "yousaidNo2_iPad.html";
+        window.location.href = "yousaidno2_iPad.html";
     } else {
         window.location.href = "yousaidno_iPad.html";
+    }
+});
+
+const translateBtn = document.getElementById("translateBUTTON");
+const option1 = document.getElementById("option1");
+const option1Link = document.getElementById("option1Link");
+const textImg = document.getElementById("text");
+
+let spanishMode = false;
+
+translateBtn.addEventListener("click", () => {
+
+    spanishMode = !spanishMode;
+
+    if (spanishMode) {
+
+        // Spanish version
+        option1.src = "images/preFORTUNE-esp1-option1.png";
+        option1Link.href = "fortunes_esp_iPad.html";
+        textImg.src = "images/preFORTUNE-esp1.png";
+
+    } else {
+
+        // English version
+        option1.src = "images/preFORTUNE-eng1-option1.png";
+        option1Link.href = "fortunes_iPad.html";
+        textImg.src = "images/preFORTUNE-eng1.png";
     }
 });
         </script>
