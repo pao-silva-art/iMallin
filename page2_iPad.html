@@ -68,6 +68,50 @@
                 z-index: 4;
             }
 
+            #aboutPopup {
+    display: none;
+    position: fixed;
+    z-index: 100001;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#aboutPopup.active {
+    display: flex;
+}
+
+#aboutBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    animation: popupFade 0.25s ease;
+}
+
+#aboutQR {
+    width: 60vw;
+    max-width: 350px;
+    height: auto;
+    border-radius: 12px;
+}
+
+@keyframes popupFade {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
             #idlePopup {
     display: none;
     position: fixed;
@@ -375,6 +419,11 @@
         <h1 id="idleTitle">Press anywhere <br>to continue<br><span id="countdown">5</span></h1>
     </div>
 </div>
+<div id="aboutPopup">
+    <div id="aboutBox">
+        <img src="images/qr_code.png" id="aboutQR">
+    </div>
+</div>
 <audio id="burpSound" preload="auto" playsinline>
     <source src="burp.m4a" type="audio/mp4">
 </audio>
@@ -431,6 +480,33 @@ submitBtn.addEventListener("click", () => {
         alert("Failed to send. Try again.");
         console.error(error);
     });
+});
+
+const aboutBtn = document.getElementById("aboutBUTTON");
+const aboutPopup = document.getElementById("aboutPopup");
+
+let aboutTimeout;
+
+// Open popup
+aboutBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    aboutPopup.classList.add("active");
+
+    clearTimeout(aboutTimeout);
+
+    // Auto close after 10 seconds
+    aboutTimeout = setTimeout(() => {
+        aboutPopup.classList.remove("active");
+    }, 10000);
+});
+
+// Close when tapping anywhere
+document.addEventListener("pointerdown", () => {
+    if (aboutPopup.classList.contains("active")) {
+        aboutPopup.classList.remove("active");
+        clearTimeout(aboutTimeout);
+    }
 });
 
         /* function isMobile() {
