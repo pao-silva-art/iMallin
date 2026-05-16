@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html,body{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: black;
+                font-family: Arial, Helvetica, sans-serif;
+                color: aliceblue;
+                text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+                height: 100%;
+                position: fixed;
+                width: 100%;
+            }
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+            #bg{
+                position: absolute;
+                height: 100%;
+                z-index: 0;
+                transform: translateY(0);
+            }
+            #imageContainer {
+                position: absolute;
+                width: 100%;
+                 height: 100%;
+                z-index: 1;
+            }
+
+  #imageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 1;
+    transition: opacity 2s ease;
+  }
+
+#textContainer {
+  position: absolute;
+  text-align: center;
+  left: 50%;
+  transform: translate(-50%, 100vh); /* start off screen */
+  width: 80%;
+  max-width: 800px;
+  font-size: 9dvh; /* slightly smaller helps too */
+  bottom: auto;   /* remove bottom entirely */
+}
+
+#textContainer.show {
+  animation: scrollUp 20s linear forwards;
+  opacity: 1;
+
+}
+
+@keyframes scrollUp {
+  from {
+    transform: translate(-50%, 20%);
+  }
+  to {
+    transform: translate(-50%, -300%);
+  }
+}
+
+  #buttonContainer {
+    position: absolute;
+    z-index: 200;
+    top: 85%;
+    width: 100%;
+    display: none;
+  }
+
+  /* random image (zoom + fade) */
+#randomImage {
+  position: relative;
+  z-index: 2;
+  transform: scale(0.1);
+  opacity: 1;
+}
+
+/* when active */
+#randomImage.animate {
+  animation: zoomIn 2s ease forwards;
+}
+
+/* zoom animation */
+@keyframes zoomIn {
+  from {
+    transform: scale(0.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+  #countdown {
+                font-size: 5em;
+                 display: inline-block;
+            }
+
+            #idlePopup {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#idlePopup.active {
+    display: flex;
+}
+
+#idleBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#idleTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 4vw;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
+/* supernova spinning */
+#supernova {
+  position: fixed;      /* always relative to viewport */
+  top: 50%;
+  left: 50%;
+  width: 300vw;         /* 3x viewport width */
+  height: 300dvh;        /* 3x viewport height */
+  object-fit: cover;    /* cover while keeping aspect ratio */
+  transform: translate(-50%, -50%) rotate(0deg); /* centered */
+  z-index: 1;           /* behind randomImage */
+  opacity: 0.8;
+  pointer-events: none; /* don’t block clicks */
+}
+
+#randomImage, #supernova {
+  transition: opacity 2s ease; /* smooth fade */
+}
+
+/* spinning animation */
+#supernova.animate {
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+  #tryAgainBtn {
+    position: absolute;
+    left: 30%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+    font-size: 5dvh;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    box-shadow: 0px 0px 15px blue;
+  }
+
+  #goBackBtn {
+    position: absolute;
+    right: 30%;
+    transform: translateX(50%);
+    padding: 10px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+    font-size: 5dvh;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    box-shadow: 0px 0px 15px blue;
+  }
+</style>
+</head>
+<body>
+ <img src="images/divination-bg.png" id="bg" class="stretch"> 
+ <img id="supernova" src="images/supernova.png">
+<div id="imageContainer">
+ 
+  <img id="randomImage" src="">
+</div>
+
+<div id="textContainer"></div>
+
+<div id="buttonContainer">
+  <button id="tryAgainBtn" onclick="location.reload()">Otra vez</button>
+  <button id="goBackBtn" onclick="location.href='page2_iPad.html'">Regresar</button>
+</div>
+<div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Presiona <br> para continuar<br><span id="countdown">5</span></h1>
+    </div>
+</div>
+
+<script>
+const images = Array.from({ length: 43 }, (_, i) => `images/unicornCake${i + 1}.png`);
+
+const texts = [
+`No asumas que los demás saben que quieres. Se vulnerable. Hay que ser directo. Vas a ver una película malísima. A tus amigos les va a gustar y dudarás de tu amistad. Está bien irse.`,
+`Dilo así como lo pensaste. Exactamente igual. No le des vueltas. Sin rodeos. Pide hablar en persona. Dí lo que tienes que decir, y vete. No compres ese dulcecito. Tienes que ahorrar. Esta vez, te hará mejor estar a solas.`,
+`Inténtalo por un año. Si es mucho tiempo, dale seis meses. Dale una oportunidad. Di gracias. Si te quita la presión, dí que es una bromita. Dale un abrazo a tus seres queridos. Escribe una carta y mándala por correo. Usa tu sticker favorita. ¿Qué estás esperando?`,
+`A veces estás de mal humor porque te tienes que bañar. O porque tienes hambre. O porque no te cepillaste los dientes. Es así de sencillo. Pregúntate: ¿qué me falta? Si fuera un Sim, ¿qué necesitaría? ¿Qué problema parece trivial? Piénsalo otra vez.`,
+`Como una piñata, inviertes tiempo y arte en algo hecho para destruirse. No es fútil. Es para crear un espectáculo desastroso. Haz de este año, una piñata. Acepta que debe quebrarse. Pégale fuerte, y agarra los dulces.`,
+`Pasas por un duelo. No hay atajos. No hay técnicas. No hay manera de superarlo más que sufrirlo. Y tal vez jamás se supera. Pero el amor es bello. Y cuando las emociones pasan, la semilla del duelo se revela: es amor. Tú puedes.`,
+`Tu orgullo y vanidad hacen que tu arte sufra. Trabaja en equipo y pide ayuda. No tienes que hacerlo todo tú sola. Suelta el control, y tu arte mejorará. La belleza te llama. Está a tu alrededor. Pero la belleza no te dará el valor que buscas. Eso lo construyes tú sola.`,
+`Ya no sientes lo mismo por una amistad. Sientes culpa admitirlo, pero es que ya no te cae bien. Lo mejor que puedes hacer es ser egoísta. ¿Qué te haría mejor a ti? Termina la amistad antes de que el resentimiento te vuelva grosera. Come noodles de arroz.`,
+`Siempre crees que todo va a salir mal. Pero dime, ¿cuándo te ha servido ser negativa? Sigues igual de miserable que antes. Intenta algo nuevo: intenta ser paciente y positiva contigo misma. No te la tienes que creer, imagínate que tu “yo ideal” es un disfraz. Póntelo por solo un día.`,
+`Te toparás con un extraño hablando mal de ti en la calle. Te cree gringa, piensa que no hablas español. Defiéndete. Se sentirá muy bien. La confrontación es buena, la tensión revela, y el enojo puede ser útil. Que no te digan que el que se enoja pierde. ¿Y qué tiene de malo perder, de vez en cuando?`,
+`Llegan buenas noticias inesperadas y no te las vas a creer. Compra los aminos de coco, echalos a tu arroz con huevo. Un poquito de buen karma se acerca. Vas a sentir poquito delirio pero también confianza. De alguna manera los dos son verdaderos.`,
+`Te vas a caer de nalgas. Literalmente. Tendrás buena suerte estacionándote la próxima semana. Usa calzones rojos para tener buena suerte. `
+];
+
+
+function getRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function startSequence() {
+  const img = document.getElementById("randomImage");
+  const supernova = document.getElementById("supernova");
+  const textBox = document.getElementById("textContainer");
+  const button = document.getElementById("buttonContainer");
+
+  // reset
+  button.style.display = "none";
+
+  textBox.classList.remove("show");
+  void textBox.offsetWidth;
+  textBox.style.bottom = "-100dvh";
+
+  img.style.opacity = 1;
+  img.classList.remove("animate");
+
+  supernova.style.opacity = 1;
+  supernova.classList.remove("animate");
+
+  // force reset animations
+  void img.offsetWidth;
+  void supernova.offsetWidth;
+
+  // content
+  img.src = getRandom(images);
+  textBox.innerText = getRandom(texts);
+
+  // start animations immediately
+  img.classList.add("animate");
+  supernova.classList.add("animate");
+
+  // fade both out after 2s
+  setTimeout(() => {
+    img.style.opacity = 0;
+    supernova.style.opacity = 0;
+  }, 2000);
+
+  // show text
+  setTimeout(() => {
+    textBox.classList.add("show");
+  }, 400);
+
+  // show button
+  setTimeout(() => {
+    button.style.display = "block";
+  }, 10000);
+}
+let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+// start automatically
+startSequence();
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 15000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "unlock.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
+
+</script>
+</body>
+</html>
