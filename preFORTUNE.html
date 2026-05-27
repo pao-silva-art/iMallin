@@ -65,7 +65,7 @@
             }
 
             #countdown {
-    font-size: 5 em;
+    font-size: 5em;
     display: inline-block;
 }
 
@@ -87,6 +87,16 @@
                 z-index: 10;
                 top: 0%;
                 left: 0%;
+            }
+
+            #text {
+                position: absolute;
+                width: 100%;
+                top: 30%;
+                z-index: 4;
+                animation: fade 5s;
+                left: 50%;
+                transform: translateX(-50%);
             }
 
             .cards {
@@ -292,13 +302,13 @@
     </head>
     <body>
         <img src="images/pre-fortune-BG.png" class="stretch" id="bg">
-        <img src="images/preFORTUNE-eng1.png" class="stretch cards">
-        <a href="fortunes.html">
+        <img src="images/preFORTUNE-eng1.png" class="stretch" id="text">
+        <a href="fortunes.html" id="option1Link">
             <img src="images/preFORTUNE-eng1-option1.png" class="stretch" id="option1">
         </a>
-        <a href="page2.html">
+        <a href="#" id="option2Link">
             <img src="images/preFORTUNE-eng1-option2.png" class="stretch" id="option2">
-        </a>      
+        </a>       
         
         <div id="controlContainer">
             <img src="images/remoteCONTROL.png" class="stretch" id="control">
@@ -335,6 +345,22 @@
                 toggle.addEventListener("click", () => {
              container.classList.toggle("shifted");
         });
+
+const option2Link = document.getElementById("option2Link");
+
+option2Link.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    // 8/9 chance for yousaidNo2_iPad.html
+    // 1/9 chance for yousaidno_iPad.html
+    const randomChoice = Math.random();
+
+    if (randomChoice < 8 / 9) {
+        window.location.href = "yousaidNo2.html";
+    } else {
+        window.location.href = "yousaidno.html";
+    }
+});
 
 const suggestBtn = document.getElementById("suggestBUTTON");
 const overlay = document.getElementById("suggestOverlay");
