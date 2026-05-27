@@ -14,7 +14,8 @@
                 width: 20%;
                 height: auto;
                 right: 10%;
-                top: 85%
+                top: 85%;
+                animation: fade 1s;
             }
 
             #back {
@@ -23,7 +24,8 @@
                 width: 20%;
                 height: auto;
                 left: 10%;
-                top: 85%
+                top: 85%;
+                animation: fade 2s;
             }
 
             #text {
@@ -34,8 +36,14 @@
                 top: 20%;
                 left: 50%;
                 transform: translateX(-50%);
+                animation: fade 1s;
             }
 
+            @keyframes fade {
+                from { opacity: 0%; }
+                to   { opacity: 100%; }
+            }
+            
             #bg {
                 position: absolute;
                 z-index: 0;
