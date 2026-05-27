@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            @keyframes bg-cycle {
+  0%   { background-color: blue; }
+  50%  { background-color: red; }
+  100% { background-color: yellow; }
+}
+
+            body {
+                margin: 0;
+                padding: 0;
+                background-color: blue;
+                animation: bg-cycle 10s ease infinite alternate;
+            }
+
+            #back {
+                z-index: 20;
+                width: 20%;
+                height: auto;
+                position: absolute;
+                left: 6%;
+                top: 75%;
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+            #bg-video{
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+                bottom: 0;
+                min-height: 100%;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                object-fit: cover;
+
+            }
+            #countdown {
+            font-size: 5em;
+            display: inline-block;
+        }
+            
+            #idlePopup {
+                display: none;
+                position: fixed;
+                z-index: 100000;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.6);
+                justify-content: center;
+                align-items: center;
+            }
+
+            #idlePopup.active {
+                display: flex;
+            }
+
+            #idleBox {
+                background-image: linear-gradient(to bottom, red, yellow);
+                padding: 30px;
+                border-radius: 20px;
+                text-align: center;
+            }
+
+            #idleTitle {
+                font-family: Arial, Helvetica, sans-serif;
+                color: white;
+                font-size: 4vw;
+                text-shadow:
+                    0 0 5px blue,
+                    0 0 10px blue,
+                    0 0 20px blue,
+                    0 0 40px blue;
+            }
+
+            #audioPopup {
+    display: none;
+    position: fixed;
+    z-index: 200000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#audioPopup.active {
+    display: flex;
+}
+
+#audioBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 40px;
+    border-radius: 25px;
+    text-align: center;
+    animation: pulse 1s infinite alternate;
+}
+
+#audioTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 6vw;
+    margin: 0;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.08);
+    }
+}
+        </style>
+    </head>
+    <body>
+     <a href="page2.html">
+            <img src="images/dressUp_back.png" id="back" class="stretch">
+        </a> 
+<div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+    </div>
+</div> 
+<div id="audioPopup" class="active">
+    <div id="audioBox">
+        <h1 id="audioTitle">TAP ME</h1>
+    </div>
+</div>
+   <video 
+    autoplay 
+    muted 
+    playsinline 
+    webkit-playsinline
+    loop
+    id="bg-video"
+>
+    <source src="video/cloudsfinale_v1.mp4" type="video/mp4">
+</video>
+        <script>
+            let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 10000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "unlock.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
+
+const video = document.getElementById("bg-video");
+
+const audioPopup = document.getElementById("audioPopup");
+
+window.addEventListener("load", () => {
+
+    const unlocked = localStorage.getItem("audioUnlocked");
+
+    if (unlocked === "true") {
+
+        video.muted = false;
+        video.volume = 1;
+
+        video.play().catch(() => {});
+
+    } else {
+
+        audioPopup.classList.add("active");
+    }
+});
+
+function unlockAudio() {
+
+    video.muted = false;
+    video.volume = 1;
+
+    video.play()
+        .then(() => {
+
+            localStorage.setItem("audioUnlocked", "true");
+
+            audioPopup.classList.remove("active");
+
+        })
+        .catch(err => {
+            console.log(err);
+        });
+}
+
+audioPopup.addEventListener("touchstart", unlockAudio, { once: true });
+audioPopup.addEventListener("click", unlockAudio, { once: true });
+        </script>
+    </body>
+</html>

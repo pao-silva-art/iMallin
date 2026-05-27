@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body {
+                padding: 0;
+                margin: 0;
+                overflow: hidden;
+            }
+
+            #back {
+                z-index: 20;
+                width: 16%;
+                height: auto;
+                position: absolute;
+                left: 5%;
+                top: 40%;
+            }
+
+            #camera {
+                z-index: 0;
+                width: 8%;
+                height: auto;
+                position: absolute;
+                left: 32%;
+                top: 65%;
+            }
+
+            #frame{
+                z-index: 10;
+                position: absolute;
+                height: 100%;
+                width: auto;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            #tools {
+                z-index: 12;
+                background-color: none;
+                position: absolute;
+                top:10%;
+                height: 80%;
+                width: 60%;
+                left: 40%;
+                pointer-events: all;
+            }
+            
+            #toolsImg{
+                z-index: 11;
+                position: relative;
+                height: 100%;
+                width: 100%;
+                left: 0%;
+                pointer-events: none;
+            }
+
+            #scissors {
+                z-index: 12;
+                position: absolute;
+                background-color: none;
+                width: 33%;
+                height: 17%;
+                left: 52%;
+                top: 31%;
+            }
+
+            #spray {
+                z-index: 12;
+                position: absolute;
+                background-color: none;
+                width: 24%;
+                height: 15%;
+                left: 65%;
+                top: 50%;
+            }
+
+            #brush {
+                z-index: 12;
+                position: absolute;
+                background-color: none;
+                width: 15%;
+                height: 18%;
+                left: 50%;
+                top: 63%;
+            }
+
+            #dryer {
+                z-index: 12;
+                position: absolute;
+                background-color: none;
+                width: 33%;
+                height: 15%;
+                left: 8%;
+                top: 78%;
+            }
+
+            #grass{
+                z-index: 1;
+                position: absolute;
+                height: 100%;
+                width: auto;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+            #body {
+                z-index: 3;
+                position: absolute;
+                height: 100%;
+                width: auto;
+                left: 10%;
+            }
+
+            #clothing {
+                z-index: 4;
+                position: absolute;
+                height: 100%;
+                width: auto;
+                left: 10%;
+            }
+
+            #hair {
+                z-index: 5;
+                position: absolute;
+                height: 100%;
+                width: auto;
+                left: 10%;
+            }
+
+            #hat {
+                z-index: 6;
+                position: absolute;
+                height: 100%;
+                width: auto;
+                left: 10%;
+            }
+
+            #idlePopup {
+                display: none;
+                position: fixed;
+                z-index: 100000;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.6);
+                justify-content: center;
+                align-items: center;
+            }
+
+            #idlePopup.active {
+                display: flex;
+            }
+
+            #idleBox {
+                background-image: linear-gradient(to bottom, red, yellow);
+                padding: 30px;
+                border-radius: 20px;
+                text-align: center;
+            }
+
+            #idleTitle {
+                font-family: Arial, Helvetica, sans-serif;
+                color: white;
+                font-size: 4vw;
+                text-shadow:
+                    0 0 5px blue,
+                    0 0 10px blue,
+                    0 0 20px blue,
+                    0 0 40px blue;
+            }
+
+            #countdown {
+                font-size: 5em;
+                display: inline-block;
+            }
+
+        </style>
+    </head>
+    <body>
+        <img src="images/dressUp_ipad_bg.png" id="frame">
+        <img src="images/body_color5.png" id="body">
+        <img src="images/clothing_color5.png" id="clothing">
+        <img src="images/hair1_color1.png" id="hair">
+        <img src="images/dressUp_grass.png" id="grass">
+        <img src="images/dressUp_camera.png" id="camera">
+        <a href="page2.html">
+            <img src="images/dressUp_back.png" id="back">
+        </a>
+        <div id="tools">
+            <img src="images/dressUp_tools.png" id="toolsImg">
+        <div id="scissors"></div>
+        <div id="spray"></div>
+        <div id="brush"></div>
+        <div id="dryer"></div>
+        </div>
+        
+        
+        <div id="idlePopup">
+            <div id="idleBox">
+                <h1 id="idleTitle">Press anywhere <br>to continue<br><span id="countdown">5</span></h1>
+            </div>
+        </div>
+        <audio id="burpSound" preload="auto" playsinline>
+            <source src="burp.m4a" type="audio/mp4">
+        </audio>
+<script>
+
+let idleTimer;
+let countdownTimer;
+let countdownValue = 10;
+
+let secretUnlocked = false;
+
+const popup = document.getElementById("idlePopup");
+
+
+// =========================
+// IDLE SYSTEM
+// =========================
+
+function resetIdle() {
+
+    // Don't interrupt secret popup
+    if (secretUnlocked) {
+        return;
+    }
+
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+
+    popup.classList.remove("active");
+
+    countdownValue = 10;
+
+    document.getElementById("idleTitle").innerHTML = `
+        Press anywhere <br>
+        to continue<br>
+        <span id="countdown">${countdownValue}</span>
+    `;
+
+    idleTimer = setTimeout(startCountdown, 10000);
+}
+
+
+function startCountdown() {
+
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+
+        countdownValue--;
+
+        const countdownEl = document.getElementById("countdown");
+
+        if (countdownEl) {
+            countdownEl.textContent = countdownValue;
+        }
+
+        if (countdownValue <= 0) {
+
+            clearInterval(countdownTimer);
+
+            window.location.href = "unlock.html";
+        }
+
+    }, 1000);
+}
+
+
+// Activity listeners
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+
+// Start idle system
+resetIdle();
+
+
+
+// =========================
+// CHARACTER CUSTOMIZATION
+// =========================
+
+const hair = document.getElementById("hair");
+const body = document.getElementById("body");
+const clothing = document.getElementById("clothing");
+
+
+// HAIR STYLE
+const scissors = document.getElementById("scissors");
+
+scissors.addEventListener("click", () => {
+
+    const currentSrc = hair.getAttribute("src");
+
+    const match = currentSrc.match(/hair(\d+)_color(\d+)\.png$/);
+
+    if (!match) return;
+
+    let currentHair = parseInt(match[1]);
+    const currentColor = match[2];
+
+    currentHair++;
+
+    if (currentHair > 5) {
+        currentHair = 1;
+    }
+
+    hair.src = `images/hair${currentHair}_color${currentColor}.png`;
+
+    checkSecretCombo();
+});
+
+
+// HAIR COLOR
+const spray = document.getElementById("spray");
+
+spray.addEventListener("click", () => {
+
+    const currentSrc = hair.getAttribute("src");
+
+    const match = currentSrc.match(/hair(\d+)_color(\d+)\.png$/);
+
+    if (!match) return;
+
+    const currentHair = match[1];
+
+    let currentColor = parseInt(match[2]);
+
+    currentColor++;
+
+    if (currentColor > 6) {
+        currentColor = 1;
+    }
+
+    hair.src = `images/hair${currentHair}_color${currentColor}.png`;
+
+    checkSecretCombo();
+});
+
+
+// BODY COLOR
+const brush = document.getElementById("brush");
+
+brush.addEventListener("click", () => {
+
+    const currentSrc = body.getAttribute("src");
+
+    const match = currentSrc.match(/body_color(\d+)\.png$/);
+
+    if (!match) return;
+
+    let currentSkin = parseInt(match[1]);
+
+    currentSkin++;
+
+    if (currentSkin > 5) {
+        currentSkin = 1;
+    }
+
+    body.src = `images/body_color${currentSkin}.png`;
+
+    checkSecretCombo();
+});
+
+
+// CLOTHING COLOR
+const dryer = document.getElementById("dryer");
+
+dryer.addEventListener("click", () => {
+
+    const currentSrc = clothing.getAttribute("src");
+
+    const match = currentSrc.match(/clothing_color(\d+)\.png$/);
+
+    if (!match) return;
+
+    let currentClothing = parseInt(match[1]);
+
+    currentClothing++;
+
+    if (currentClothing > 5) {
+        currentClothing = 1;
+    }
+
+    clothing.src = `images/clothing_color${currentClothing}.png`;
+
+    checkSecretCombo();
+});
+
+
+
+// =========================
+// SECRET COMBO
+// =========================
+
+function checkSecretCombo() {
+
+    const hairSrc = hair.getAttribute("src");
+    const bodySrc = body.getAttribute("src");
+    const clothingSrc = clothing.getAttribute("src");
+
+    const hairMatch = hairSrc.match(/hair(\d+)_color(\d+)\.png$/);
+    const bodyMatch = bodySrc.match(/body_color(\d+)\.png$/);
+    const clothingMatch = clothingSrc.match(/clothing_color(\d+)\.png$/);
+
+    if (!hairMatch || !bodyMatch || !clothingMatch) return;
+
+    const hairStyle = parseInt(hairMatch[1]);
+    const hairColor = parseInt(hairMatch[2]);
+    const bodyColor = parseInt(bodyMatch[1]);
+    const clothingColor = parseInt(clothingMatch[1]);
+
+    if (
+        hairStyle === 1 &&
+        hairColor === 4 &&
+        clothingColor === 3 &&
+        bodyColor === 2
+    ) {
+
+        if (secretUnlocked) return;
+
+        secretUnlocked = true;
+
+        clearTimeout(idleTimer);
+        clearInterval(countdownTimer);
+
+        popup.classList.add("active");
+
+        document.getElementById("idleTitle").innerHTML = `
+            You've unlocked<br>
+            1 free print.<br><br>
+
+            To receive it,<br>
+            e-mail me this message:<br><br>
+
+            <span style="
+                font-size: 0.65em;
+                display: inline-block;
+                margin-top: 10px;
+            ">
+                "I am a citizen<br>
+                of the Mall."
+            </span>
+        `;
+
+        // Hide popup after 9 seconds
+        setTimeout(() => {
+
+            popup.classList.remove("active");
+
+            secretUnlocked = false;
+
+            resetIdle();
+
+        }, 9000);
+    }
+}
+
+
+
+// =========================
+// BURP SOUND
+// =========================
+
+document.addEventListener("pointerdown", () => {
+
+    const burp = new Audio("burp.m4a");
+
+    burp.playsInline = true;
+
+    burp.volume = 1;
+
+    burp.play().catch(err => {
+        console.log(err);
+    });
+
+});
+
+</script>
+</body>
+</html>

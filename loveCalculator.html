@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+             body{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+            .duck {
+                position: absolute;
+                width: 15%;
+                z-index: 10;
+                cursor: pointer;
+                
+            }
+
+            #d1{
+                left: 80%;
+                top: 8%;
+                animation: orbit 1s backwards infinite;
+            }
+
+            #d2{
+                left: 78%;
+                top: 20%;
+                animation: orbit 3s forwards infinite;
+            }
+
+            #d3{
+                left: 76%;
+                top: 32%;
+                animation: orbit 1s forwards infinite;
+                animation-timing-function: linear;
+            }
+
+            #d4{
+                left: 74%;
+                top: 44%;
+                animation: orbit 6s backwards infinite;
+                animation-timing-function: linear;
+            }
+
+            #d5{
+                left: 70%;
+                top: 56%;
+                animation: orbit 3s backwards infinite;
+                animation-timing-function: linear;
+            }
+
+            #d6{
+                left: 75%;
+                top: 68%;
+                animation: orbit 1s forwards infinite;
+                animation-timing-function: linear;
+            }
+
+            #d7{
+                left: 70%;
+                top: 80%;
+                animation: orbit 4s backwards infinite;
+            }
+
+            #text {
+                position: absolute;
+                z-index: 4;
+                width: 70%;
+                top: 60%;
+                left: 10%;
+            }
+
+            #angel {
+                position: absolute;
+                z-index: 3;
+                top: 5%;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 120%;
+                animation: scale 1s;
+                animation-timing-function: linear;
+            }
+
+            #supernova {
+                position: absolute;      /* always relative to viewport */
+                left: 50%;
+                top: 15%;
+                width: 400%;
+                object-fit: cover;    /* cover while keeping aspect ratio */
+                transform: translateX(-50%) rotate(0deg); /* centered */
+                z-index: 2;           /* behind randomImage */
+                opacity: 1;
+                pointer-events: none; /* don’t block clicks */
+                animation: spin 4s linear infinite;
+            }
+
+            @keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+            
+            @keyframes scale {
+                from {  width: 10%; }
+                to   {  width: 120%; }
+            }
+
+            @keyframes orbit {
+                from {  -webkit-transform: rotate(0deg) translateX(20px) rotate(0deg); }
+                to   {  -webkit-transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+            }
+
+
+            #bg{
+                position: absolute;
+                height: 100%;
+                z-index: 0;
+            }
+
+            #back {
+                z-index: 20;
+                width: 18%;
+                height: auto;
+                position: absolute;
+                left: 6%;
+                top: 80%;
+            }
+
+             #idlePopup {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#idlePopup.active {
+    display: flex;
+}
+
+#idleBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#idleTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 4vw;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
+            #countdown {
+    font-size: 5em;
+    display: inline-block;
+}
+
+        </style>
+    </head>
+    <body>
+        <a href="loveResult.html">
+        <img src="images/duck_1.png" class="duck" id="d1">
+        <img src="images/duck_2.png" class="duck" id="d2">
+        <img src="images/duck_3.png" class="duck" id="d3">
+        <img src="images/duck_4.png" class="duck" id="d4">
+        <img src="images/duck_5.png" class="duck" id="d5">
+        <img src="images/duck_6.png" class="duck" id="d6">
+        <img src="images/duck_7.png" class="duck" id="d7">
+        </a>
+        <a href="page2.html">
+            <img src="images/dressUp_back.png" id="back" class="stretch">
+        </a> 
+        <img src="images/love_text.png" id="text">
+        <img src="images/unicornCake58.png" id="angel">
+        <img src="images/supernova.png" id="supernova">
+        <img src="images/love_bg.png" id="bg" class="stretch">
+        
+</div>
+<div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+     <script>
+    (function(){
+    emailjs.init("r5fGUVRdcRUG5ROJG");
+})();
+    
+            const toggle = document.getElementById("toggle");
+            const container = document.getElementById("controlContainer");
+
+                toggle.addEventListener("click", () => {
+             container.classList.toggle("shifted");
+        });
+
+        const translateBtn = document.getElementById("translateBUTTON");
+const fortuneImg = document.getElementById("fortune");
+
+translateBtn.addEventListener("click", () => {
+    if (fortuneImg.src.includes("ESP")) {
+        fortuneImg.src = "images/page2_fortuneAD.png";
+    } else {
+        fortuneImg.src = "images/page2_fortuneAD-ESP.png";
+    }
+});
+
+const suggestBtn = document.getElementById("suggestBUTTON");
+const overlay = document.getElementById("suggestOverlay");
+const closeBtn = document.getElementById("closeSuggest");
+const submitBtn = document.getElementById("submitSuggest");
+const textArea = document.getElementById("suggestText");
+
+// Open popup
+suggestBtn.addEventListener("click", () => {
+    overlay.classList.add("active");
+});
+
+// Close popup
+closeBtn.addEventListener("click", () => {
+    overlay.classList.remove("active");
+});
+
+submitBtn.addEventListener("click", () => {
+    const message = textArea.value;
+
+    emailjs.send("service_dt37n1f", "template_8cpvrgh", {
+        message: message
+    }).then(() => {
+        alert("Suggestion sent!");
+        overlay.classList.remove("active");
+        textArea.value = "";
+    }, (error) => {
+        alert("Failed to send. Try again.");
+        console.error(error);
+    });
+});
+
+        /* function isMobile() {
+            return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+          || window.innerWidth <= 768;
+        }
+
+            if (!isMobile()) {
+              document.body.classList.add("desktop");
+            } */
+    let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 10000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "index.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
+        </script>
+    </body>
+</html>

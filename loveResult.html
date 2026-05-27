@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        #result {
+            z-index: 10;
+            position: absolute;
+            transform: translateX(-50%);
+            top: 3%;
+            left: 50%;
+            width: 70%;
+        }
+
+        .stretch {
+            height: auto;
+            width: 100%;
+        }
+
+        #bg{
+            position: absolute;
+            height: 100%;
+            z-index: 0;
+        }
+
+        #back {
+            position: absolute;
+            z-index: 12;
+            width: 40%;
+            top: 85%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #character{
+            position: absolute;
+            z-index: 5;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 30%;
+            width: 200%;
+            animation: popUp 1s;
+        }
+
+        @keyframes popUp {
+            from { top: 50%; }
+            to   { top: 30%; }
+        }
+    </style>
+</head>
+
+<body>
+    <img id="result">
+    <img src="images/unicornCake61.png" id="character">
+    <img src="images/trueLove_result.jpg" id="bg" class="stretch">
+    <a href="page2.html">
+        <img src="images/love_back.png" id="back">
+    </a>
+
+    <script>
+        // Pick random number from 1 to 15
+        const randomNum = Math.floor(Math.random() * 15) + 1;
+
+        // Set image source
+        document.getElementById("result").src =
+            `images/love_R${randomNum}.png`;
+    </script>
+</body>
+</html>
