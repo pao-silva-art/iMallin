@@ -30,17 +30,18 @@
             }
 
             #bg-video{
-                position: absolute;
-                left: 50%;
-                transform: translateX(-50%);
-                bottom: 0;
-                min-height: 100%;
-                width: 100%;
-                height: 100%;
-                z-index: -1;
+                position: fixed;
+                top: 0;
+                left: 0;
+            
+                width: 100vw;
+                height: 100vh;
+            
                 object-fit: cover;
-
+            
+                z-index: -1;
             }
+            
             #countdown {
             font-size: 5em;
             display: inline-block;
@@ -143,17 +144,23 @@
         <h1 id="audioTitle">TAP ME</h1>
     </div>
 </div>
-   <video 
-    autoplay 
-    muted 
-    playsinline 
+  <video 
+    id="bg-video"
+    autoplay
+    muted
+    playsinline
     webkit-playsinline
     loop
-    id="bg-video"
+    preload="auto"
+    poster="images/poster.jpg"
 >
     <source src="video/cloudsfinale_v1.mp4" type="video/mp4">
 </video>
         <script>
+            const video = document.getElementById("bg-video");
+            video.play().catch(err => {
+    console.log("Autoplay blocked:", err);
+});
             let idleTimer;
 let countdownTimer;
 let countdownValue = 5;
