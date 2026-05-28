@@ -1,71 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  />
-  <title>Fullscreen Video</title>
+<meta charset="UTF-8" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Fullscreen Video</title>
 
-  <style>
-    html,
-    body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: black;
-    }
+<style>
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: black;
+}
 
-    body {
-      position: fixed;
-      inset: 0;
-    }
+video {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
 
-    #back {
-                z-index: 20;
-                width: 18%;
-                height: auto;
-                position: absolute;
-                left: 6%;
-                top: 80%;
-    }
-
-    video {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      object-position: center center;
-      background: black;
-    }
-
-    /* iPhone safe-area support */
-    @supports (padding: max(0px)) {
-      body {
-        padding:
-          env(safe-area-inset-top)
-          env(safe-area-inset-right)
-          env(safe-area-inset-bottom)
-          env(safe-area-inset-left);
-      }
-    }
-  </style>
+#startBtn {
+  position: absolute;
+  z-index: 100;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px 24px;
+  font-size: 20px;
+}
+</style>
 </head>
+
 <body>
-<a href="page2.html">
-            <img src="images/dressUp_back.png" id="back" class="stretch">
-        </a> 
-  <video
-    autoplay
-    playsinline
-    webkit-playsinline
-    preload="auto"
-  >
-    <source src="video/cloudsfinale_v1.mp4" type="video/mp4" />
-  </video>
+
+<button id="startBtn">Tap to Start</button>
+
+<video
+  id="video"
+  playsinline
+  webkit-playsinline
+  preload="auto"
+>
+  <source src="video/cloudsfinale_v1.mp4" type="video/mp4" />
+</video>
+
+<script>
+const video = document.getElementById('video');
+const btn = document.getElementById('startBtn');
+
+btn.addEventListener('click', async () => {
+  try {
+    video.muted = false;
+    await video.play();
+    btn.style.display = 'none';
+  } catch(err) {
+    console.log(err);
+  }
+});
+</script>
 
 </body>
 </html>
