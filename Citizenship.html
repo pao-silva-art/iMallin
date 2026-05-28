@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            body, html {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            #app1 {
+                position: absolute;
+                top: 10%;
+                left: 5%;
+                width: 15%;
+                z-index: 10;
+                animation: orbit 1s forwards infinite;
+                animation-timing-function: linear;
+            }
+
+            #app2 {
+                position: absolute;
+                top: 10%;
+                right: 5%;
+                width: 15%;
+                z-index: 10;
+                animation: orbit 3s forwards infinite;
+                animation-timing-function: linear;
+            }
+
+            #app3 {
+                position: absolute;
+                top: 30%;
+                left: 10%;
+                width: 15%;
+                z-index: 10;
+                animation: orbit 4s forwards infinite;
+                animation-timing-function: linear;
+            }
+
+            #app4 {
+                position: absolute;
+                top: 30%;
+                right: 10%;
+                width: 15%;
+                z-index: 10;
+                animation: orbit 1s forwards infinite;
+                animation-timing-function: linear;
+            }
+
+            #bg {
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 0;
+                height: 100%;
+                width: auto;
+            }
+
+            #banana {
+                position: absolute;
+                z-index: 17;
+                top: 7%;
+                left: 30%;
+                width: 50%;
+                animation: orbit 2s backwards infinite;
+                animation-timing-function: linear;
+                cursor: pointer;
+            }
+
+            #food {
+                position: absolute;
+                z-index: 2;
+                top: 60%;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80%;
+                animation: scale 1s;
+            }
+
+            #back {
+                z-index: 20;
+                width: 18%;
+                height: auto;
+                position: absolute;
+                left: 6%;
+                top: 83%;
+            }
+
+            @keyframes scale {
+                from { width: 0%; }
+                to   { width: 80%; }
+            }
+
+            @keyframes orbit {
+                from {  -webkit-transform: rotate(0deg) translateX(20px) rotate(0deg); }
+                to   {  -webkit-transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+            }
+
+
+            #countdown {
+    font-size: 5em;
+    display: inline-block;
+}
+
+             #idlePopup {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#idlePopup.active {
+    display: flex;
+}
+
+#idleBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#idleTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 4vw;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
+            #suggestOverlay {
+    display: none;
+    position: fixed;
+    z-index: 99999;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+#suggestOverlay.active {
+    display: flex;
+}
+
+#suggestBox {
+    width: 80%;
+    max-width: 80%;
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#suggestText {
+    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+    font-size: 5vW;
+    border: none;
+    margin-bottom: 10px;
+}
+
+#suggestActions button {
+   font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    font-size: 3vw;
+    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+    height: 5dvh;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+    border: NONE;
+    cursor: pointer;
+}
+
+
+        </style>
+    </head>
+    <body>
+    <a href="page2.html">
+        <img src="images/dressUp_back.png" id="back">
+    </a>
+    <a href="test.html">
+        <img src="images/banana_iPad.png" id="app1">
+        <img src="images/banana_iPad.png" id="app2">
+        <img src="images/banana_iPad.png" id="app3">
+        <img src="images/banana_iPad.png" id="app4">
+    </a>
+    <a href="test.html">
+        <img src="images/banana_c.png" id="banana">
+    </a>
+        <img src="images/unicornCake77.png" id="food">
+        <img src="images/youSaidNo2.jpg" id="bg">
+    
+</div>
+<div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+     <script>
+    (function(){
+    emailjs.init("r5fGUVRdcRUG5ROJG");
+})();
+    
+            const toggle = document.getElementById("toggle");
+            const container = document.getElementById("controlContainer");
+
+                toggle.addEventListener("click", () => {
+             container.classList.toggle("shifted");
+        });
+
+        const translateBtn = document.getElementById("translateBUTTON");
+const fortuneImg = document.getElementById("fortune");
+
+translateBtn.addEventListener("click", () => {
+    if (fortuneImg.src.includes("ESP")) {
+        fortuneImg.src = "images/page2_fortuneAD.png";
+    } else {
+        fortuneImg.src = "images/page2_fortuneAD-ESP.png";
+    }
+});
+
+const suggestBtn = document.getElementById("suggestBUTTON");
+const overlay = document.getElementById("suggestOverlay");
+const closeBtn = document.getElementById("closeSuggest");
+const submitBtn = document.getElementById("submitSuggest");
+const textArea = document.getElementById("suggestText");
+
+// Open popup
+suggestBtn.addEventListener("click", () => {
+    overlay.classList.add("active");
+});
+
+// Close popup
+closeBtn.addEventListener("click", () => {
+    overlay.classList.remove("active");
+});
+
+submitBtn.addEventListener("click", () => {
+    const message = textArea.value;
+
+    emailjs.send("service_dt37n1f", "template_8cpvrgh", {
+        message: message
+    }).then(() => {
+        alert("Suggestion sent!");
+        overlay.classList.remove("active");
+        textArea.value = "";
+    }, (error) => {
+        alert("Failed to send. Try again.");
+        console.error(error);
+    });
+});
+
+        /* function isMobile() {
+            return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
+          || window.innerWidth <= 768;
+        }
+
+            if (!isMobile()) {
+              document.body.classList.add("desktop");
+            } */
+    let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 10000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "index.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
+        </script>
+    </body>
+</html>

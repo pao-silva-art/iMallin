@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        html, body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+        }
+
+        #bg {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0%;
+            height: 100%;
+            width: auto;
+            z-index: 0;
+        }
+
+        #i1, #i2, #i3 {
+            z-index: 7;
+            animation: scale 1s;
+            cursor: pointer;
+        }
+
+        #i1 {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+        }
+
+        #i2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+        }
+
+        #i3 {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+        }
+
+        #op1, #op2, #op3 {
+            z-index: 5;
+            animation: scale 1s;
+        }
+
+        #op1 {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+        }
+
+        #op2 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%;
+        }
+
+        #op3 {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50%;
+        }
+
+        @keyframes scale {
+            from { width: 0%; }
+            to   { width: 50%; }
+        }
+
+        @keyframes spin {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        @keyframes popupScale {
+            from { transform: translate(-50%, -50%) scale(0); }
+            to   { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        #idlePopup,
+        #resultPopup {
+            display: none;
+            position: fixed;
+            z-index: 100000;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #idlePopup.active,
+        #resultPopup.active {
+            display: flex;
+        }
+
+        /* =========================
+           WINNER (NO BOX)
+        ========================= */
+
+        #supernova {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300vw;
+            height: 300vh;
+            transform: translate(-50%, -50%);
+            animation: spin 2s linear infinite;
+            z-index: 1;
+        }
+
+        #cake {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 70vw;
+            transform: translate(-50%, -50%);
+            animation: popupScale 1s ease-out forwards;
+            z-index: 2;
+        }
+
+        #resultTitle {
+            position: absolute;
+            width: 100%;
+            left: 50%;
+            top: 80%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+
+            font-size: 7vw; /* BIGGER WIN TEXT */
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 0.05em;
+
+            text-shadow:
+                0 0 5px blue,
+                0 0 10px blue,
+                0 0 20px blue,
+                0 0 40px blue;
+        }
+
+        /* =========================
+           LOSER BOX
+        ========================= */
+
+        #resultBox {
+            background-image: linear-gradient(to bottom, red, yellow);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            width: 60vw;
+            height: 60vh;
+        }
+
+        #resultTitle.loser {
+            position: absolute;
+            width: 90%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+
+            font-size: 8vw;
+            line-height: 1.05;
+
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+
+            text-shadow:
+                0 0 5px blue,
+                0 0 10px blue,
+                0 0 20px blue,
+                0 0 40px blue;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <img src="images/citizen_op1_1.png" id="i1">
+    <img src="images/citizen_op2_1.png" id="i2">
+    <img src="images/citizen_op3_1.png" id="i3">
+
+    <img src="images/citizen_btn.png" id="op1">
+    <img src="images/citizen_btn.png" id="op2">
+    <img src="images/citizen_btn.png" id="op3">
+
+    <img src="images/citizenship_bg.png" id="bg">
+
+    <!-- RESULT POPUP -->
+    <div id="resultPopup">
+
+        <div id="resultBox">
+
+            <img src="images/supernova.png" id="supernova">
+            <img src="images/unicornCake54.png" id="cake">
+
+            <h1 id="resultTitle"></h1>
+
+        </div>
+    </div>
+
+<script>
+
+const sequence = [];
+const correctSequence = ["i1", "i1", "i2", "i3"];
+
+const resultPopup = document.getElementById("resultPopup");
+const resultTitle = document.getElementById("resultTitle");
+
+let clickCount = 1;
+
+function updateImages() {
+
+    const stage = Math.min(clickCount, 4);
+
+    document.getElementById("i1").src =
+        `images/citizen_op1_${stage}.png`;
+
+    document.getElementById("i2").src =
+        `images/citizen_op2_${stage}.png`;
+
+    document.getElementById("i3").src =
+        `images/citizen_op3_${stage}.png`;
+}
+
+function showWinner() {
+
+    resultPopup.classList.add("active");
+
+    document.getElementById("cake").style.display = "block";
+    document.getElementById("supernova").style.display = "block";
+
+    resultTitle.className = ""; // remove loser style
+
+    resultTitle.innerHTML =
+        "You are Now A Mall Citizen.";
+
+    setTimeout(() => {
+        window.location.href = "page2.html";
+    }, 6000);
+}
+
+function showLoser() {
+
+    resultPopup.classList.add("active");
+
+    document.getElementById("cake").style.display = "none";
+    document.getElementById("supernova").style.display = "none";
+
+    resultTitle.className = "loser";
+
+    resultTitle.innerHTML =
+        "YOU FAILED<br>THE CITIZENSHIP TEST.";
+
+    setTimeout(() => {
+        window.location.href = "page2.html";
+    }, 6000);
+}
+
+function handleChoice(choice) {
+
+    sequence.push(choice);
+    clickCount++;
+    updateImages();
+
+    if (sequence.length < 4) return;
+
+    let passed = true;
+
+    for (let i = 0; i < correctSequence.length; i++) {
+        if (sequence[i] !== correctSequence[i]) {
+            passed = false;
+            break;
+        }
+    }
+
+    if (passed) showWinner();
+    else showLoser();
+}
+
+document.getElementById("i1").addEventListener("click", () => handleChoice("i1"));
+document.getElementById("i2").addEventListener("click", () => handleChoice("i2"));
+document.getElementById("i3").addEventListener("click", () => handleChoice("i3"));
+
+</script>
+
+</body>
+</html>
