@@ -112,6 +112,28 @@ btn.addEventListener('click', async () => {
     console.log(err);
   }
 });
+
+<script>
+const video = document.getElementById("video");
+const popup = document.getElementById("audioPopup");
+
+document.addEventListener("pointerdown", async () => {
+    if (!popup.classList.contains("hidden")) {
+
+        try {
+            video.muted = false;
+            await video.play();
+
+            popup.classList.add("hidden");
+
+        } catch(err) {
+            console.log(err);
+        }
+
+    }
+}, { once: true });
+</script>
+      
 </script>
 
 </body>
