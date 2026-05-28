@@ -8,6 +8,17 @@
                 padding: 0;
             }
 
+            #insert {
+                position: absolute;
+                z-index: 10;
+                width: 60%;
+                height: auto;
+                top: 1%;
+                left: 50%;
+                transform: translateX(-50%);
+                animation: scale 1s;
+            }
+
             #ig {
                 position: absolute;
                 z-index: 40;
@@ -31,9 +42,9 @@
             #text {
                 position: absolute;
                 z-index: 2;
-                width: 50%;
+                width: 35%;
                 height: auto;
-                top: 20%;
+                top: 33%;
                 left: 50%;
                 transform: translateX(-50%);
                 animation: fade 1s;
@@ -42,6 +53,11 @@
             @keyframes fade {
                 from { opacity: 0%; }
                 to   { opacity: 100%; }
+            }
+
+            @keyframes scale {
+                from { width: 0%; }
+                to   { width: 60%; }
             }
             
             #bg {
@@ -56,13 +72,14 @@
         </style>
     </head>
     <body>
+        <img src="images/About_insert.png" id="insert">
         <a href="https://www.instagram.com/pao.la.silva/">
             <img src="images/About_ig_btn.png" id="ig">
         </a>
         <a href="page2.html">
             <img src="images/About_back_btn.png" id="back">
         </a>
-        <img src="images/about_text.png" id="text">
+        <img src="images/about_text2.png" id="text">
         <img src="images/About_bg.png" id="bg">
     </body>
 </html>
