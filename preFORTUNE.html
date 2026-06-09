@@ -64,6 +64,33 @@
                 animation: fade 5s;
             }
 
+            /* Tablet / iPad landscape */
+
+@media (min-width: 1024px) and (orientation: landscape) {
+
+    #controlContainer {
+        width: 50%;
+    }
+
+    #text,
+    .cards {
+        width: 50%;
+    }
+
+    #option1,
+    #option2 {
+        width: 20%;
+    }
+
+    #suggestBox {
+        max-width: 80%;
+    }
+
+    #suggestActions button {
+        font-size: 2vw;
+    }
+}
+
             #countdown {
     font-size: 5em;
     display: inline-block;
@@ -197,8 +224,7 @@
     font-family: Arial, Helvetica, sans-serif;
     color: aliceblue;
     text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
-    font-size: 5vw;
-    box-sizing: border-box;
+    font-size: 5vW;
     border: none;
     margin-bottom: 10px;
 }
@@ -218,7 +244,7 @@
 
             #catalogBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(255, 0, 102, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 17%;
@@ -319,9 +345,7 @@
             <div id="homeBUTTON"></div>
         </a>
             <div id="catalogBUTTON"></div>
-        <a href="about.html">
             <div id="aboutBUTTON"></div>
-        </a>
             <div id="translateBUTTON"></div>
             <div id="toggle"></div>
         </div>
@@ -395,6 +419,31 @@ submitBtn.addEventListener("click", () => {
         console.error(error);
     });
 });
+const translateBtn = document.getElementById("translateBUTTON");
+const option1 = document.getElementById("option1");
+const option1Link = document.getElementById("option1Link");
+const textImg = document.getElementById("text");
+
+let spanishMode = false;
+
+translateBtn.addEventListener("click", () => {
+
+    spanishMode = !spanishMode;
+
+    if (spanishMode) {
+
+        option1.src = "images/preFORTUNE-esp1-option1.png";
+        option1Link.href = "fortunes_esp.html";
+        textImg.src = "images/preFORTUNE-esp1.png";
+
+    } else {
+
+        option1.src = "images/preFORTUNE-eng1-option1.png";
+        option1Link.href = "fortunes.html";
+        textImg.src = "images/preFORTUNE-eng1.png";
+    }
+});
+
 let idleTimer;
 let countdownTimer;
 let countdownValue = 5;
