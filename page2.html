@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
         <style>
             body{
                 margin: 0;
@@ -133,9 +134,8 @@
     width: 100%;
     font-family: Arial, Helvetica, sans-serif;
     color: aliceblue;
-    box-sizing: border-box;
     text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
-    font-size: 5vw;
+    font-size: 5vW;
     border: none;
     margin-bottom: 10px;
 }
@@ -279,7 +279,7 @@
 
             #catalogBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(255, 0, 102, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 17%;
@@ -331,6 +331,40 @@
                 z-index: 11;
                 cursor: pointer;
             }
+            
+            /* =====================================================
+   TABLET / LANDSCAPE LAYOUT
+===================================================== */
+
+@media (min-aspect-ratio: 4/3){
+
+    #fortune{
+        top:15%;
+        left:20%;
+        width:30%;
+    }
+
+    #banana_I,
+    #fresa,
+    #zanahoria,
+    #mushroom,
+    #uva{
+        width:10%;
+    }
+
+    #controlContainer{
+        width:50%;
+    }
+
+    #suggestText{
+        width:90%;
+        font-size:3vw;
+    }
+
+    #suggestActions button{
+        font-size:2vw;
+    }
+}
 
             #icons {
                 position: absolute;
@@ -356,7 +390,7 @@
             <img src="images/page2_fortuneAD.png" id="fortune">
          </a>
         <a href="Citizenship.html">
-        <img src="images/banana_iPad.png" id="banana_I">
+            <img src="images/banana_iPad.png" id="banana_I">
         </a>
         <a href="loveCalculator.html">
             <img src="images/fresa_iPad.png" id="fresa">
@@ -381,9 +415,7 @@
             <div id="homeBUTTON"></div>
         </a>
             <div id="catalogBUTTON"></div>
-        <a href="about.html">
             <div id="aboutBUTTON"></div>
-        </a>
             <div id="translateBUTTON"></div>
             <div id="toggle"></div>
         </div>
@@ -402,6 +434,9 @@
         <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
     </div>
 </div>
+<audio id="burpSound" preload="auto" playsinline>
+    <source src="burp.m4a" type="audio/mp4">
+</audio>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
      <script>
     (function(){
@@ -456,7 +491,18 @@ submitBtn.addEventListener("click", () => {
         console.error(error);
     });
 });
+document.addEventListener("pointerdown", () => {
 
+    const burp = new Audio("burp.m4a");
+
+    burp.playsInline = true;
+    burp.volume = 1;
+
+    burp.play().catch(err => {
+        console.log(err);
+    });
+
+});
         /* function isMobile() {
             return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
           || window.innerWidth <= 768;
