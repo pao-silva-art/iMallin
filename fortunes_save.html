@@ -441,7 +441,7 @@ async function saveFortune() {
   canvas.height = 1920;
 
   const bg = new Image();
-  const supernova = new Image();
+  const supernovaImg = new Image();
   const cake = new Image();
 
   let loaded = 0;
@@ -452,11 +452,30 @@ async function saveFortune() {
   }
 
   bg.onload = ready;
-  supernova.onload = ready;
+  supernovaImg.onload = ready;
   cake.onload = ready;
 
+  bg.onerror = () => console.log("bg failed");
+supernovaImg.onerror = () => console.log("supernova failed");
+cake.onerror = () => console.log("cake failed");
+
+bg.onload = () => {
+  console.log("bg loaded");
+  ready();
+};
+
+supernovaImg.onload = () => {
+  console.log("supernova loaded");
+  ready();
+};
+
+cake.onload = () => {
+  console.log("cake loaded");
+  ready();
+};
+
   bg.src = "images/divination-bg.png";
-  supernova.src = "images/supernova.png";
+  supernovaImg.src = "images/supernova.png";
   cake.src = currentImage;
 
   function renderCard() {
