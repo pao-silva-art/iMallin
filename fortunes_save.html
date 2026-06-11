@@ -520,60 +520,30 @@ async function saveFortune() {
       canvas.height
     );
 
-    // title
-
-    ctx.textAlign = "center";
-    ctx.fillStyle = "white";
-
-    ctx.shadowColor = "#00AAFF";
-    ctx.shadowBlur = 40;
-
-    ctx.font = "bold 80px Arial";
-
-    ctx.fillText(
-      "UNICORN CAKE TAROT",
-      canvas.width / 2,
-      120
-    );
-
     // cake image
 
-    const cakeSize = 720;
+    const maxWidth = 820;
+const maxHeight = 820;
 
-    ctx.drawImage(
-      cake,
-      (canvas.width - cakeSize) / 2,
-      180,
-      cakeSize,
-      cakeSize
-    );
+const scale = Math.min(
+  maxWidth / cake.width,
+  maxHeight / cake.height
+);
 
-    // glowing frame
+const drawWidth = cake.width * scale;
+const drawHeight = cake.height * scale;
 
-    ctx.strokeStyle = "#66CCFF";
-    ctx.lineWidth = 8;
-
-    ctx.shadowColor = "#00AAFF";
-    ctx.shadowBlur = 50;
-
-    ctx.strokeRect(
-      (canvas.width - cakeSize) / 2,
-      180,
-      cakeSize,
-      cakeSize
-    );
+ctx.drawImage(
+  cake,
+  (canvas.width - drawWidth) / 2,
+  100,
+  drawWidth,
+  drawHeight
+);
 
     // card number
 
     const cardNumber = images.indexOf(currentImage) + 1;
-
-    ctx.font = "36px Arial";
-
-    ctx.fillText(
-      `Card ${cardNumber} of 88`,
-      canvas.width / 2,
-      940
-    );
 
     // fortune text
 
@@ -581,28 +551,31 @@ async function saveFortune() {
     ctx.shadowColor = "#0088FF";
     ctx.shadowBlur = 35;
 
-    ctx.font = "56px Arial";
+    ctx.font = "62px Arial";
 
-    wrapText(
-      ctx,
-      currentText,
-      canvas.width / 2,
-      1040,
-      900,
-      72
-    );
+   wrapText(
+  ctx,
+  currentText,
+  canvas.width / 2,
+  980,
+  920,
+  78
+);
 
-    // footer
+    // footer + card number
 
-    ctx.font = "28px Arial";
+    ctx.font = "42px Arial";
 
-    ctx.fillStyle = "rgba(255,255,255,0.9)";
+ctx.fillStyle = "rgba(255,255,255,0.95)";
 
-    ctx.fillText(
-      new Date().toLocaleDateString(),
-      canvas.width / 2,
-      1840
-    );
+ctx.shadowColor = "#0088FF";
+ctx.shadowBlur = 25;
+
+ctx.fillText(
+  `Card ${cardNumber} of 88`,
+  canvas.width / 2,
+  1840
+);
 
     const link = document.createElement("a");
 
