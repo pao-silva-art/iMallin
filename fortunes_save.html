@@ -341,17 +341,16 @@ function getRandom(arr) {
 }
 
 function startSequence() {
+
   const img = document.getElementById("randomImage");
   const supernova = document.getElementById("supernova");
   const textBox = document.getElementById("textContainer");
   const button = document.getElementById("buttonContainer");
 
-  // reset
   button.style.display = "none";
 
   textBox.classList.remove("show");
   void textBox.offsetWidth;
-  textBox.style.bottom = "-100dvh";
 
   img.style.opacity = 1;
   img.classList.remove("animate");
@@ -359,80 +358,82 @@ function startSequence() {
   supernova.style.opacity = 1;
   supernova.classList.remove("animate");
 
-  // force reset animations
   void img.offsetWidth;
   void supernova.offsetWidth;
 
-  // content
   currentImage = getRandom(images);
   currentText = getRandom(texts);
 
   img.src = currentImage;
   textBox.innerText = currentText;
 
-  // start animations immediately
   img.classList.add("animate");
   supernova.classList.add("animate");
 
-  // fade both out after 2s
   setTimeout(() => {
     img.style.opacity = 0;
     supernova.style.opacity = 0;
   }, 2000);
 
-  // show text
   setTimeout(() => {
     textBox.classList.add("show");
   }, 400);
 
-  // show button
   setTimeout(() => {
     button.style.display = "block";
   }, 10000);
 }
+
 let idleTimer;
 let countdownTimer;
 let countdownValue = 5;
-// start automatically
+
 startSequence();
+
 const popup = document.getElementById("idlePopup");
 const countdownEl = document.getElementById("countdown");
 
-// Reset everything on activity
 function resetIdle() {
-    clearTimeout(idleTimer);
-    clearInterval(countdownTimer);
-    popup.classList.remove("active");
-    countdownValue = 10;
+
+  clearTimeout(idleTimer);
+  clearInterval(countdownTimer);
+
+  popup.classList.remove("active");
+
+  countdownValue = 10;
+  countdownEl.textContent = countdownValue;
+
+  idleTimer = setTimeout(startCountdown, 15000);
+}
+
+function startCountdown() {
+
+  popup.classList.add("active");
+
+  countdownTimer = setInterval(() => {
+
+    countdownValue--;
     countdownEl.textContent = countdownValue;
 
-    idleTimer = setTimeout(startCountdown, 15000); // 10 seconds idle
+    if (countdownValue <= 0) {
+
+      clearInterval(countdownTimer);
+      window.location.href = "index.html";
+
+    }
+
+  }, 1000);
 }
 
-// Start countdown popup
-function startCountdown() {
-    popup.classList.add("active");
-
-    countdownTimer = setInterval(() => {
-        countdownValue--;
-        countdownEl.textContent = countdownValue;
-
-        if (countdownValue <= 0) {
-            clearInterval(countdownTimer);
-            window.location.href = "index.html";
-        }
-    }, 1000);
-}
-
-// Listen for ANY pointer activity
 ["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
-    document.addEventListener(event, resetIdle);
+  document.addEventListener(event, resetIdle);
 });
 
-// Initialize
 resetIdle();
 
 async function saveFortune() {
+
+  console.log("Save clicked");
 
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
@@ -447,32 +448,33 @@ async function saveFortune() {
   let loaded = 0;
 
   function ready() {
+
     loaded++;
-    if (loaded === 3) renderCard();
+
+    if (loaded === 3) {
+      renderCard();
+    }
+
   }
 
-  bg.onload = ready;
-  supernovaImg.onload = ready;
-  cake.onload = ready;
+  bg.onload = () => {
+    console.log("bg loaded");
+    ready();
+  };
 
-  bg.onerror = () => console.log("bg failed");
-supernovaImg.onerror = () => console.log("supernova failed");
-cake.onerror = () => console.log("cake failed");
+  supernovaImg.onload = () => {
+    console.log("supernova loaded");
+    ready();
+  };
 
-bg.onload = () => {
-  console.log("bg loaded");
-  ready();
-};
+  cake.onload = () => {
+    console.log("cake loaded");
+    ready();
+  };
 
-supernovaImg.onload = () => {
-  console.log("supernova loaded");
-  ready();
-};
-
-cake.onload = () => {
-  console.log("cake loaded");
-  ready();
-};
+  bg.onerror = () => console.error("bg failed");
+  supernovaImg.onerror = () => console.error("supernova failed");
+  cake.onerror = () => console.error("cake failed");
 
   bg.src = "images/divination-bg.png";
   supernovaImg.src = "images/supernova.png";
@@ -480,15 +482,26 @@ cake.onload = () => {
 
   function renderCard() {
 
-    // Background
-    ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+    console.log("renderCard running");
 
-    // Supernova layer
+    // background
+
+    ctx.drawImage(
+      bg,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    // supernova
+
     ctx.save();
+
     ctx.globalAlpha = 0.35;
 
     ctx.drawImage(
-      supernova,
+      supernovaImg,
       -canvas.width,
       -canvas.height / 2,
       canvas.width * 3,
@@ -497,11 +510,18 @@ cake.onload = () => {
 
     ctx.restore();
 
-    // Darken for readability
-    ctx.fillStyle = "rgba(0,0,0,0.35)";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // dark overlay
 
-    // Title
+    ctx.fillStyle = "rgba(0,0,0,0.35)";
+    ctx.fillRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    // title
+
     ctx.textAlign = "center";
     ctx.fillStyle = "white";
 
@@ -516,7 +536,8 @@ cake.onload = () => {
       120
     );
 
-    // Cake image
+    // cake image
+
     const cakeSize = 720;
 
     ctx.drawImage(
@@ -527,16 +548,8 @@ cake.onload = () => {
       cakeSize
     );
 
-    const cardNumber = images.indexOf(currentImage) + 1;
-        ctx.font = "36px Arial";
+    // glowing frame
 
-    ctx.fillText(
-      `Card ${cardNumber} of 88`,
-      canvas.width / 2,
-      900
-    );
-
-    // Fancy glowing frame
     ctx.strokeStyle = "#66CCFF";
     ctx.lineWidth = 8;
 
@@ -550,29 +563,38 @@ cake.onload = () => {
       cakeSize
     );
 
-    // Fortune text
-    ctx.shadowColor = "#0099FF";
-    ctx.shadowBlur = 50;
-    ctx.fillStyle = "white";
+    // card number
 
+    const cardNumber = images.indexOf(currentImage) + 1;
+
+    ctx.font = "36px Arial";
+
+    ctx.fillText(
+      `Card ${cardNumber} of 88`,
+      canvas.width / 2,
+      940
+    );
+
+    // fortune text
+
+    ctx.fillStyle = "white";
     ctx.shadowColor = "#0088FF";
     ctx.shadowBlur = 35;
 
-    // MUCH larger
     ctx.font = "56px Arial";
 
     wrapText(
       ctx,
       currentText,
       canvas.width / 2,
-      1020,
+      1040,
       900,
       72
     );
 
-    // Footer
+    // footer
+
     ctx.font = "28px Arial";
-    ctx.shadowBlur = 15;
 
     ctx.fillStyle = "rgba(255,255,255,0.9)";
 
@@ -585,12 +607,52 @@ cake.onload = () => {
     const link = document.createElement("a");
 
     link.download = "unicorncake-tarot-reading.png";
+
     link.href = canvas.toDataURL("image/png");
 
     document.body.appendChild(link);
+
     link.click();
+
     document.body.removeChild(link);
+
+    console.log("download triggered");
   }
+}
+
+function wrapText(
+  ctx,
+  text,
+  x,
+  y,
+  maxWidth,
+  lineHeight
+) {
+
+  const words = text.split(" ");
+  let line = "";
+
+  for (let n = 0; n < words.length; n++) {
+
+    const testLine = line + words[n] + " ";
+    const metrics = ctx.measureText(testLine);
+
+    if (metrics.width > maxWidth && n > 0) {
+
+      ctx.fillText(line, x, y);
+
+      line = words[n] + " ";
+
+      y += lineHeight;
+
+    } else {
+
+      line = testLine;
+
+    }
+  }
+
+  ctx.fillText(line, x, y);
 }
 
 </script>
