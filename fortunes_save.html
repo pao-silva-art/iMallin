@@ -534,6 +534,16 @@ ctx.drawImage(
   drawHeight
 );
 
+ctx.font = "bold 56px Arial";
+ctx.fillStyle = "rgba(255,255,255,0.95)";
+ctx.shadowColor = "#2A4CFF";
+ctx.shadowBlur = 25;
+
+ctx.fillText(
+  `${cardNumber} / 88`,
+  canvas.width / 2,
+  60 + drawHeight + 80
+);
     // card number
 
     const cardNumber = images.indexOf(currentImage) + 1;
@@ -541,7 +551,7 @@ ctx.drawImage(
     // fortune text
 
     ctx.fillStyle = "white";
-    ctx.shadowColor = "#0088FF";
+    ctx.shadowColor = "#1F3BFF";
     ctx.shadowBlur = 35;
 
     ctx.font = "bold 80px Arial";
@@ -561,14 +571,9 @@ ctx.drawImage(
 
 ctx.fillStyle = "rgba(255,255,255,0.95)";
 
-ctx.shadowColor = "#0088FF";
+ctx.shadowColor = "#1F3BFF";
 ctx.shadowBlur = 25;
 
-ctx.fillText(
-  `Card ${cardNumber} of 88`,
-  canvas.width / 2,
-  1760
-);
 
     const link = document.createElement("a");
 
