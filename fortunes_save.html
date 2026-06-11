@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <link rel="preload" href="images/divination-bg.png" as="image">
+<link rel="preload" href="images/supernova.png" as="image">
+<link rel="preload" href="fortunes_bg.mp3" as="audio">
+        <style>
+            html,body{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: black;
+                font-family: Arial, Helvetica, sans-serif;
+                color: aliceblue;
+                text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+                height: 100%;
+                position: fixed;
+                width: 100%;
+            }
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+            #bg{
+                position: absolute;
+                height: 100%;
+                z-index: 0;
+                transform: translateY(0);
+            }
+            #imageContainer {
+                position: absolute;
+                width: 100%;
+                 height: 100%;
+                z-index: 1;
+            }
+
+  #imageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 1;
+    transition: opacity 2s ease;
+  }
+
+#textContainer {
+  position: absolute;
+  text-align: center;
+  left: 50%;
+  transform: translate(-50%, 100vh); /* start off screen */
+  width: 80%;
+  max-width: 800px;
+  font-size: 9dvh; /* slightly smaller helps too */
+  bottom: auto;   /* remove bottom entirely */
+}
+
+#textContainer.show {
+  animation: scrollUp 20s linear forwards;
+  opacity: 1;
+
+}
+
+:root {
+  --scroll-start: 20%;
+  --scroll-end: -300%;
+  --button-font-size: 5dvh;
+}
+
+/* iPhone / portrait phones */
+@media screen and (orientation: portrait) and (max-width: 900px) {
+  :root {
+    --scroll-start: 100vh;
+    --scroll-end: -100%;
+    --button-font-size: 4dvh;
+  }
+}
+
+@keyframes scrollUp {
+  from {
+    transform: translate(-50%, var(--scroll-start));
+  }
+  to {
+    transform: translate(-50%, var(--scroll-end));
+  }
+}
+
+  #buttonContainer {
+    position: absolute;
+    z-index: 200;
+    top: 85%;
+    width: 100%;
+    display: none;
+  }
+
+  /* random image (zoom + fade) */
+#randomImage {
+  position: relative;
+  z-index: 2;
+  transform: scale(0.1);
+  opacity: 1;
+}
+
+/* when active */
+#randomImage.animate {
+  animation: zoomIn 2s ease forwards;
+}
+
+/* zoom animation */
+@keyframes zoomIn {
+  from {
+    transform: scale(0.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+  #countdown {
+                font-size: 5em;
+                 display: inline-block;
+            }
+
+            #idlePopup {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#idlePopup.active {
+    display: flex;
+}
+
+#idleBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#idleTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 4vw;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
+/* supernova spinning */
+#supernova {
+  position: fixed;      /* always relative to viewport */
+  top: 50%;
+  left: 50%;
+  width: 300vw;         /* 3x viewport width */
+  height: 300dvh;        /* 3x viewport height */
+  object-fit: cover;    /* cover while keeping aspect ratio */
+  transform: translate(-50%, -50%) rotate(0deg); /* centered */
+  z-index: 1;           /* behind randomImage */
+  opacity: 0.8;
+  pointer-events: none; /* don’t block clicks */
+}
+
+#randomImage, #supernova {
+  transition: opacity 2s ease; /* smooth fade */
+}
+
+/* spinning animation */
+#supernova.animate {
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+#saveBtn {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: aliceblue;
+  text-shadow: 0px 0px 2dvh blue,
+               0px 0px 1dvh blue,
+               0px 0px 7dvh blue;
+  font-size: var(--button-font-size);
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  box-shadow: 0px 0px 15px blue;
+}
+  #tryAgainBtn {
+    position: absolute;
+    left: 30%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+    font-size: var(--button-font-size);
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    box-shadow: 0px 0px 15px blue;
+  }
+
+  #goBackBtn {
+    position: absolute;
+    right: 30%;
+    transform: translateX(50%);
+    padding: 10px 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: aliceblue;
+    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+    font-size: var(--button-font-size);
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    box-shadow: 0px 0px 15px blue;
+  }
+</style>
+</head>
+<body>
+     <audio autoplay loop style="display:none;">
+          <source src="fortunes_bg.mp3" type="audio/mp3">
+          Your browser does not support the audio element.
+        </audio>
+ <img src="images/divination-bg.png" id="bg" class="stretch"> 
+ <img id="supernova" src="images/supernova.png">
+<div id="imageContainer">
+ 
+  <img id="randomImage" src="">
+</div>
+
+<div id="textContainer"></div>
+
+<div id="buttonContainer">
+  <button id="tryAgainBtn" onclick="location.reload()">Try Again</button>
+  <button id="saveBtn" onclick="saveFortune()">
+    Save
+  </button>
+  <button id="goBackBtn" onclick="location.href='page2.html'">
+    Go Back
+  </button>
+</div>
+
+<div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+    </div>
+</div>
+
+<script>
+const images = Array.from({ length: 88 }, (_, i) => `images/unicornCake${i + 1}.png`);
+
+const texts = [
+`Just because it's compelling doesn't mean it's true. You believe the worst outcome is the only possible one because you think life is a movie. No amount of analysis will change the outcome. Don't try to be brave.`,
+`At least twenty-three more rejections coming your way. Speed through them. Be smart but be stupid about it. You have rotten veggies in the fridge, toss them. Sometimes you get rejected because you weren't the best.`,
+`You will fall on your ass soon. Literally. Like slip and fall on your ass. Someone will block you. Tomorrow, good luck parking. Block someone yourself and feel the balance reshared. Wear red underwear for good luck.`,
+`You overhear a conversation that confirms your impulse to dislike someone. Stop waiting for vindication on your opinions of people. You can't have revenge and self-pity. If you're going to be a bitch do it right.`,
+`A beautiful creative opportunity is coming your way. You'll get really close, but you won't get it. You deserved it, but it's not your time. Wash your ass more aggressively. You need to switch shampoos.`,
+`You're mad at your dad but he's right. Don't text your ex. Impusiveness will be destructive today. You're grumpy because you have to fart. Squat for ten minutes and let it all hang loose. It's ok to be gross.`,
+`Times feel hopeless. It seems your worst fear has come true, but you have to wait and see if the other shoe drops. The wait is agony. Focus on taking naps, flossing, writing things down. Go easy on the banana bread.`,
+`You can't get better until you accept you are sick. Sickness makes you grow a little meaner. The people who love you will understand. But make sure you stop eating sour candy. Don't sleep with headphones.`,
+`Your opinion on a friend changed. You dislike them, but can't admit it to yourself. The kindest thing you can do is be selfish. Break the friendship before you turn meaner. Rice noodles will change your life tonight.`,
+`You think being self-deprecating only hurts yourself, but you're becoming an arrogant bitch without realizing. It's making other people uncomfortable. Other people can't be your garbage can. Remember to stretch.`,
+`Good day to experiment. Shoutout to my grandfather who eats chicken soup with a banana. I think it's so disgusting. It's a good time for a weird combination. You're stuck between two choices, why not both?`,
+`You really hate someone and everything they do. It's actually because there is something unsaid between you. Try to let them know of your conflict without being mean. You still will probably not get along.`,
+`It will never be a good time. It will never be the perfect time. Might as well do it now. Holding feelings in makes you sick. You think you're balding but you actually look the same.`,
+`You're not ovulating, it's a yeast infection. You're not ovulating, it's a yeast infection. You're not ovulating, it's a yeast infection. You're not ovulating, it's a yeast infection.`,
+`It's not a yeast infection, you're just ovulating. It's not a yeast infection, you're just ovulating. It's not a yeast infection, you're just ovulating. It's not a yeast infection, you're just ovulating.`,
+`Your shoes are starting to stink. Stop being cheap and get a new pair. Master the art of meal-planning. You shouldn't have a pet, you are too anxious. Stop looking for tarot card readings on Instagram.`,
+`She doesn't like you back. Honestly, why would you think that? Move forward through the path of curiosity; feel a genuine desire to get to know someone. People love reveals and questions. Make it exciting.`,
+`You like confronting people. It's so much fun. You will confront someone but you will be wrong. Laugh about it and move on. Not everything is make or break. You will watch three Warren Beatty movies.`,
+`You read into people's words too much. Not everyone has an unknown agenda against you. I think you're just projecting the way you feel. Ever thought you're the one against them? Go outside on an errand.`,
+`You feel too sure about something, but it will fail. You disregard an idea as too easy and weird... This is your actual calling. You will spend too much money on a failure project. Give away your work to friends.`,
+`You feel jealous over a missed opportunity. But when you think about it, you never belonged. You like the potential prestige, but you don't actually like them. For better or worse, you already know what to do.`,
+`You meet someone you like and it's terrifying. Go up to them with naked words: say you're nervous, say you hate beating around the bush, say you like them because you mean it. The rest will work.`,
+`Your vanity is making your artwork suffer. Collaborate to release control, and to make your work better. Beauty is calling to you, but beauty won't make you worthy. Donate one piece of beautiful clothing.`,
+`You're stuck between two options. One is your duty, the other feels interesting. What will you regret missing out on in five years? Be a little selfish today. It will feel wrong, but it's necessary.`,
+`He is happier without you. You don't realize it yet, but so are you. You thought he would be an American embrace, but he just smelled like fart. Time to give in to loneliness. Your angst will bring great work.`,
+`Today you miss the dearly departed. You find out another way they loved you. It's time to sit with tears. My grandmother's tamales are still in the freezer. They outlived her. Something else outlives us both.`,
+`You feel upset because you won't let yourself be spoiled. You won't let yourself be angry. Be the spoiled bitch child in private. You will get over your pain quickly. Throw tantrums and then dance.`,
+`Yes you're the bad guy for now. I think when you sit back, both of you were right. The people that care about you truly are still there. They know your ugliness, but they accept it. You want to be better for them.`,
+`Stop eating things you don't like. Don't finish the book you hate. Stop fighting for people who don't care. You're not getting a medal for enduring pain. Be weak. Walk away already.`,
+`Massive breakdown coming soon. Your self-flagellation is not noble. When there's nothing you can do, remember love. When you think you're better than everyone else, don't be surprised if they dislike you.`,
+`It's a good day today. Afternoon in the park, inside jokes, funny conversations that build and build. Time with friends, seeing art that blows your mind. You have a piece of salmon. It's so good you just sit back.`,
+`The cusp of a big break. A gorgeous spectacle. You think it will come in a big bang, but it actually creeps in. You will meet someone important in your field. You will get the one award you wanted.`,
+`Don't assume people know what you want. Spell it out. You're going to watch a horrible movie soon. Other people around you will like it and this will ruin the friendship. It's ok to walk away.`,
+`Let's chase pavements. Drink the milkshake that's a little tart. Write the awful love letter. Lean in to touch the art. Tell someone you dislike them. Imagine that ideal you and wear the costume for one day.`,
+`Yeah everybody dies, but you knew this going in. Is the pain worth the gain? Is the loss worth the beauty? Buy a cake for yourself, cut a piece. Have a good meal and take yourself on a date. The day is nice.`,
+`The fear takes you far and away. You are sitting here but in your mind you're abandoned, dying, and damned. Feel your toes wiggle. You're sitting watching Postcards from the Edge. You don't yet know.`,
+`That nosy coworker is not your friend. Do not bite the bait. Sometimes, too much choice is worse. A painful conversation makes you think things are over, but they’re just beginning. You’re scared you will end the loser.`,
+`You are horny all the time. Do not feel ashamed. You think you have to put it into words. Just describe the feeling. You have too many books on your desk. You will encounter someone obsessed with Princess Diana.`,
+`New job incoming. Nothing to do with your passions. Possible betrayal in your midst. You knew it should have ended but you kept going. Painful transformation but zen is just within reach. Give up pride to begin healing.`,
+`Grief becomes control. Emotions can’t be thought over, they can’t be dominated through reason. The feeling is so painful. Be wary of anyone claiming to have the “cure.” The human body is more complicated than that.`,
+`Falling in love and loving is not the same. Finally you find someone who understands you, but too quickly they try to control you. Do what you do best, speak the truth. Maybe they can understand you. Love is coming no matter what.`,
+`An unexpected collaboration with someone you used to talk shit about. Turns out you two have a lot in common. You will get mad at them but if you just say it out loud you won’t resent them. Your pants will rip soon.`,
+`Take a Screenwriting class. You’re not going to be good but the ideas will flow so fast you will consider taking it seriously. Just because people reject you doesn’t mean they dislike you. Don’t be a weirdo, say hi.`,
+`He doesn’t like you back. Cry for three hours then go out and do something a little impulsive. Remember how much you loved Hannah Montana? It’s the climb, baby. You never loved this guy. Better stuff to come.`,
+`No matter what you feel like a failure. It’s time to finish things. Take a stupid idea very seriously. Give it the most expensive materials. Find a place to show it. Get your friends involved. Make a book you can give away.`,
+`Like a piñata you put care and craft to something that is meant to be destroyed. It’s not futile. It is to make a spectacular disaster. Make this year a piñata. Know it’s meant to break. Swing a bat and take the candy.`,
+`Try it for one year. If that’s too long, try it for six months. Give it a chance. Say thank you. If it makes you feel better, tell yourself it’s a joke. Give your loved ones a kiss. Write a snail mail letter. Use your favorite sticker.`,
+`Time to move out. I see a pet coming your way. You will feel better. Go to the grocery store and freak out about meat. It’s a good day to fall asleep at 7pm. Think about all the people who have come and gone.`,
+`Sometimes you’re just in a bad mood because you need a shower. Or a snack. Or a good nap. It’s really that simple. Disassociate, pretend you are a Sim. What do you need? What problem seems silly? Think it over.`,
+`I think you’re convincing yourself because you feel guilty about your actual desire. You keep making lists on whether to keep a friend in your life. Fact is, you just don’t feel they should be there. Honor that.`,
+`Don’t start projects when you’re tired. You will make mistakes, and you will have to try again. Don’t make any big decisions. Go to sleep. You’re a baby. You have a diaper fetish. You like piss. `,
+`You’re thinking a boundary over. You meant it when you said it but now you’ve changed your mind, but can’t admit it to yourself. You’re scared that this change says something about you. Just admit it.`,
+`Say it how you just said it. Exactly like that. Be straight up. Ask to talk in person. Say it and walk away. Don’t buy that sweet snack. You need to budget. Refuse to go out. This time you need to be alone.`,
+`He loved you truly. But he can't be with you. Confrontation is hard, but live with no regrets. You take life too seriously, and yet, not seriously enough. Write a big long angry text and don’t send it. He will come back.`,
+`Strap in for the ride. You are going insane for three weeks. It will be easier after these three weeks are over. Some big shock, loss, betrayal. Have screaming matches to decompress. Make sure to have plenty of yoghurt on standby. `,
+`Your medical test will come back abnormal. Strap in for a month of scary feelings. Live day by day. Lots of betrayal. Disappointment from someone close to you. Endless rejection. It has to get worse before it gets better.`,
+`Everybody thinks this is going to be them, but for you it is actually true. Like one of few people. You are getting back together. You will be farting in a very public place soon. Your close friend has an embarrassing fetish. After this, you will never judge anyone.`,
+`You will see your love again. It may seem like the last time, but you will hear from them once more. You love each other very much, but it takes more than love for relationships to work. Let go, but don't give up.`,
+`You will stand up for yourself for the first time. It will hurt. You will hurt someone else, at first, but they will understand. You will make them proud. It's time for you to grow up. So many people love you. You deserve it.`,
+`It will get better. It will get better. It will get better. It will get better. It will get better. It will get better. It will get better. It will get better. It will get better. It will get better. It will get better. It will get better.`,
+`You will take the scenic route on Amtrak. You will ride the Southwest Chief. You will see incredible sites. You will encounter one stranger, and you will have a transformative conversation. Make sure to floss.`,
+`You're not doomed. You're not going to die. You're just stressed out again. You've got it all checked out, you've asked everyone for advice, and they all said the same: you're ok. It's time to look for peace within.`,
+`You'll be given love. You'll be taken care of. You'll be given love. You have to trust it. Maybe not from the sources you are pouring yours. Maybe not from the directions you are staring at. Twist your head around. It's all around you. All is full of love.`,
+`I may not always love you. But long as there are stars above you, you never need to doubt it. I'll make you so sure about it. God only knows what I'll be without you. If you should ever leave me. Well, life would still go on, believe me. God only knows what I'd be without you.`
+];
+
+let currentImage = "";
+let currentText = "";
+
+function getRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function startSequence() {
+  const img = document.getElementById("randomImage");
+  const supernova = document.getElementById("supernova");
+  const textBox = document.getElementById("textContainer");
+  const button = document.getElementById("buttonContainer");
+
+  // reset
+  button.style.display = "none";
+
+  textBox.classList.remove("show");
+  void textBox.offsetWidth;
+  textBox.style.bottom = "-100dvh";
+
+  img.style.opacity = 1;
+  img.classList.remove("animate");
+
+  supernova.style.opacity = 1;
+  supernova.classList.remove("animate");
+
+  // force reset animations
+  void img.offsetWidth;
+  void supernova.offsetWidth;
+
+  // content
+  currentImage = getRandom(images);
+  currentText = getRandom(texts);
+
+  img.src = currentImage;
+  textBox.innerText = currentText;
+
+  // start animations immediately
+  img.classList.add("animate");
+  supernova.classList.add("animate");
+
+  // fade both out after 2s
+  setTimeout(() => {
+    img.style.opacity = 0;
+    supernova.style.opacity = 0;
+  }, 2000);
+
+  // show text
+  setTimeout(() => {
+    textBox.classList.add("show");
+  }, 400);
+
+  // show button
+  setTimeout(() => {
+    button.style.display = "block";
+  }, 10000);
+}
+let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+// start automatically
+startSequence();
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 15000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "index.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
+
+async function saveFortune() {
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = 1080;
+  canvas.height = 1920;
+
+  // background
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // load image
+  const fortuneImg = new Image();
+
+  fortuneImg.onload = () => {
+
+    // draw image
+    const imgSize = 700;
+
+    ctx.drawImage(
+      fortuneImg,
+      (canvas.width - imgSize) / 2,
+      120,
+      imgSize,
+      imgSize
+    );
+
+    // text styling
+    ctx.fillStyle = "white";
+    ctx.font = "48px Arial";
+    ctx.textAlign = "center";
+
+    wrapText(
+      ctx,
+      currentText,
+      canvas.width / 2,
+      950,
+      850,
+      60
+    );
+
+    // download
+    const link = document.createElement("a");
+    link.download = "unicorncake-fortune.png";
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  };
+
+  fortuneImg.src = currentImage;
+}
+
+function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+
+  const words = text.split(" ");
+  let line = "";
+
+  for (let n = 0; n < words.length; n++) {
+
+    const testLine = line + words[n] + " ";
+    const metrics = ctx.measureText(testLine);
+
+    if (metrics.width > maxWidth && n > 0) {
+
+      ctx.fillText(line, x, y);
+      line = words[n] + " ";
+      y += lineHeight;
+
+    } else {
+
+      line = testLine;
+
+    }
+  }
+
+  ctx.fillText(line, x, y);
+}
+
+</script>
+</body>
+</html>
