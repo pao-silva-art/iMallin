@@ -494,6 +494,9 @@ async function saveFortune() {
       canvas.height
     );
 
+    ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+
     // supernova
 
     ctx.save();
@@ -510,20 +513,10 @@ async function saveFortune() {
 
     ctx.restore();
 
-    // dark overlay
-
-    ctx.fillStyle = "rgba(0,0,0,0.35)";
-    ctx.fillRect(
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-
     // cake image
 
-    const maxWidth = 820;
-const maxHeight = 820;
+    const maxWidth = 900;
+const maxHeight = 900;
 
 const scale = Math.min(
   maxWidth / cake.width,
@@ -536,7 +529,7 @@ const drawHeight = cake.height * scale;
 ctx.drawImage(
   cake,
   (canvas.width - drawWidth) / 2,
-  100,
+  60,
   drawWidth,
   drawHeight
 );
@@ -551,20 +544,20 @@ ctx.drawImage(
     ctx.shadowColor = "#0088FF";
     ctx.shadowBlur = 35;
 
-    ctx.font = "62px Arial";
+    ctx.font = "bold 80px Arial";
 
    wrapText(
   ctx,
   currentText,
   canvas.width / 2,
-  980,
-  920,
-  78
+  1030,
+  960,
+  88
 );
 
     // footer + card number
 
-    ctx.font = "42px Arial";
+    ctx.font = "bold 64px Arial";
 
 ctx.fillStyle = "rgba(255,255,255,0.95)";
 
@@ -574,7 +567,7 @@ ctx.shadowBlur = 25;
 ctx.fillText(
   `Card ${cardNumber} of 88`,
   canvas.width / 2,
-  1840
+  1760
 );
 
     const link = document.createElement("a");
@@ -601,6 +594,7 @@ function wrapText(
   maxWidth,
   lineHeight
 ) {
+  ctx.textAlign = "center";
 
   const words = text.split(" ");
   let line = "";
@@ -612,10 +606,9 @@ function wrapText(
 
     if (metrics.width > maxWidth && n > 0) {
 
-      ctx.fillText(line, x, y);
+      ctx.fillText(line.trim(), x, y);
 
       line = words[n] + " ";
-
       y += lineHeight;
 
     } else {
@@ -625,7 +618,7 @@ function wrapText(
     }
   }
 
-  ctx.fillText(line, x, y);
+  ctx.fillText(line.trim(), x, y);
 }
 
 </script>
