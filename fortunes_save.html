@@ -440,74 +440,138 @@ async function saveFortune() {
   canvas.width = 1080;
   canvas.height = 1920;
 
-  // background
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const bg = new Image();
+  const supernova = new Image();
+  const cake = new Image();
 
-  // load image
-  const fortuneImg = new Image();
+  let loaded = 0;
 
-  fortuneImg.onload = () => {
+  function ready() {
+    loaded++;
+    if (loaded === 3) renderCard();
+  }
 
-    // draw image
-    const imgSize = 700;
+  bg.onload = ready;
+  supernova.onload = ready;
+  cake.onload = ready;
+
+  bg.src = "images/divination-bg.png";
+  supernova.src = "images/supernova.png";
+  cake.src = currentImage;
+
+  function renderCard() {
+
+    // Background
+    ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+
+    // Supernova layer
+    ctx.save();
+    ctx.globalAlpha = 0.35;
 
     ctx.drawImage(
-      fortuneImg,
-      (canvas.width - imgSize) / 2,
-      120,
-      imgSize,
-      imgSize
+      supernova,
+      -canvas.width,
+      -canvas.height / 2,
+      canvas.width * 3,
+      canvas.height * 2
     );
 
-    // text styling
-    ctx.fillStyle = "white";
-    ctx.font = "48px Arial";
+    ctx.restore();
+
+    // Darken for readability
+    ctx.fillStyle = "rgba(0,0,0,0.35)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Title
     ctx.textAlign = "center";
+    ctx.fillStyle = "white";
+
+    ctx.shadowColor = "#00AAFF";
+    ctx.shadowBlur = 40;
+
+    ctx.font = "bold 80px Arial";
+
+    ctx.fillText(
+      "UNICORN CAKE TAROT",
+      canvas.width / 2,
+      120
+    );
+
+    // Cake image
+    const cakeSize = 720;
+
+    ctx.drawImage(
+      cake,
+      (canvas.width - cakeSize) / 2,
+      180,
+      cakeSize,
+      cakeSize
+    );
+
+    const cardNumber = images.indexOf(currentImage) + 1;
+        ctx.font = "36px Arial";
+
+    ctx.fillText(
+      `Card ${cardNumber} of 88`,
+      canvas.width / 2,
+      900
+    );
+
+    // Fancy glowing frame
+    ctx.strokeStyle = "#66CCFF";
+    ctx.lineWidth = 8;
+
+    ctx.shadowColor = "#00AAFF";
+    ctx.shadowBlur = 50;
+
+    ctx.strokeRect(
+      (canvas.width - cakeSize) / 2,
+      180,
+      cakeSize,
+      cakeSize
+    );
+
+    // Fortune text
+    ctx.shadowColor = "#0099FF";
+    ctx.shadowBlur = 50;
+    ctx.fillStyle = "white";
+
+    ctx.shadowColor = "#0088FF";
+    ctx.shadowBlur = 35;
+
+    // MUCH larger
+    ctx.font = "56px Arial";
 
     wrapText(
       ctx,
       currentText,
       canvas.width / 2,
-      950,
-      850,
-      60
+      1020,
+      900,
+      72
     );
 
-    // download
+    // Footer
+    ctx.font = "28px Arial";
+    ctx.shadowBlur = 15;
+
+    ctx.fillStyle = "rgba(255,255,255,0.9)";
+
+    ctx.fillText(
+      new Date().toLocaleDateString(),
+      canvas.width / 2,
+      1840
+    );
+
     const link = document.createElement("a");
-    link.download = "unicorncake-fortune.png";
+
+    link.download = "unicorncake-tarot-reading.png";
     link.href = canvas.toDataURL("image/png");
+
+    document.body.appendChild(link);
     link.click();
-  };
-
-  fortuneImg.src = currentImage;
-}
-
-function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-
-  const words = text.split(" ");
-  let line = "";
-
-  for (let n = 0; n < words.length; n++) {
-
-    const testLine = line + words[n] + " ";
-    const metrics = ctx.measureText(testLine);
-
-    if (metrics.width > maxWidth && n > 0) {
-
-      ctx.fillText(line, x, y);
-      line = words[n] + " ";
-      y += lineHeight;
-
-    } else {
-
-      line = testLine;
-
-    }
+    document.body.removeChild(link);
   }
-
-  ctx.fillText(line, x, y);
 }
 
 </script>
