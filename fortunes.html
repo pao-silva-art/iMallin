@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/x-icon" href="favicon.ico">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="preload" href="images/divination-bg.png" as="image">
-<link rel="preload" href="images/supernova.png" as="image">
-<link rel="preload" href="fortunes_bg.mp3" as="audio">
-         <link rel="icon" type="image/x-icon" href="favicon.ico">
+      <link rel="preload" href="images/supernova.png" as="image">
+      <link rel="preload" href="fortunes_bg.mp3" as="audio">
         <style>
             html,body{
                 margin: 0;
@@ -185,6 +185,23 @@
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
+#saveBtn {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  color: aliceblue;
+  text-shadow: 0px 0px 2dvh blue,
+               0px 0px 1dvh blue,
+               0px 0px 7dvh blue;
+  font-size: var(--button-font-size);
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  background: transparent;
+  box-shadow: 0px 0px 15px blue;
+}
   #tryAgainBtn {
     position: absolute;
     left: 30%;
@@ -234,8 +251,14 @@
 
 <div id="buttonContainer">
   <button id="tryAgainBtn" onclick="location.reload()">Try Again</button>
-  <button id="goBackBtn" onclick="location.href='page2.html'">Go Back</button>
+  <button id="saveBtn" onclick="saveFortune()">
+    Save
+  </button>
+  <button id="goBackBtn" onclick="location.href='page2.html'">
+    Go Back
+  </button>
 </div>
+
 <div id="idlePopup">
     <div id="idleBox">
         <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
@@ -312,18 +335,20 @@ const texts = [
 `I may not always love you. But long as there are stars above you, you never need to doubt it. I'll make you so sure about it. God only knows what I'll be without you. If you should ever leave me. Well, life would still go on, believe me. God only knows what I'd be without you.`
 ];
 
+let currentImage = "";
+let currentText = "";
 
 function getRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
 function startSequence() {
+
   const img = document.getElementById("randomImage");
   const supernova = document.getElementById("supernova");
   const textBox = document.getElementById("textContainer");
   const button = document.getElementById("buttonContainer");
 
-  // reset
   button.style.display = "none";
 
   textBox.classList.remove("show");
@@ -336,75 +361,242 @@ function startSequence() {
   supernova.style.opacity = 1;
   supernova.classList.remove("animate");
 
-  // force reset animations
   void img.offsetWidth;
   void supernova.offsetWidth;
 
-  // content
-  img.src = getRandom(images);
-  textBox.innerText = getRandom(texts);
+  currentImage = getRandom(images);
+  currentText = getRandom(texts);
 
-  // start animations immediately
+  img.src = currentImage;
+  textBox.innerText = currentText;
+
   img.classList.add("animate");
   supernova.classList.add("animate");
 
-  // fade both out after 2s
   setTimeout(() => {
     img.style.opacity = 0;
     supernova.style.opacity = 0;
   }, 2000);
 
-  // show text
   setTimeout(() => {
     textBox.classList.add("show");
   }, 400);
 
-  // show button
   setTimeout(() => {
     button.style.display = "block";
   }, 10000);
 }
+
 let idleTimer;
 let countdownTimer;
 let countdownValue = 5;
-// start automatically
+
 startSequence();
+
 const popup = document.getElementById("idlePopup");
 const countdownEl = document.getElementById("countdown");
 
-// Reset everything on activity
 function resetIdle() {
-    clearTimeout(idleTimer);
-    clearInterval(countdownTimer);
-    popup.classList.remove("active");
-    countdownValue = 10;
+
+  clearTimeout(idleTimer);
+  clearInterval(countdownTimer);
+
+  popup.classList.remove("active");
+
+  countdownValue = 10;
+  countdownEl.textContent = countdownValue;
+
+  idleTimer = setTimeout(startCountdown, 15000);
+}
+
+function startCountdown() {
+
+  popup.classList.add("active");
+
+  countdownTimer = setInterval(() => {
+
+    countdownValue--;
     countdownEl.textContent = countdownValue;
 
-    idleTimer = setTimeout(startCountdown, 15000); // 10 seconds idle
+    if (countdownValue <= 0) {
+
+      clearInterval(countdownTimer);
+      window.location.href = "index.html";
+
+    }
+
+  }, 1000);
 }
 
-// Start countdown popup
-function startCountdown() {
-    popup.classList.add("active");
-
-    countdownTimer = setInterval(() => {
-        countdownValue--;
-        countdownEl.textContent = countdownValue;
-
-        if (countdownValue <= 0) {
-            clearInterval(countdownTimer);
-            window.location.href = "index.html";
-        }
-    }, 1000);
-}
-
-// Listen for ANY pointer activity
 ["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
-    document.addEventListener(event, resetIdle);
+  document.addEventListener(event, resetIdle);
 });
 
-// Initialize
 resetIdle();
+
+async function saveFortune() {
+
+  console.log("Save clicked");
+
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = 1080;
+  canvas.height = 1920;
+
+  const bg = new Image();
+  const supernovaImg = new Image();
+  const cake = new Image();
+
+  let loaded = 0;
+
+  function ready() {
+
+    loaded++;
+
+    if (loaded === 3) {
+      renderCard();
+    }
+
+  }
+
+  bg.onload = () => {
+    console.log("bg loaded");
+    ready();
+  };
+
+  supernovaImg.onload = () => {
+    console.log("supernova loaded");
+    ready();
+  };
+
+  cake.onload = () => {
+    console.log("cake loaded");
+    ready();
+  };
+
+  bg.onerror = () => console.error("bg failed");
+  supernovaImg.onerror = () => console.error("supernova failed");
+  cake.onerror = () => console.error("cake failed");
+
+  bg.src = "images/divination-bg.png";
+  supernovaImg.src = "images/supernova.png";
+  cake.src = currentImage;
+
+ function renderCard() {
+
+  console.log("renderCard running");
+
+  // background
+  ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+
+  ctx.textAlign = "center";
+  ctx.textBaseline = "top";
+
+  // supernova
+  ctx.save();
+  ctx.globalAlpha = 0.35;
+  ctx.drawImage(
+    supernovaImg,
+    -canvas.width,
+    -canvas.height / 2,
+    canvas.width * 3,
+    canvas.height * 2
+  );
+  ctx.restore();
+
+  // cake image
+  const maxWidth = 900;
+  const maxHeight = 900;
+
+  const scale = Math.min(
+    maxWidth / cake.width,
+    maxHeight / cake.height
+  );
+
+  const drawWidth = cake.width * scale;
+  const drawHeight = cake.height * scale;
+
+  const imgX = canvas.width / 2 - drawWidth / 2;
+  const imgY = 60;
+
+  ctx.drawImage(cake, imgX, imgY, drawWidth, drawHeight);
+
+  // ✅ FIX: define FIRST
+  const cardNumber = images.indexOf(currentImage) + 1;
+
+  // --- CARD NUMBER (tight under image)
+  ctx.font = "bold 64px Arial";
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  ctx.shadowColor = "#1F3BFF";
+  ctx.shadowBlur = 20;   // tighter, less glow
+  ctx.fillText(
+    `${cardNumber} / 88`,
+    canvas.width / 2,
+    imgY + drawHeight + 20   // tighter spacing
+  );
+
+  // --- FORTUNE TEXT (bigger + closer + centered)
+  ctx.font = "bold 86px Arial";
+  ctx.fillStyle = "white";
+
+  // deeper royal blue shadow (NOT cyan)
+  ctx.shadowColor = "#1E3CFF";
+  ctx.shadowBlur = 18;
+
+  wrapText(
+    ctx,
+    currentText,
+    canvas.width / 2,
+    imgY + drawHeight + 120, // tighter than before
+    960,
+    92
+  );
+
+  // download
+  const link = document.createElement("a");
+  link.download = "unicorncake-tarot-reading.png";
+  link.href = canvas.toDataURL("image/png");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+}
+
+function wrapText(
+  ctx,
+  text,
+  x,
+  y,
+  maxWidth,
+  lineHeight
+) {
+  ctx.textAlign = "center";
+
+  const words = text.split(" ");
+  let line = "";
+
+  for (let n = 0; n < words.length; n++) {
+
+    const testLine = line + words[n] + " ";
+    const metrics = ctx.measureText(testLine);
+
+    if (metrics.width > maxWidth && n > 0) {
+
+      ctx.fillText(line.trim(), x, y);
+
+      line = words[n] + " ";
+      y += lineHeight;
+
+    } else {
+
+      line = testLine;
+
+    }
+  }
+
+  ctx.fillText(line.trim(), x, y);
+}
 
 </script>
 </body>
