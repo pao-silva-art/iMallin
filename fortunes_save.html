@@ -68,15 +68,6 @@
   --button-font-size: 5dvh;
 }
 
-/* iPhone / portrait phones */
-@media screen and (orientation: portrait) and (max-width: 900px) {
-  :root {
-    --scroll-start: 100vh;
-    --scroll-end: -100%;
-    --button-font-size: 4dvh;
-  }
-}
-
 @keyframes scrollUp {
   from {
     transform: translate(-50%, var(--scroll-start));
@@ -87,12 +78,17 @@
 }
 
   #buttonContainer {
-    position: absolute;
-    z-index: 200;
-    top: 85%;
-    width: 100%;
-    display: none;
-  }
+  position: absolute;
+  z-index: 200;
+  top: 85%;
+  width: 100%;
+
+  display: none;
+
+  justify-content: center;
+  align-items: center;
+  gap: 2vw;
+}
 
   /* random image (zoom + fade) */
 #randomImage {
@@ -185,10 +181,9 @@
   to   { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-#saveBtn {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+#saveBtn,
+#tryAgainBtn,
+#goBackBtn {
   padding: 10px 20px;
   font-family: Arial, Helvetica, sans-serif;
   color: aliceblue;
@@ -202,37 +197,32 @@
   background: transparent;
   box-shadow: 0px 0px 15px blue;
 }
-  #tryAgainBtn {
-    position: absolute;
-    left: 30%;
-    transform: translateX(-50%);
-    padding: 10px 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: aliceblue;
-    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
-    font-size: var(--button-font-size);
-    cursor: pointer;
-    border-radius: 5px;
-    border: none;
-    background: transparent;
-    box-shadow: 0px 0px 15px blue;
+
+/* iPhone / portrait phones */
+@media screen and (orientation: portrait) and (max-width: 900px) {
+
+  :root {
+    --scroll-start: 100vh;
+    --scroll-end: -100%;
+    --button-font-size: 4dvh;
   }
 
-  #goBackBtn {
-    position: absolute;
-    right: 30%;
-    transform: translateX(50%);
-    padding: 10px 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: aliceblue;
-    text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
-    font-size: var(--button-font-size);
-    cursor: pointer;
-    border-radius: 5px;
-    border: none;
-    background: transparent;
-    box-shadow: 0px 0px 15px blue;
+  #buttonContainer {
+    display: flex;
+    gap: 2vw;
+    padding: 0 2vw;
+    box-sizing: border-box;
   }
+
+  #saveBtn,
+  #tryAgainBtn,
+  #goBackBtn {
+    flex: 1;
+    min-width: 0;
+    font-size: 3.5dvh;
+    padding: 12px 0;
+  }
+}
 </style>
 </head>
 <body>
@@ -353,6 +343,7 @@ function startSequence() {
 
   textBox.classList.remove("show");
   void textBox.offsetWidth;
+  textBox.style.bottom = "-100dvh";
 
   img.style.opacity = 1;
   img.classList.remove("animate");
@@ -382,7 +373,7 @@ function startSequence() {
   }, 400);
 
   setTimeout(() => {
-    button.style.display = "block";
+    button.style.display = "flex";
   }, 10000);
 }
 
