@@ -4,7 +4,6 @@
       <link rel="preload" href="images/divination-bg.png" as="image">
 <link rel="preload" href="images/supernova.png" as="image">
 <link rel="preload" href="fortunes_bg.mp3" as="audio">
-         <link rel="icon" type="image/x-icon" href="favicon.ico">
         <style>
             html,body{
                 margin: 0;
@@ -481,115 +480,84 @@ async function saveFortune() {
   supernovaImg.src = "images/supernova.png";
   cake.src = currentImage;
 
-  function renderCard() {
+ function renderCard() {
 
-    console.log("renderCard running");
+  console.log("renderCard running");
 
-    // background
+  // background
+  ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-    ctx.drawImage(
-      bg,
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-
-    ctx.textAlign = "center";
+  ctx.textAlign = "center";
   ctx.textBaseline = "top";
 
-    // supernova
+  // supernova
+  ctx.save();
+  ctx.globalAlpha = 0.35;
+  ctx.drawImage(
+    supernovaImg,
+    -canvas.width,
+    -canvas.height / 2,
+    canvas.width * 3,
+    canvas.height * 2
+  );
+  ctx.restore();
 
-    ctx.save();
+  // cake image
+  const maxWidth = 900;
+  const maxHeight = 900;
 
-    ctx.globalAlpha = 0.35;
+  const scale = Math.min(
+    maxWidth / cake.width,
+    maxHeight / cake.height
+  );
 
-    ctx.drawImage(
-      supernovaImg,
-      -canvas.width,
-      -canvas.height / 2,
-      canvas.width * 3,
-      canvas.height * 2
-    );
+  const drawWidth = cake.width * scale;
+  const drawHeight = cake.height * scale;
 
-    ctx.restore();
+  const imgX = canvas.width / 2 - drawWidth / 2;
+  const imgY = 60;
 
-    // cake image
+  ctx.drawImage(cake, imgX, imgY, drawWidth, drawHeight);
 
-    const maxWidth = 900;
-const maxHeight = 900;
+  // ✅ FIX: define FIRST
+  const cardNumber = images.indexOf(currentImage) + 1;
 
-const scale = Math.min(
-  maxWidth / cake.width,
-  maxHeight / cake.height
-);
+  // --- CARD NUMBER (tight under image)
+  ctx.font = "bold 64px Arial";
+  ctx.fillStyle = "rgba(255,255,255,0.95)";
+  ctx.shadowColor = "#1F3BFF";
+  ctx.shadowBlur = 20;   // tighter, less glow
+  ctx.fillText(
+    `${cardNumber} / 88`,
+    canvas.width / 2,
+    imgY + drawHeight + 20   // tighter spacing
+  );
 
-const drawWidth = cake.width * scale;
-const drawHeight = cake.height * scale;
+  // --- FORTUNE TEXT (bigger + closer + centered)
+  ctx.font = "bold 86px Arial";
+  ctx.fillStyle = "white";
 
-ctx.drawImage(
-  cake,
-  (canvas.width - drawWidth) / 2,
-  60,
-  drawWidth,
-  drawHeight
-);
+  // deeper royal blue shadow (NOT cyan)
+  ctx.shadowColor = "#1E3CFF";
+  ctx.shadowBlur = 18;
 
-ctx.font = "bold 56px Arial";
-ctx.fillStyle = "rgba(255,255,255,0.95)";
-ctx.shadowColor = "#2A4CFF";
-ctx.shadowBlur = 25;
+  wrapText(
+    ctx,
+    currentText,
+    canvas.width / 2,
+    imgY + drawHeight + 120, // tighter than before
+    960,
+    92
+  );
 
-ctx.fillText(
-  `${cardNumber} / 88`,
-  canvas.width / 2,
-  60 + drawHeight + 80
-);
-    // card number
-
-    const cardNumber = images.indexOf(currentImage) + 1;
-
-    // fortune text
-
-    ctx.fillStyle = "white";
-    ctx.shadowColor = "#1F3BFF";
-    ctx.shadowBlur = 35;
-
-    ctx.font = "bold 80px Arial";
-
-   wrapText(
-  ctx,
-  currentText,
-  canvas.width / 2,
-  1030,
-  960,
-  88
-);
-
-    // footer + card number
-
-    ctx.font = "bold 64px Arial";
-
-ctx.fillStyle = "rgba(255,255,255,0.95)";
-
-ctx.shadowColor = "#1F3BFF";
-ctx.shadowBlur = 25;
-
-
-    const link = document.createElement("a");
-
-    link.download = "unicorncake-tarot-reading.png";
-
-    link.href = canvas.toDataURL("image/png");
-
-    document.body.appendChild(link);
-
-    link.click();
-
-    document.body.removeChild(link);
-
-    console.log("download triggered");
-  }
+  // download
+  const link = document.createElement("a");
+  link.download = "unicorncake-tarot-reading.png";
+  link.href = canvas.toDataURL("image/png");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
 }
 
 function wrapText(
