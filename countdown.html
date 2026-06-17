@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: black;
+        }
+
+        #bg{
+            position: absolute;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        #number{
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            height: 50%;
+            width: auto;
+            z-index: 10;
+
+            transform: translate(-50%, -50%);
+            transform-origin: center center;
+        }
+
+        .countdown-pop{
+            animation: grow 0.35s ease-out;
+        }
+
+        @keyframes grow{
+            from{
+                transform: translate(-50%, -50%) scale(0);
+            }
+            to{
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        #whiteFade{
+            position: fixed;
+            inset: 0;
+            background: white;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+    </style>
+</head>
+<body>
+
+    <img src="images/05.png" id="number">
+    <img src="images/countdown_bG.png" id="bg" class="stretch">
+
+    <div id="whiteFade"></div>
+
+    <script>
+        const number = document.getElementById("number");
+        const whiteFade = document.getElementById("whiteFade");
+
+        const frames = [
+            "images/05.png",
+            "images/04.png",
+            "images/03.png",
+            "images/02.png",
+            "images/01.png"
+        ];
+
+        let index = 0;
+
+        function animateNumber() {
+            number.classList.remove("countdown-pop");
+
+            // Force browser reflow so animation can restart
+            void number.offsetWidth;
+
+            number.classList.add("countdown-pop");
+        }
+
+        // Animate the initial 05
+        animateNumber();
+
+        const timer = setInterval(() => {
+            index++;
+
+            if (index < frames.length) {
+                number.src = frames[index];
+                animateNumber();
+
+                // When 01 appears
+                if (index === frames.length - 1) {
+                    clearInterval(timer);
+
+                    setTimeout(() => {
+                        whiteFade.style.transition = "opacity 1s ease";
+                        whiteFade.style.opacity = "1";
+                    }, 1000);
+                }
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>

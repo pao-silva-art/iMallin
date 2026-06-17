@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+/* Animated background */
+#bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+
+    background: linear-gradient(
+        180deg,
+        #00ff48 0%,
+        #ff00d4 50%,
+        #0048ff 100%
+    );
+
+    background-size: 100% 300%;
+    animation: gradientMove 3s ease-in-out infinite alternate;
+}
+
+/* FEATURE IMAGE */
+#feature {
+    position: absolute;
+    z-index: 20;
+    width: 160%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transform-origin: center center;
+}
+
+/* scale 0 → 0.8 */
+@keyframes featurePop {
+    from {
+        transform: translate(-50%, -50%) scale(0);
+    }
+    to {
+        transform: translate(-50%, -50%) scale(0.7);
+    }
+}
+
+.featureAnimate {
+    animation: featurePop 0.7s ease-out forwards;
+}
+
+/* background animation */
+@keyframes gradientMove {
+    from {
+        background-position: center top;
+    }
+    to {
+        background-position: center bottom;
+    }
+}
+
+/* TOP BANNER */
+#bannerTop {
+    position: absolute;
+    top: 7%;
+    width: 100%;
+    height: 10%;
+    background-color: red;
+    overflow: hidden;
+    z-index: 8;
+}
+
+#bannerBottom {
+    position: absolute;
+    bottom: 7%;
+    width: 100%;
+    height: 10%;
+    background-color: red;
+    overflow: hidden;
+    z-index: 8;
+}
+
+/* scrolling tracks */
+.track,
+.trackBottom {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: max-content;
+}
+
+.track {
+    animation: scrollLeft 15s linear infinite;
+}
+
+.trackBottom {
+    animation: scrollRight 15s linear infinite;
+}
+
+.track img,
+.trackBottom img {
+    width: 25vw;
+    height: auto;
+    flex-shrink: 0;
+    margin-right: 5vw;
+}
+
+@keyframes scrollLeft {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes scrollRight {
+    from {
+        transform: translateX(-50%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<img id="feature" src="images/unicornCake198.png">
+
+<!-- TOP BANNER -->
+<div id="bannerTop">
+    <div class="track">
+        <img src="images/unicornCake218.png">
+        <img src="images/unicornCake211.png">
+        <img src="images/unicornCake208.png">
+        <img src="images/unicornCake207.png">
+        <img src="images/unicornCake217.png">
+        <img src="images/unicornCake213.png">
+
+        <img src="images/unicornCake218.png">
+        <img src="images/unicornCake211.png">
+        <img src="images/unicornCake208.png">
+        <img src="images/unicornCake207.png">
+        <img src="images/unicornCake217.png">
+        <img src="images/unicornCake213.png">
+    </div>
+</div>
+
+<!-- BOTTOM BANNER -->
+<div id="bannerBottom">
+    <div class="trackBottom">
+        <img src="images/unicornCake218.png">
+        <img src="images/unicornCake211.png">
+        <img src="images/unicornCake208.png">
+        <img src="images/unicornCake207.png">
+        <img src="images/unicornCake217.png">
+        <img src="images/unicornCake213.png">
+
+        <img src="images/unicornCake218.png">
+        <img src="images/unicornCake211.png">
+        <img src="images/unicornCake208.png">
+        <img src="images/unicornCake207.png">
+        <img src="images/unicornCake217.png">
+        <img src="images/unicornCake213.png">
+    </div>
+</div>
+
+<div id="bg"></div>
+
+<script>
+const feature = document.getElementById("feature");
+
+const cakes = [
+  "images/unicornCake218.png",
+  "images/unicornCake211.png",
+  "images/unicornCake203.png",
+  "images/unicornCake202.png",
+  "images/unicornCake200.png",
+  "images/unicornCake197.png",
+  "images/unicornCake198.png",
+  "images/unicornCake193.png",
+  "images/unicornCake190.png",
+  "images/unicornCake189.png",
+  "images/unicornCake176.png",
+  "images/unicornCake140.png",
+  "images/unicornCake125.png",
+  "images/unicornCake127.png",
+  "images/unicornCake111.png",
+  "images/unicornCake135.png",
+  "images/unicornCake129.png",
+  "images/unicornCake93.png",
+  "images/unicornCake95.png",
+  "images/unicornCake90.png",
+  "images/unicornCake92.png",
+  "images/unicornCake71.png",
+  "images/unicornCake70.png",
+  "images/unicornCake68.png",
+  "images/unicornCake67.png",
+  "images/unicornCake66.png",
+  "images/unicornCake65.png",
+  "images/unicornCake63.png",
+  "images/unicornCake62.png",
+  "images/unicornCake61.png",
+  "images/unicornCake60.png",
+  "images/unicornCake59.png",
+  "images/unicornCake58.png",
+  "images/unicornCake56.png",
+  "images/unicornCake55.png",
+  "images/unicornCake54.png",
+  "images/unicornCake53.png",
+  "images/unicornCake50.png",
+  "images/unicornCake49.png",
+  "images/unicornCake48.png",
+  "images/unicornCake36.png",
+  "images/unicornCake37.png",
+  "images/unicornCake7.png",
+  "images/unicornCake8.png",
+  "images/unicornCake9.png",
+  "images/unicornCake5.png",
+  "images/unicornCake4.png",
+  "images/unicornCake1.png",
+  "images/unicornCake2.png",
+  "images/unicornCake3.png",
+  "images/unicornCake19.png",
+  "images/unicornCake199.png"
+];
+
+function showRandomCake() {
+    const img = cakes[Math.floor(Math.random() * cakes.length)];
+
+    feature.src = img;
+
+    feature.classList.remove("featureAnimate");
+    void feature.offsetWidth; // restart animation
+    feature.classList.add("featureAnimate");
+}
+
+window.addEventListener("load", showRandomCake);
+setInterval(showRandomCake, 3000);
+</script>
+
+</body>
+</html>
