@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+         body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+         }
+
+        .stretch {
+            height: auto;
+            width: 100%;
+         }
+
+        #divider {
+            position: absolute;
+            height: 100%;
+            z-index: 2;
+         }
+
+        #box {
+            position: absolute;
+            height: 100%;
+            display: block;
+            z-index: 0;
+         }
+
+        #girl {
+            position: absolute;
+            height: 35%;
+            top: 7%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9;
+         }
+
+        .droptarget {
+            width: auto;
+            height: 100%;
+            top: 7%;
+            left: 50%;
+            transform: translateX(-50%);
+            position: relative;
+            z-index: 9;
+            background-color: none;
+         }
+
+        #orb {
+            position: absolute;
+            height: 27%;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 9%;
+            z-index: 11;
+            touch-action: none; /* Prevents mobile scrolling during drag */
+         }
+
+        #compact {
+            position: absolute;
+            height: 92%;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0%;
+            z-index: 9;
+         }
+
+        #compactContainer {
+            position: absolute;
+            height: 50vh;
+            width: 100%;
+            left: 0%;
+            bottom: 0%;
+            z-index: 9;
+            background-color: none;
+         }
+
+        #bg {
+            position: absolute;
+            height: 100%;
+            z-index: 1;
+         }
+    </style>
+</head>
+<body>
+    <img src="images/story_dialog_Box.png" id="box">
+    <div id="compactContainer">
+        <img src="images/story_compact2.png" id="compact">
+        <!-- Kept desktop drag events inline -->
+        <img src="images/story_orb.png" id="orb" ondragstart="dragStart(event)" draggable="true">
+    </div>
+    <img src="images/story_divider.png" id="divider">
+    <!-- Kept desktop drop events inline -->
+    <img src="images/story_girl2.png" id="girl" class="droptarget" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <img src="images/story_bg.png" id="bg" class="stretch">
+
+<script>
+    const orb = document.getElementById('orb');
+    const girl = document.getElementById('girl');
+    const sound = new Audio('burp.m4a');
+
+    let startX = 0;
+    let startY = 0;
+    let currentBrightness = 1.0; 
+    const brightnessIncrement = 0.2;
+
+    // --- BIND MOBILE TOUCH LISTENERS VIA JS ---
+    orb.addEventListener('touchstart', handleTouchStart);
+    orb.addEventListener('touchmove', handleTouchMove);
+    orb.addEventListener('touchend', handleTouchEnd);
+
+    // --- DESKTOP DRAG & DROP API ---
+    function dragStart(event) {
+        event.dataTransfer.setData("text/plain", event.target.id);
+    }
+
+    function allowDrop(event) {
+        event.preventDefault();
+    }
+
+    function drop(event) {
+        event.preventDefault();
+        const data = event.dataTransfer.getData("text/plain");
+        if (data === "orb") {
+            successAction();
+        }
+    }
+
+    // --- MOBILE TOUCH EVENTS API ---
+    function handleTouchStart(event) {
+        orb.style.transition = 'none';
+        
+        // Capture initial desktop layout placement if not captured yet
+        if (startX === 0 && startY === 0) {
+            const rect = orb.getBoundingClientRect();
+            startX = rect.left;
+            startY = rect.top;
+        }
+    }
+
+    function handleTouchMove(event) {
+        // Prevent accidental browser zooming/panning
+        event.preventDefault();
+        const touch = event.touches[0];
+        
+        orb.style.position = 'fixed';
+        orb.style.left = (touch.clientX - (orb.offsetWidth / 2)) + 'px';
+        orb.style.top = (touch.clientY - (orb.offsetHeight / 2)) + 'px';
+        orb.style.bottom = 'auto'; 
+        orb.style.transform = 'none';
+    }
+
+    function handleTouchEnd(event) {
+        const touch = event.changedTouches[0];
+        
+        // Mobile Fix: Using mathematical hitbox boundary collision for precision
+        const girlRect = girl.getBoundingClientRect();
+        const isOverGirl = (
+            touch.clientX >= girlRect.left &&
+            touch.clientX <= girlRect.right &&
+            touch.clientY >= girlRect.top &&
+            touch.clientY <= girlRect.bottom
+        );
+
+        if (isOverGirl) {
+            successAction();
+            resetOrbPosition(); // Resets back to dock after success action triggers
+        } else {
+            resetOrbPosition();
+        }
+    }
+
+    // --- SHARED HELPER FUNCTIONS ---
+    function successAction() {
+        console.log("Success! Orb given to the girl.");
+        currentBrightness += brightnessIncrement;
+        girl.style.filter = `brightness(${currentBrightness})`;
+        sound.play().catch(err => console.log("Audio play blocked until interaction:", err));
+    }
+
+    function resetOrbPosition() {
+        orb.style.transition = 'all 0.4s ease-out';
+        orb.style.position = 'fixed';
+        orb.style.left = startX + 'px';
+        orb.style.top = startY + 'px';
+    }
+</script>
+</body>
+</html>
