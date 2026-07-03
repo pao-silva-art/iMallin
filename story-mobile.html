@@ -7,7 +7,21 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
-         }
+        }
+
+           h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: xx-large;
+            color: transparent;
+            text-shadow:
+                1px 1px 2px white,
+                0 0 1em blue,
+                0 0 0.2em white;
+            text-align: center;
+            z-index: 100;
+            padding: 0;
+            margin: 0;
+        }
 
         .stretch {
             height: auto;
@@ -18,7 +32,17 @@
             position: absolute;
             height: 100%;
             z-index: 2;
-         }
+        }
+        
+        #instruction {
+            position: absolute;
+            top: 91%;
+            left: 0%;
+            width: 100%;
+            height: 7%;
+            z-index: 14;
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
 
         #box {
             position: absolute;
@@ -84,6 +108,7 @@
     </style>
 </head>
 <body>
+    <h1 id="instruction">feed her orbs.</h1>
     <img src="images/story_dialog_Box.png" id="box">
     <div id="compactContainer">
         <img src="images/story_compact2.png" id="compact">
@@ -102,6 +127,7 @@
 
     let startX = 0;
     let startY = 0;
+    let successCount = 0;
     let currentBrightness = 1.0; 
     const brightnessIncrement = 0.2;
 
@@ -173,11 +199,20 @@
 
     // --- SHARED HELPER FUNCTIONS ---
     function successAction() {
-        console.log("Success! Orb given to the girl.");
-        currentBrightness += brightnessIncrement;
-        girl.style.filter = `brightness(${currentBrightness})`;
-        sound.play().catch(err => console.log("Audio play blocked until interaction:", err));
+    console.log("Success! Orb given to the girl.");
+
+    currentBrightness += brightnessIncrement;
+    girl.style.filter = `brightness(${currentBrightness})`;
+
+    sound.play().catch(err => console.log("Audio play blocked until interaction:", err));
+
+    // ---- ADD THIS PART ----
+    successCount++;
+
+    if (successCount >= 9) {
+        window.location.href = "standby_comp01.html";
     }
+}
 
     function resetOrbPosition() {
         orb.style.transition = 'all 0.4s ease-out';
