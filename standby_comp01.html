@@ -130,7 +130,9 @@ body {
 
 <body>
 
-<img id="feature" src="images/unicornCake198.png">
+<a id="featureLink">
+    <img id="feature" src="images/unicornCake198.png">
+</a>
 
 <!-- TOP BANNER -->
 <div id="bannerTop">
@@ -173,7 +175,6 @@ body {
 <div id="bg"></div>
 
 <script>
-const feature = document.getElementById("feature");
 
 const cakes = [
   "images/unicornCake218.png",
@@ -230,10 +231,22 @@ const cakes = [
   "images/unicornCake199.png"
 ];
 
+const feature = document.getElementById("feature");
+const featureLink = document.getElementById("featureLink");
+
 function showRandomCake() {
     const img = cakes[Math.floor(Math.random() * cakes.length)];
 
     feature.src = img;
+
+    // Make only unicornCake197.png clickable
+    if (img === "images/unicornCake197.png") {
+        featureLink.href = "homescreen.html";
+        feature.style.cursor = "pointer";
+    } else {
+        featureLink.removeAttribute("href");
+        feature.style.cursor = "default";
+    }
 
     feature.classList.remove("featureAnimate");
     void feature.offsetWidth; // restart animation
