@@ -23,6 +23,56 @@
             margin: 0;
         }
 
+          #idlePopup {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#idlePopup.active {
+    display: flex;
+}
+
+#idleBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#idleTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 4vw;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
+#countdown {
+    font-size: 5em;
+    display: inline-block;
+}
+
+        #vignette {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                position: absolute;
+                pointer-events: none;
+                height: 100%;
+                z-index: 100;
+            }
+
         .stretch {
             height: auto;
             width: 100%;
@@ -30,19 +80,8 @@
 
         #divider {
             position: absolute;
-            left:10%;
             height: 100%;
             z-index: 2;
-        }
-        
-        #instruction {
-            position: absolute;
-            top: 91%;
-            left: 0%;
-            width: 100%;
-            height: 7%;
-            z-index: 14;
-            animation: pulseGlow 2s ease-in-out infinite;
         }
 
         #box {
@@ -77,10 +116,19 @@
             height: 27%;
             left: 50%;
             transform: translateX(-50%);
-            bottom: 9%;
+            bottom: 10%;
             z-index: 11;
             touch-action: none; /* Prevents mobile scrolling during drag */
-         }
+            animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+        }
+
+        @keyframes pulse {
+                0% { filter: hue-rotate(0deg); }
+                50%   {  filter: hue-rotate(360deg); }
+                100% {  filter: hue-rotate(0deg); }
+        }        
+        
 
         #compact {
             position: absolute;
@@ -89,7 +137,6 @@
             transform: translateX(-50%);
             top: 0%;
             z-index: 9;
-            touch-action: none;
          }
 
         #compactContainer {
@@ -100,7 +147,6 @@
             bottom: 0%;
             z-index: 11;
             background-color: none;
-            touch-action: none;
          }
 
         #bg {
@@ -111,7 +157,13 @@
     </style>
 </head>
 <body>
-    <h1 id="instruction">feed her orbs.</h1>
+    <img src="images/vignette.png" id="vignette" class="stretch"> 
+    <div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+    </div>
+    </div>
+    <img src="images/story_dialog_Box.png" id="box">
     <div id="compactContainer">
         <img src="images/story_compact2.png" id="compact">
         <!-- Kept desktop drag events inline -->
@@ -127,101 +179,84 @@
     const girl = document.getElementById('girl');
     const sound = new Audio('burp.m4a');
 
-    let startX = 0;
-    let startY = 0;
     let successCount = 0;
-    let currentBrightness = 1.0; 
-    const brightnessIncrement = 0.6;
+    let currentBrightness = 1.0;
+    const brightnessIncrement = 0.8;
 
-    // --- BIND MOBILE TOUCH LISTENERS VIA JS ---
-    orb.addEventListener('touchstart', handleTouchStart);
-    orb.addEventListener('touchmove', handleTouchMove);
-    orb.addEventListener('touchend', handleTouchEnd);
+    // Make sure the sound is loaded
+    sound.preload = 'auto';
 
-    // --- DESKTOP DRAG & DROP API ---
-    function dragStart(event) {
-        event.dataTransfer.setData("text/plain", event.target.id);
-    }
+    // --- CLICK EVENT ---
+    orb.addEventListener('click', function () {
+        successAction();
+    });
 
-    function allowDrop(event) {
-        event.preventDefault();
-    }
-
-    function drop(event) {
-        event.preventDefault();
-        const data = event.dataTransfer.getData("text/plain");
-        if (data === "orb") {
-            successAction();
-        }
-    }
-
-    // --- MOBILE TOUCH EVENTS API ---
-    function handleTouchStart(event) {
-        orb.style.transition = 'none';
-        
-        // Capture initial desktop layout placement if not captured yet
-        if (startX === 0 && startY === 0) {
-            const rect = orb.getBoundingClientRect();
-            startX = rect.left;
-            startY = rect.top;
-        }
-    }
-
-    function handleTouchMove(event) {
-        // Prevent accidental browser zooming/panning
-        event.preventDefault();
-        const touch = event.touches[0];
-        
-        orb.style.position = 'fixed';
-        orb.style.left = (touch.clientX - (orb.offsetWidth / 2)) + 'px';
-        orb.style.top = (touch.clientY - (orb.offsetHeight / 2)) + 'px';
-        orb.style.bottom = 'auto'; 
-        orb.style.transform = 'none';
-    }
-
-    function handleTouchEnd(event) {
-        const touch = event.changedTouches[0];
-        
-        // Mobile Fix: Using mathematical hitbox boundary collision for precision
-        const girlRect = girl.getBoundingClientRect();
-        const isOverGirl = (
-            touch.clientX >= girlRect.left &&
-            touch.clientX <= girlRect.right &&
-            touch.clientY >= girlRect.top &&
-            touch.clientY <= girlRect.bottom
-        );
-
-        if (isOverGirl) {
-            successAction();
-            resetOrbPosition(); // Resets back to dock after success action triggers
-        } else {
-            resetOrbPosition();
-        }
-    }
-
-    // --- SHARED HELPER FUNCTIONS ---
+    // --- SHARED ACTION ---
     function successAction() {
-    console.log("Success! Orb given to the girl.");
+        console.log("Orb clicked!");
 
-    currentBrightness += brightnessIncrement;
-    girl.style.filter = `brightness(${currentBrightness})`;
+        // Increase the girl's brightness
+        currentBrightness += brightnessIncrement;
+        girl.style.filter = `brightness(${currentBrightness})`;
 
-    sound.play().catch(err => console.log("Audio play blocked until interaction:", err));
+        // Play the sound effect on every click
+        sound.currentTime = 0;
+        sound.play().catch(err => {
+            console.log("Audio play blocked:", err);
+        });
 
-    // ---- ADD THIS PART ----
-    successCount++;
+        // Count clicks
+        successCount++;
 
-    if (successCount >= 9) {
-        window.location.href = "standby_comp01.html";
+        console.log("Click count:", successCount);
+        console.log("Brightness:", currentBrightness);
+
+        // After 9 clicks, go to the next page
+        if (successCount >= 9) {
+            window.location.href = "standby_comp01.html";
+        }
     }
+
+    let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 10000); // 10 seconds idle
 }
 
-    function resetOrbPosition() {
-        orb.style.transition = 'all 0.4s ease-out';
-        orb.style.position = 'fixed';
-        orb.style.left = startX + 'px';
-        orb.style.top = startY + 'px';
-    }
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "index.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
 </script>
 </body>
 </html>

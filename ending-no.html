@@ -1,0 +1,106 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  <title>Fullscreen Video</title>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+    }
+
+    body {
+      position: fixed;
+      inset: 0;
+    }
+
+    #vignette {
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      position: absolute;
+      pointer-events: none;
+      height: 100%;
+      z-index: 100;
+    }
+
+    .stretch {
+      height: auto;
+      width: 100%;
+    }
+
+    video {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      object-position: center center;
+      background: black;
+    }
+
+    /* iPhone safe-area support */
+    @supports (padding: max(0px)) {
+      body {
+        padding:
+          env(safe-area-inset-top)
+          env(safe-area-inset-right)
+          env(safe-area-inset-bottom)
+          env(safe-area-inset-left);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <img
+    src="images/vignette.png"
+    id="vignette"
+    class="stretch"
+    alt=""
+  />
+
+  <video
+    id="video"
+    autoplay
+    muted
+    playsinline
+    webkit-playsinline
+    preload="auto"
+  >
+    <source
+      src="video/sometimesUwin_final.mp4"
+      type="video/mp4"
+    />
+  </video>
+
+  <script>
+    const video = document.getElementById("video");
+
+    // Explicitly attempt autoplay.
+    window.addEventListener("load", () => {
+      video.play().catch((error) => {
+        console.log("Autoplay was blocked:", error);
+      });
+    });
+
+    // When the video finishes, immediately go to index.html.
+    video.addEventListener("ended", () => {
+      window.location.href = "index.html";
+    });
+  </script>
+
+</body>
+</html>
+

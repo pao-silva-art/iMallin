@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html,body{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: black;
+                font-family: "Arial Rounded MT Bold";
+                color: aliceblue;
+                text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+                height: 100%;
+                position: fixed;
+                width: 100%;
+                font-size: 5dvh;
+                background-color: cyan;
+                animation: Cpulse 25s forwards infinite;
+            animation-timing-function: linear;
+            }
+
+        #idlePopup {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#idlePopup.active {
+    display: flex;
+}
+
+#idleBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#idleTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 4vw;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
+#countdown {
+    font-size: 5em;
+    display: inline-block;
+}
+
+            #vignette {
+                left: 0%;
+                top: 0%;
+                position: sticky;
+                pointer-events: none;
+                height: 100%;
+                z-index: 20;
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+           @font-face {
+                font-family: "Arial Rounded MT Bold";
+                src: url("fonts/ARLRDBD.TTF") format("truetype");
+            }
+
+            @font-face {
+                font-family: "Curlz MT Regular";
+                src: url("fonts/CURLZ___.TTF") format("truetype");
+                font-weight: normal;
+                font-style: normal;
+            }
+            
+            @font-face {
+                font-family: "Jokerman";
+                src: url("fonts/JOKERMAN.TTF") format("truetype");
+                font-weight: normal;
+                font-style: normal;
+            }
+
+        @keyframes Cpulse {
+                0% { filter: brightness(100%); }
+                50%   {  filter:  brightness(100%); }
+                80%   {  filter:  brightness(100%); }
+                90%   {  filter:  brightness(800%); }
+                100% {  filter: brightness(100%); }
+        } 
+    
+        #instruction03 {
+            position: absolute;
+            z-index: 20;
+            height: 28%;
+            top: 26%;
+            left: 36%;
+        }
+
+        .car {
+          position: absolute;
+            width: 20%;
+            z-index: 12; 
+            filter: drop-shadow(-1px 2px 10px blue); 
+            animation: shadowB 2s backwards infinite;
+            cursor: pointer;
+            animation-timing-function: linear;
+            transition: filter 0.5s ease;
+        }
+
+        .car.blurred { 
+            filter: blur(0.5rem) !important; 
+        }
+
+        @keyframes shadowB {
+                0% { filter: drop-shadow(-1px 2px 10px blue);  }
+                50%   {  filter: drop-shadow(-1px 2px 15px blue);  }
+                75%   {  filter: drop-shadow(-1px 2px 5px blue);  }
+                100% {  filter: drop-shadow(-1px 2px 10px blue);  }
+        }
+
+        #bird {
+            position: absolute;
+            top: 40%;
+            left: 10%;
+            width: 40%;
+            z-index: 10;
+            
+        }
+
+        #a {
+            top: 50%;
+            left: 50%;
+        }
+
+        #b {
+            top: 63%;
+            left: 45%;
+        }
+
+        #c {
+            top: 75%;
+            left: 40%;
+        }
+
+        #d {
+            top: 85%;
+            left: 30%;
+        }
+
+        #witch {
+            position: absolute;
+            width: 30%;
+            z-index: 12; 
+            filter: drop-shadow(-1px 2px 10px blue); 
+            animation: shadowB 2s backwards infinite;
+            animation-timing-function: linear;
+            top: -2%;
+            right: 7%;
+        }
+
+        #banner {
+            position: absolute;
+            width: 110%;
+            z-index: 1; 
+            top: 5%;
+            right: 0%;
+            filter: drop-shadow(-1px 2px 10px blue); 
+            animation: shadowB 2s backwards infinite;
+            animation-timing-function: linear;
+        }
+
+        #back {
+                z-index: 20;
+                width: 18%;
+                height: auto;
+                position: absolute;
+                left: 6%;
+                top: 83%;
+        }
+        
+        #bg01 {
+            position: absolute;
+            top: -5%;
+            left: -5%;
+            width: 60%;
+            z-index: 2;
+            
+        }
+
+        #bg02 {
+            position: absolute;
+            right: 0%;
+            right: 0%;
+            width: 40%;
+            z-index: 1;
+            
+        }
+
+        @keyframes pulse {
+                0% { filter: hue-rotate(0deg); }
+                50%   {  filter: hue-rotate(360deg); }
+                100% {  filter: hue-rotate(0deg); }
+        }    
+    
+        #clothes {
+            font-family: Curlz MT Regular;
+            color: red;
+            font-size: 5dvh;
+            animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #diseases {
+            font-family: Jokerman;
+            color: greenyellow;
+            font-size: 5dvh;
+            animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #textContainer {
+        position: absolute;
+        text-align: center;
+        top: 1%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        max-width: 800px;
+         /* slightly smaller helps too */
+        z-index: 10;
+        }
+
+        #bg {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0%;
+            height: 100%;
+
+            width: 100%;
+            z-index: 0;
+        }
+
+        </style>
+    </head>
+<body>
+    <img src="images/vignette.png" id="vignette" class="stretch">
+    <div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+    </div>
+    </div>
+    <img src="images/car01.png" class="car" id="a">
+    <img src="images/car02.png" class="car" id="b">
+    <img src="images/car03.png" class="car" id="c">
+    <img src="images/car04.png" class="car" id="d">
+    <img src="images/witch.png" id="witch">
+    <img src="images/witchBG.png" id="banner">
+    
+    <a href="page2.html">
+        <img src="images/dressUp_back.png" id="back">
+    </a>
+    <img src="images/disease03-z.png" id="instruction03">
+    <img src="images/talkingBIRD.png" id="bird">
+    <img src="images/squiggly.png" id="bg01">
+    <img src="images/slide.png" id="bg02">
+    <img src="images/zyklon_bg.png" id="bg" class="stretch">
+<script>
+    const cars = document.querySelectorAll("#a, #b, #c, #d"); 
+    const clicked = new Set(); 
+    
+    cars.forEach(car => { 
+        car.addEventListener("click", () => {
+            clicked.add(car.id); 
+            car.classList.add("blurred");
+
+            console.log(car.id, "blurred"); 
+            
+            if (clicked.size === 4) { 
+                window.location.href = "lastquestion.html";
+            } 
+        }); 
+    });
+
+    let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 10000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "index.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
+</script>
+</body>
+</html>

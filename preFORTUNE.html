@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
         <style>
             body{
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
+            }
+
+            #vignette {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                position: absolute;
+                pointer-events: none;
+                height: 100%;
+                z-index: 100;
             }
 
             .stretch {
@@ -271,47 +280,50 @@
                 cursor: pointer;
             }
 
-            /* iPad / tablet landscape layout */
-/* iPad / tablet landscape layout */
-@media (min-width: 1024px) and (orientation: landscape) {
+            #aboutPopup {
+    display: none;
+    position: fixed;
+    z-index: 100001;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
 
-    /* split layout properly */
-    #controlContainer {
-        width: 50%;
+#aboutPopup.active {
+    display: flex;
+}
+
+#aboutBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    animation: popupFade 0.25s ease;
+}
+
+#aboutQR {
+    width: 60vw;
+    max-width: 350px;
+    height: auto;
+    border-radius: 12px;
+}
+
+@keyframes popupFade {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
     }
 
-    #text,
-    .cards {
-        width: 50%;
-        left: 25%;
-        transform: none;
-        top: 25%;
-    }
-
-    /* shrink options */
-    #option1,
-    #option2 {
-        width: 20%;
-    }
-
-    #option1 {
-        left: 10%;
-    }
-
-    #option2 {
-        right: 10%;
-    }
-
-    /* popup sizing */
-    #suggestBox {
-        width: 80%;
-        max-width: 600px;
-    }
-
-    #suggestActions button {
-        font-size: 2vw;
+    to {
+        transform: scale(1);
+        opacity: 1;
     }
 }
+
             @keyframes fade {
                 from {
                     opacity: 0%;
@@ -343,6 +355,7 @@
         </style>
     </head>
     <body>
+        <img src="images/vignette.png" id="vignette" class="stretch">
         <img src="images/pre-fortune-BG.png" class="stretch" id="bg">
         <img src="images/preFORTUNE-eng1.png" class="stretch" id="text">
         <a href="fortunes.html" id="option1Link">
@@ -354,8 +367,12 @@
         
         <div id="controlContainer">
             <img src="images/remoteCONTROL.png" class="stretch" id="control">
+        <a href="countdown.html">
             <div id="storyBUTTON"></div>
+        </a>
+        <a href="statement.html">
             <div id="suggestBUTTON"></div>
+        </a>
         <a href="page2.html">
             <div id="homeBUTTON"></div>
         </a>
@@ -381,6 +398,11 @@
         <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
     </div>
 </div>  
+<div id="aboutPopup">
+    <div id="aboutBox">
+        <img src="images/qr_code.png" id="aboutQR">
+    </div>
+</div>
 
         <script>
             const toggle = document.getElementById("toggle");
@@ -406,59 +428,54 @@ option2Link.addEventListener("click", (e) => {
     }
 });
 
-const suggestBtn = document.getElementById("suggestBUTTON");
-const overlay = document.getElementById("suggestOverlay");
-const closeBtn = document.getElementById("closeSuggest");
-const submitBtn = document.getElementById("submitSuggest");
-const textArea = document.getElementById("suggestText");
+// const suggestBtn = document.getElementById("suggestBUTTON");
+// const overlay = document.getElementById("suggestOverlay");
+// const closeBtn = document.getElementById("closeSuggest");
+// const submitBtn = document.getElementById("submitSuggest");
+// const textArea = document.getElementById("suggestText");
+
+// // Open popup
+// suggestBtn.addEventListener("click", () => {
+//     overlay.classList.add("active");
+// });
+
+// // Close popup
+// closeBtn.addEventListener("click", () => {
+//     overlay.classList.remove("active");
+// });
+
+// submitBtn.addEventListener("click", () => {
+//     const message = textArea.value;
+
+//     emailjs.send("service_dt37n1f", "template_8cpvrgh", {
+//         message: message
+//     }).then(() => {
+//         alert("Suggestion sent!");
+//         overlay.classList.remove("active");
+//         textArea.value = "";
+//     }, (error) => {
+//         alert("Failed to send. Try again.");
+//         console.error(error);
+//     });
+// });
+
+const aboutBtn = document.getElementById("aboutBUTTON");
+const aboutPopup = document.getElementById("aboutPopup");
+
+let aboutTimeout;
 
 // Open popup
-suggestBtn.addEventListener("click", () => {
-    overlay.classList.add("active");
-});
+aboutBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
 
-// Close popup
-closeBtn.addEventListener("click", () => {
-    overlay.classList.remove("active");
-});
+    aboutPopup.classList.add("active");
 
-submitBtn.addEventListener("click", () => {
-    const message = textArea.value;
+    clearTimeout(aboutTimeout);
 
-    emailjs.send("service_dt37n1f", "template_8cpvrgh", {
-        message: message
-    }).then(() => {
-        alert("Suggestion sent!");
-        overlay.classList.remove("active");
-        textArea.value = "";
-    }, (error) => {
-        alert("Failed to send. Try again.");
-        console.error(error);
-    });
-});
-const translateBtn = document.getElementById("translateBUTTON");
-const option1 = document.getElementById("option1");
-const option1Link = document.getElementById("option1Link");
-const textImg = document.getElementById("text");
-
-let spanishMode = false;
-
-translateBtn.addEventListener("click", () => {
-
-    spanishMode = !spanishMode;
-
-    if (spanishMode) {
-
-        option1.src = "images/preFORTUNE-esp1-option1.png";
-        option1Link.href = "fortunes_esp.html";
-        textImg.src = "images/preFORTUNE-esp1.png";
-
-    } else {
-
-        option1.src = "images/preFORTUNE-eng1-option1.png";
-        option1Link.href = "fortunes.html";
-        textImg.src = "images/preFORTUNE-eng1.png";
-    }
+    // Auto close after 10 seconds
+    aboutTimeout = setTimeout(() => {
+        aboutPopup.classList.remove("active");
+    }, 10000);
 });
 
 let idleTimer;

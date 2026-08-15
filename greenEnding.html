@@ -5,7 +5,7 @@
             html,body{
                 margin: 0;
                 padding: 0;
-                overflow-x: hidden;
+                overflow: hidden;
                 background-color: black;
                 font-family: "Arial Rounded MT Bold";
                 color: aliceblue;
@@ -65,6 +65,12 @@
                 50%   {  filter: hue-rotate(360deg); }
                 100% {  filter: hue-rotate(0deg); }
         }    
+
+        @keyframes Tpulse {
+                0% { transform: translate(-50%,-50%) scale(0); }
+                90%   {  transform: translate(-50%,-50%) scale(1); }
+                100% {  transform: translate(-50%,-50%) scale(1.2); }
+        } 
     
         #clothes {
             font-family: Curlz MT Regular;
@@ -84,29 +90,49 @@
             cursor: pointer;
         }
 
-        #textContainer {
+        #card {
         position: absolute;
         text-align: center;
-        top: 1%;
+        top: 50%;
         left: 50%;
-        transform: translateX(-50%);
-        width: 60%;
-        max-width: 800px;
+        transform: translate(-50%, -50%) scale(1.2);
+        width: 100%;
+        animation: Tpulse 2s forwards ;
+            animation-timing-function: linear;
          /* slightly smaller helps too */
         z-index: 10;
         }
+
+        #supernova {
+  position: fixed;      /* always relative to viewport */
+  top: 50%;
+  left: 50%;
+  width: 300vw;         /* 3x viewport width */
+  height: 300dvh;        /* 3x viewport height */
+  object-fit: cover;    /* cover while keeping aspect ratio */
+  transform: translate(-50%, -50%) rotate(0deg); /* centered */
+  z-index: 1;           /* behind randomImage */
+  opacity: 0.8;
+  pointer-events: none; /* don’t block clicks */
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+        
 
         </style>
     </head>
 <body>
     <img src="images/vignette.png" id="vignette" class="stretch">
-    <div id="textContainer">
-        <p><br><br><br>to become a permanent resident of the mall, my mom and i had to get medical evaluations. i saw my mom take her 
-        <a href="dressUp.html"><span id="clothes"><b>clothes</b></span></a> 
-        off in front of the Mall Officer. i had to strip to my underwear too. she got a mammogram while I was in my training bra. i felt humiliated. the Mall makes sure no 
-        <a href="diseases.html"><span id="diseases"><b>diseases</b></span></a> 
-        are smuggled within. this is why medical evaluations are so important.</p></div>
-    <img src="images/castleSky.png" id="bg">
-    <img src="images/icon01.png" id="ic01">
+    <img src="images/greenCard.png" id="card">
+    <img id="supernova" src="images/supernova.png">
+<script>
+    setTimeout(function() {
+   window.location.href = "index.html";
+}, 10000);
+</script>
 </body>
 </html>

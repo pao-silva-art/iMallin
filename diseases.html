@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+        html,body{
+                margin: 0;
+                padding: 0;
+                overflow-x: hidden;
+                background-color: black;
+                font-family: Arial, Helvetica, sans-serif;
+                color: aliceblue;
+                text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+                height: 100%;
+                position: fixed;
+                width: 100%;
+                font-size: 6dvh;
+                background-color: cyan;
+            }
+        
+        #vignette {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                position: absolute;
+                pointer-events: none;
+                height: 100%;
+                z-index: 100;
+        }
+
+        #wheelContainer {
+                left: 50%;
+                top: 10%;
+                transform: translateX(-50%);
+                position: relative;
+                height: 60%;
+                z-index: 10;
+                background-color: none;
+        }
+        
+        #wheel {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                position: relative;
+                pointer-events: none;
+                height: 100%;
+                z-index: 10;
+                animation: Cpulse 6s backwards infinite;
+            animation-timing-function: linear;
+        }
+
+        #back {
+                z-index: 20;
+                width: 18%;
+                height: auto;
+                position: absolute;
+                left: 6%;
+                top: 83%;
+        }
+
+        #bg {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0%;
+            height: 100%;
+            width: auto;
+            z-index: 0;
+            animation: Cpulse 4s backwards infinite;
+            animation-timing-function: linear;
+        }
+
+        #instruction01 {
+            position: absolute;
+            z-index: 20;
+            height: 28%;
+            transform: translateX(-50%);
+            bottom: 3%;
+            left: 50%;
+        }
+
+        #instruction02 {
+            position: absolute;
+            z-index: 20;
+            height: 28%;
+            bottom: 16%;
+            left: 3%;
+        }
+
+        #instruction03 {
+            position: absolute;
+            z-index: 20;
+            height: 28%;
+            bottom: 16%;
+            right: 3%;
+        }
+
+        #ic01 {
+               left: 30%;
+                top: 12%;
+                position: absolute;
+                height: 12%;
+                z-index: 15;
+                animation: Cpulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #ic02 {
+               left: 50%;
+                bottom: 13%;
+                transform: translate(-50%,-50%) scale(1);
+                position: absolute;
+                height: 13%;
+                z-index: 15;
+                animation: Tpulse 1s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+                
+        }
+
+        #ic03 {
+               left: 20%;
+                top: 23%;
+                position: absolute;
+                height: 10%;
+                z-index: 15;
+                animation: pulse 1s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #ic04 {
+               right: 19%;
+                top: 52%;
+                position: absolute;
+                height: 13%;
+                z-index: 15;
+                animation: pulse 1s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #ic05 {
+               right: 19%;
+                top: 23%;
+                position: absolute;
+                height: 13%;
+                z-index: 15;
+                animation: pulse 1s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #ic06 {
+               left: 20%;
+                top: 52%;
+                position: absolute;
+                height: 13%;
+                z-index: 15;
+                animation: pulse 1s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #ic07 {
+               left: 50%;
+                top: 7%;
+                transform: translateX(-50%);
+                position: absolute;
+                height: 13%;
+                z-index: 15;
+                animation: Dpulse 1s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #ic08 {
+               right: 30%;
+                top: 12%;
+                position: absolute;
+                height: 12%;
+                z-index: 15;
+                animation: Cpulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #ic09 {
+               left: 30%;
+                bottom: 25%;
+                position: absolute;
+                height: 12%;
+                z-index: 15;
+                animation: Cpulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #ic10 {
+               right: 30%;
+                bottom: 25%;
+                position: absolute;
+                height: 12%;
+                z-index: 15;
+                animation: Cpulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #ic11 {
+               left: 16%;
+                top: 37%;
+                position: absolute;
+                height: 12%;
+                z-index: 30;
+                animation: Cpulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #ic12 {
+               right: 16%;
+                top: 37%;
+                position: absolute;
+                cursor: pointer;
+                height: 12%;
+                z-index: 15;
+                animation: Cpulse 2s backwards infinite;
+            animation-timing-function: linear;
+        }
+
+        .stretch {
+            height: auto;
+            width: 100%;
+        }
+        
+        @keyframes Dpulse {
+                0% { transform: translatex(-50%) scale(1); }
+                50%   {  transform: translatex(-50%) scale(0.8); }
+                100% {  transform: translatex(-50%) scale(1); }
+        }
+
+        @keyframes Tpulse {
+                0% { transform: translate(-50%,-50%) scale(1); }
+                50%   {  transform: translate(-50%,-50%) scale(0.8); }
+                100% {  transform: translate(-50%,-50%) scale(1); }
+        } 
+        
+        @keyframes pulse {
+                0% { transform: scale(1); }
+                50%   {  transform: scale(1.2); }
+                100% {  transform: scale(1); }
+        }  
+
+        @keyframes Cpulse {
+                0% { filter: hue-rotate(0deg); }
+                50%   {  filter: hue-rotate(360deg); }
+                100% {  filter: hue-rotate(0deg); }
+        }  
+        </style>
+    </head>
+<body>
+    <img src="images/disease01.png" id="instruction01">
+    <img src="images/disease02.png" id="instruction02">
+    <img src="images/disease03-f.png" id="instruction03">
+    <a href="page2.html">
+        <img src="images/dressUp_back.png" id="back">
+    </a>
+    <img src="images/vignette.png" id="vignette" class="stretch">
+    <div id="wheelContainer">
+    <img src="images/icon01.png" id="ic01">
+    <img src="images/icon02.png" id="ic02">
+    <img src="images/icon03.png" id="ic03">
+    <img src="images/icon04.png" id="ic04">
+    <img src="images/icon05.png" id="ic05">
+    <img src="images/icon06.png" id="ic06">
+    <img src="images/icon07.png" id="ic07">
+    <img src="images/icon01.png" id="ic08">
+    <img src="images/icon01.png" id="ic09">
+    <img src="images/icon01.png" id="ic10">
+    <img src="images/icon01.png" id="ic11">
+    <img src="images/icon01.png" id="ic12">
+    <img src="images/theWheel.png" id="wheel">
+    </div>
+    <img src="images/citizenship_bg.png" id="bg">
+<script>
+    const requiredIcons = ["ic02", "ic04", "ic06", "ic07"];
+    const clickedIcons = new Set();
+
+    requiredIcons.forEach(id => {
+        const icon = document.getElementById(id);
+
+        icon.addEventListener("click", function () {
+            // Brighten the clicked icon
+            this.style.filter = "brightness(8.0)";
+
+            // Remember that it was clicked
+            clickedIcons.add(id);
+
+            // Check whether all four required icons have been clicked
+            if (requiredIcons.every(iconId => clickedIcons.has(iconId))) {
+                
+                // Change disease02.png → disease02-f.png
+                document.getElementById("instruction02").src =
+                    "images/disease02-f.png";
+
+                // Wait 5 seconds, then go to borderCross.html
+                setTimeout(function () {
+                    window.location.href = "borderCross.html";
+                }, 5000);
+            }
+        });
+    });
+
+    // Any other #ic... icon reloads the page
+    document.querySelectorAll('[id^="ic"]').forEach(icon => {
+        if (!requiredIcons.includes(icon.id)) {
+            icon.addEventListener("click", function () {
+                window.location.reload();
+            });
+        }
+    });
+</script>
+</body>
+</html>

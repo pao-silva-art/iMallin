@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-         <link rel="icon" type="image/x-icon" href="favicon.ico">
         <style>
             body{
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
+            }
+
+            #vignette {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                position: absolute;
+                pointer-events: none;
+                height: 100%;
+                z-index: 100;
             }
 
             #fortune {
@@ -19,6 +27,11 @@
                 cursor: pointer;
                 animation: orbit 2s backwards infinite;
                 animation-timing-function: linear;
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
             }
 
             #desktopBlock {
@@ -322,6 +335,51 @@
                 cursor: pointer;
             }
 
+              #aboutPopup {
+    display: none;
+    position: fixed;
+    z-index: 100001;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#aboutPopup.active {
+    display: flex;
+}
+
+#aboutBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 25px;
+    border-radius: 20px;
+    text-align: center;
+    animation: popupFade 0.25s ease;
+}
+
+#aboutQR {
+    width: 60vw;
+    max-width: 350px;
+    height: auto;
+    border-radius: 12px;
+}
+
+@keyframes popupFade {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
             #toggle {
                 position: absolute;
                 background-color: none;
@@ -332,40 +390,6 @@
                 z-index: 11;
                 cursor: pointer;
             }
-            
-            /* =====================================================
-   TABLET / LANDSCAPE LAYOUT
-===================================================== */
-
-@media (min-aspect-ratio: 4/3){
-
-    #fortune{
-        top:15%;
-        left:20%;
-        width:30%;
-    }
-
-    #banana_I,
-    #fresa,
-    #zanahoria,
-    #mushroom,
-    #uva{
-        width:10%;
-    }
-
-    #controlContainer{
-        width:50%;
-    }
-
-    #suggestText{
-        width:90%;
-        font-size:3vw;
-    }
-
-    #suggestActions button{
-        font-size:2vw;
-    }
-}
 
             #icons {
                 position: absolute;
@@ -383,7 +407,7 @@
         </style>
     </head>
     <body>
-
+        <img src="images/vignette.png" id="vignette" class="stretch">
         <!-- <div id="desktopBlock">
          this website is intended for mobile browsers
         </div> -->
@@ -410,17 +434,19 @@
 
         <div id="controlContainer">
             <img src="images/remoteCONTROL.png" id="control">
+        <a href="countdown.html">
             <div id="storyBUTTON"></div>
+        </a>
+        <a href="statement.html">
             <div id="suggestBUTTON"></div>
+        </a>
         <a href="page2.html">
             <div id="homeBUTTON"></div>
         </a>
         <a href="8ball.html">
             <div id="catalogBUTTON"></div>
         </a>
-        <a href="about.html">
             <div id="aboutBUTTON"></div>
-        </a>
             <div id="translateBUTTON"></div>
             <div id="toggle"></div>
         </div>
@@ -439,9 +465,11 @@
         <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
     </div>
 </div>
-<audio id="burpSound" preload="auto" playsinline>
-    <source src="burp.m4a" type="audio/mp4">
-</audio>
+<div id="aboutPopup">
+    <div id="aboutBox">
+        <img src="images/qr_code.png" id="aboutQR">
+    </div>
+</div>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
      <script>
     (function(){
@@ -466,48 +494,56 @@ translateBtn.addEventListener("click", () => {
     }
 });
 
-const suggestBtn = document.getElementById("suggestBUTTON");
-const overlay = document.getElementById("suggestOverlay");
-const closeBtn = document.getElementById("closeSuggest");
-const submitBtn = document.getElementById("submitSuggest");
-const textArea = document.getElementById("suggestText");
+// const suggestBtn = document.getElementById("suggestBUTTON");
+// const overlay = document.getElementById("suggestOverlay");
+// const closeBtn = document.getElementById("closeSuggest");
+// const submitBtn = document.getElementById("submitSuggest");
+// const textArea = document.getElementById("suggestText");
+
+// // Open popup
+// suggestBtn.addEventListener("click", () => {
+//     overlay.classList.add("active");
+// });
+
+// // Close popup
+// closeBtn.addEventListener("click", () => {
+//     overlay.classList.remove("active");
+// });
+
+// submitBtn.addEventListener("click", () => {
+//     const message = textArea.value;
+
+//     emailjs.send("service_dt37n1f", "template_8cpvrgh", {
+//         message: message
+//     }).then(() => {
+//         alert("Suggestion sent!");
+//         overlay.classList.remove("active");
+//         textArea.value = "";
+//     }, (error) => {
+//         alert("Failed to send. Try again.");
+//         console.error(error);
+//     });
+// });
+
+const aboutBtn = document.getElementById("aboutBUTTON");
+const aboutPopup = document.getElementById("aboutPopup");
+
+let aboutTimeout;
 
 // Open popup
-suggestBtn.addEventListener("click", () => {
-    overlay.classList.add("active");
+aboutBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+
+    aboutPopup.classList.add("active");
+
+    clearTimeout(aboutTimeout);
+
+    // Auto close after 10 seconds
+    aboutTimeout = setTimeout(() => {
+        aboutPopup.classList.remove("active");
+    }, 10000);
 });
 
-// Close popup
-closeBtn.addEventListener("click", () => {
-    overlay.classList.remove("active");
-});
-
-submitBtn.addEventListener("click", () => {
-    const message = textArea.value;
-
-    emailjs.send("service_dt37n1f", "template_8cpvrgh", {
-        message: message
-    }).then(() => {
-        alert("Suggestion sent!");
-        overlay.classList.remove("active");
-        textArea.value = "";
-    }, (error) => {
-        alert("Failed to send. Try again.");
-        console.error(error);
-    });
-});
-document.addEventListener("pointerdown", () => {
-
-    const burp = new Audio("burp.m4a");
-
-    burp.playsInline = true;
-    burp.volume = 1;
-
-    burp.play().catch(err => {
-        console.log(err);
-    });
-
-});
         /* function isMobile() {
             return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)
           || window.innerWidth <= 768;
