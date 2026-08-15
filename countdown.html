@@ -9,6 +9,21 @@
             background: black;
         }
 
+        #vignette {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                position: absolute;
+                pointer-events: none;
+                height: 100%;
+                z-index: 102;
+            }
+
+        .stretch {
+                height: auto;
+                width: 100%;
+            }
+
         #bg{
             position: absolute;
             height: 100%;
@@ -51,15 +66,10 @@
             z-index: 100;
         }
 
-        .stretch {
-                height: auto;
-                width: 100%;
-            }
-
     </style>
 </head>
 <body>
-
+    <img src="images/vignette.png" id="vignette" class="stretch">
     <img src="images/05.png" id="number">
     <img src="images/countdown_bG.png" id="bg" class="stretch">
 
@@ -109,6 +119,15 @@
                 }
             }
         }, 1000);
+
+        function redirectToPage() {
+    setTimeout(function() {
+        window.location.href = "story-mobile.html";
+    }, 7000); // 7000 milliseconds = 7 seconds
+}
+
+// Call the function to start the countdown
+redirectToPage();
     </script>
 
 </body>
