@@ -8,16 +8,6 @@
                 overflow: hidden;
             }
 
-            #vignette {
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%,-50%);
-                position: absolute;
-                pointer-events: none;
-                height: 100%;
-                z-index: 100;
-            }
-
             #fortune {
                 position: absolute;
                 top: 27%;
@@ -27,11 +17,6 @@
                 cursor: pointer;
                 animation: orbit 2s backwards infinite;
                 animation-timing-function: linear;
-            }
-
-            .stretch {
-                height: auto;
-                width: 100%;
             }
 
             #desktopBlock {
@@ -271,7 +256,7 @@
 
              #storyBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(0, 0, 255, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 5%;
@@ -282,7 +267,7 @@
 
             #suggestBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(174, 255, 0, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 12%;
@@ -293,7 +278,7 @@
 
             #catalogBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(255, 0, 102, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 17%;
@@ -304,7 +289,7 @@
 
             #homeBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(255, 204, 0, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 22%;
@@ -315,7 +300,7 @@
 
             #aboutBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(0, 255, 170, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 29%;
@@ -326,7 +311,7 @@
 
             #translateBUTTON {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(191, 0, 255, 0.8);
                 width: 8%;
                 aspect-ratio: 1 / 1;
                 top: 53%;
@@ -335,54 +320,9 @@
                 cursor: pointer;
             }
 
-              #aboutPopup {
-    display: none;
-    position: fixed;
-    z-index: 100001;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.6);
-    justify-content: center;
-    align-items: center;
-}
-
-#aboutPopup.active {
-    display: flex;
-}
-
-#aboutBox {
-    background-image: linear-gradient(to bottom, red, yellow);
-    padding: 25px;
-    border-radius: 20px;
-    text-align: center;
-    animation: popupFade 0.25s ease;
-}
-
-#aboutQR {
-    width: 60vw;
-    max-width: 350px;
-    height: auto;
-    border-radius: 12px;
-}
-
-@keyframes popupFade {
-    from {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-
             #toggle {
                 position: absolute;
-                background-color: none;
+                background-color: rgba(0, 106, 255, 0.8);
                 width: 5%;
                 height: 28%;
                 top: 1%;
@@ -407,7 +347,7 @@
         </style>
     </head>
     <body>
-        <img src="images/vignette.png" id="vignette" class="stretch">
+
         <!-- <div id="desktopBlock">
          this website is intended for mobile browsers
         </div> -->
@@ -434,18 +374,12 @@
 
         <div id="controlContainer">
             <img src="images/remoteCONTROL.png" id="control">
-        <a href="countdown.html">
             <div id="storyBUTTON"></div>
-        </a>
-        <a href="statement.html">
             <div id="suggestBUTTON"></div>
-        </a>
         <a href="page2.html">
             <div id="homeBUTTON"></div>
         </a>
-        <a href="8ball.html">
             <div id="catalogBUTTON"></div>
-        </a>
             <div id="aboutBUTTON"></div>
             <div id="translateBUTTON"></div>
             <div id="toggle"></div>
@@ -463,11 +397,6 @@
 <div id="idlePopup">
     <div id="idleBox">
         <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
-    </div>
-</div>
-<div id="aboutPopup">
-    <div id="aboutBox">
-        <img src="images/qr_code.png" id="aboutQR">
     </div>
 </div>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
@@ -494,54 +423,35 @@ translateBtn.addEventListener("click", () => {
     }
 });
 
-// const suggestBtn = document.getElementById("suggestBUTTON");
-// const overlay = document.getElementById("suggestOverlay");
-// const closeBtn = document.getElementById("closeSuggest");
-// const submitBtn = document.getElementById("submitSuggest");
-// const textArea = document.getElementById("suggestText");
-
-// // Open popup
-// suggestBtn.addEventListener("click", () => {
-//     overlay.classList.add("active");
-// });
-
-// // Close popup
-// closeBtn.addEventListener("click", () => {
-//     overlay.classList.remove("active");
-// });
-
-// submitBtn.addEventListener("click", () => {
-//     const message = textArea.value;
-
-//     emailjs.send("service_dt37n1f", "template_8cpvrgh", {
-//         message: message
-//     }).then(() => {
-//         alert("Suggestion sent!");
-//         overlay.classList.remove("active");
-//         textArea.value = "";
-//     }, (error) => {
-//         alert("Failed to send. Try again.");
-//         console.error(error);
-//     });
-// });
-
-const aboutBtn = document.getElementById("aboutBUTTON");
-const aboutPopup = document.getElementById("aboutPopup");
-
-let aboutTimeout;
+const suggestBtn = document.getElementById("suggestBUTTON");
+const overlay = document.getElementById("suggestOverlay");
+const closeBtn = document.getElementById("closeSuggest");
+const submitBtn = document.getElementById("submitSuggest");
+const textArea = document.getElementById("suggestText");
 
 // Open popup
-aboutBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
+suggestBtn.addEventListener("click", () => {
+    overlay.classList.add("active");
+});
 
-    aboutPopup.classList.add("active");
+// Close popup
+closeBtn.addEventListener("click", () => {
+    overlay.classList.remove("active");
+});
 
-    clearTimeout(aboutTimeout);
+submitBtn.addEventListener("click", () => {
+    const message = textArea.value;
 
-    // Auto close after 10 seconds
-    aboutTimeout = setTimeout(() => {
-        aboutPopup.classList.remove("active");
-    }, 10000);
+    emailjs.send("service_dt37n1f", "template_8cpvrgh", {
+        message: message
+    }).then(() => {
+        alert("Suggestion sent!");
+        overlay.classList.remove("active");
+        textArea.value = "";
+    }, (error) => {
+        alert("Failed to send. Try again.");
+        console.error(error);
+    });
 });
 
         /* function isMobile() {
