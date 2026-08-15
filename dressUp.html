@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
-         <link rel="icon" type="image/x-icon" href="favicon.ico">
         <style>
             body {
                 padding: 0;
                 margin: 0;
                 overflow: hidden;
             }
+
+            #vignette {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                position: absolute;
+                pointer-events: none;
+                height: 100%;
+                z-index: 100;
+            }
+
+             .stretch {
+                height: auto;
+                width: 100%;
+            }
+
 
             #back {
                 z-index: 20;
@@ -179,7 +194,7 @@
 
         </style>
     </head>
-    <body>
+    <body>=
         <img src="images/dressUp_ipad_bg.png" id="frame">
         <img src="images/body_color5.png" id="body">
         <img src="images/clothing_color5.png" id="clothing">
@@ -432,30 +447,17 @@ function checkSecretCombo() {
         popup.classList.add("active");
 
         document.getElementById("idleTitle").innerHTML = `
-            You've unlocked<br>
-            1 free print.<br><br>
+            Investigate non-Mall Citizens.<br>
+            They are aliens.<br><br>
 
-            To receive it,<br>
-            e-mail me this message:<br><br>
-
-            <span style="
-                font-size: 0.65em;
-                display: inline-block;
-                margin-top: 10px;
-            ">
-                "I am a citizen<br>
-                of the Mall."
-            </span>
+            Watch out for<br>
+            the green alien baby.<br><br>
         `;
 
         // Hide popup after 9 seconds
         setTimeout(() => {
 
-            popup.classList.remove("active");
-
-            secretUnlocked = false;
-
-            resetIdle();
+           window.location.href = "standby_comp01.html";
 
         }, 9000);
     }
