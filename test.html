@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <style>
         html, body {
             overflow: hidden;
@@ -11,6 +10,21 @@
             height: 100%;
             background: black;
         }
+
+         #vignette {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                position: absolute;
+                pointer-events: none;
+                height: 100%;
+                z-index: 100;
+            }
+
+        .stretch {
+                height: auto;
+                width: 100%;
+            }
 
         #bg {
             position: absolute;
@@ -208,7 +222,6 @@
 </head>
 
 <body>
-
     <img src="images/citizen_op1_1.png" id="i1">
     <img src="images/citizen_op2_1.png" id="i2">
     <img src="images/citizen_op3_1.png" id="i3">
@@ -261,7 +274,7 @@ function showWinner() {
     resultPopup.classList.add("active");
 
     document.getElementById("cake").style.display = "block";
-    document.getElementById("supernova").style.display = "block";
+    document.getElementById("supernova").style.display = "none";
 
     resultTitle.className = ""; // remove loser style
 
@@ -269,7 +282,7 @@ function showWinner() {
         "You are Now A Mall Citizen.";
 
     setTimeout(() => {
-        window.location.href = "page2.html";
+        window.location.href = "countdown.html";
     }, 6000);
 }
 
