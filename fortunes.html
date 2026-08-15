@@ -12,12 +12,17 @@
                 padding: 0;
                 overflow: hidden;
                 background-color: black;
-                font-family: Arial, Helvetica, sans-serif;
+                font-family: "Arial Rounded MT Bold", Arial, Helvetica, sans-serif;
                 color: aliceblue;
                 text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
                 height: 100%;
                 position: fixed;
                 width: 100%;
+            }
+
+            @font-face {
+                font-family: "Arial Rounded MT Bold";
+                src: url("fonts/ARLRDBD.TTF") format("truetype");
             }
             .stretch {
                 height: auto;
@@ -256,7 +261,7 @@
 </div>
 
 <script>
-const images = Array.from({ length: 218 }, (_, i) => `images/unicornCake${i + 1}.png`);
+const images = Array.from({ length: 238 }, (_, i) => `images/unicornCake${i + 1}.png`);
 
 const texts = [
 `Just because it's compelling doesn't mean it's true. You believe the worst outcome is the only possible one because you think life is a movie. No amount of analysis will change the outcome. Don't try to be brave.`,
@@ -521,7 +526,7 @@ async function saveFortune() {
   ctx.shadowColor = "#1F3BFF";
   ctx.shadowBlur = 20;   // tighter, less glow
   ctx.fillText(
-    `${cardNumber} / 218`,
+    `${cardNumber} / 238`,
     canvas.width / 2,
     imgY + drawHeight + 20   // tighter spacing
   );
