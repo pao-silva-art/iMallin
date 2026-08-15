@@ -8,6 +8,21 @@ body {
     overflow: hidden;
 }
 
+#vignette {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                position: absolute;
+                pointer-events: none;
+                height: 100%;
+                z-index: 100;
+            }
+
+    .stretch {
+                height: auto;
+                width: 100%;
+            }
+
 /* Animated background */
 #bg {
     position: absolute;
@@ -129,7 +144,7 @@ body {
 </head>
 
 <body>
-
+<img src="images/vignette.png" id="vignette" class="stretch">
 <a id="featureLink">
     <img id="feature" src="images/unicornCake198.png">
 </a>
@@ -240,12 +255,14 @@ function showRandomCake() {
     feature.src = img;
 
     // Make only unicornCake197.png clickable
-    if (img === "images/unicornCake197.png") {
+    if (img === "images/unicornCake197.png" ||
+    img === "images/unicornCake49.png")  
+    {
         featureLink.href = "homescreen.html";
         feature.style.cursor = "pointer";
     } else {
-        featureLink.removeAttribute("href");
-        feature.style.cursor = "default";
+        featureLink.href = "index.html";
+        feature.style.cursor = "pointer";
     }
 
     feature.classList.remove("featureAnimate");
