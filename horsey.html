@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-     <link rel="icon" type="image/x-icon" href="favicon.ico">
+
     <style>
         body {
             margin: 0;
@@ -314,7 +314,6 @@
 </head>
 
 <body>
-
     <a href="page2.html">
             <img src="images/dressUp_back.png" id="back" class="stretch">
         </a> 
@@ -495,21 +494,13 @@
         // WIN
         // ----------------------------
 
-       function winGame(){
-
+       function winGame() {
     gameActive = false;
 
     clearTimeout(roundTimeout);
 
-    document.getElementById("gameText").innerHTML = `
-        you've unlocked 1 free print.<br><br>
-
-        to receive it, find me, and say:<br><br>
-
-        <strong>"I am horsin' around."</strong>
-    `;
-
-    document.getElementById("gamePopup").classList.add("active");
+    // Redirect to the standby page
+    window.location.href = "homescreen.html";
 }
 
 function loseGame(){
