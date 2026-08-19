@@ -108,5 +108,23 @@
         are smuggled within. this is why medical evaluations are so important.</p></div>
     <img src="images/castleSky.png" id="bg">
     <img src="images/icon01.png" id="ic01">
+<audio id="burpSound" preload="auto" playsinline>
+            <source src="burp.m4a" type="audio/mp4">
+        </audio>
+<script>
+    document.addEventListener("pointerdown", () => {
+
+    const burp = new Audio("burp.m4a");
+
+    burp.playsInline = true;
+
+    burp.volume = 1;
+
+    burp.play().catch(err => {
+        console.log(err);
+    });
+
+});
+</script>
 </body>
 </html>
