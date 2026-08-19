@@ -284,6 +284,9 @@
     <img src="images/theWheel.png" id="wheel">
     </div>
     <img src="images/citizenship_bg.png" id="bg">
+    <audio id="burpSound" preload="auto" playsinline>
+            <source src="burp.m4a" type="audio/mp4">
+        </audio>
 <script>
     const requiredIcons = ["ic02", "ic04", "ic06", "ic07"];
     const clickedIcons = new Set();
@@ -321,6 +324,19 @@
             });
         }
     });
+document.addEventListener("pointerdown", () => {
+
+    const burp = new Audio("burp.m4a");
+
+    burp.playsInline = true;
+
+    burp.volume = 1;
+
+    burp.play().catch(err => {
+        console.log(err);
+    });
+
+});
 </script>
 </body>
 </html>
