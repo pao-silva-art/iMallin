@@ -261,6 +261,9 @@
 <div id="adbottom"><div id="banner">
     <h1><span id="counter"></span> days since <br>we last spoke.</h1></div>
     </div>
+<audio id="burpSound" preload="auto" playsinline>
+            <source src="burp.m4a" type="audio/mp4">
+        </audio>
 <script>
     function updateCounter() {
     const targetDate = new Date('2026-05-19');
@@ -356,6 +359,20 @@ window.onload = function () {
     updateCounter();
     assignTarotCards();
 };
+
+document.addEventListener("pointerdown", () => {
+
+    const burp = new Audio("burp.m4a");
+
+    burp.playsInline = true;
+
+    burp.volume = 1;
+
+    burp.play().catch(err => {
+        console.log(err);
+    });
+
+}); 
 </script>
 </body>
 </html>
