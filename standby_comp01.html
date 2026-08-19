@@ -144,6 +144,10 @@ body {
 </head>
 
 <body>
+    <audio autoplay loop style="display: none;" id="bg">
+        <source src="baroque.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
 <img src="images/vignette.png" id="vignette" class="stretch">
 <a id="featureLink">
     <img id="feature" src="images/unicornCake198.png">
@@ -188,7 +192,9 @@ body {
 </div>
 
 <div id="bg"></div>
-
+<audio id="burpSound" preload="auto" playsinline>
+            <source src="burp.m4a" type="audio/mp4">
+        </audio>
 <script>
 
 const cakes = [
@@ -272,6 +278,36 @@ function showRandomCake() {
 
 window.addEventListener("load", showRandomCake);
 setInterval(showRandomCake, 3000);
+    document.addEventListener("pointerdown", () => {
+
+    const burp = new Audio("burp.m4a");
+
+    burp.playsInline = true;
+
+    burp.volume = 1;
+
+    burp.play().catch(err => {
+        console.log(err);
+    });
+
+});
+
+// Function to start audio playback
+function playBackgroundMusic() {
+    const audio = document.getElementById('bg');
+    
+    audio.play().then(() => {
+        // Success: Audio is playing, remove listeners so we don't repeat this
+        document.removeEventListener('click', playBackgroundMusic);
+        document.removeEventListener('keydown', playBackgroundMusic);
+    }).catch(error => {
+        console.log("Playback prevented by browser rules:", error);
+    });
+}
+
+// Listen for the first user interaction on the page
+document.addEventListener('click', playBackgroundMusic);
+document.addEventListener('keydown', playBackgroundMusic);
 </script>
 
 </body>
