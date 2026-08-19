@@ -279,6 +279,9 @@
     <img src="images/squiggly.png" id="bg01">
     <img src="images/slide.png" id="bg02">
     <img src="images/zyklon_bg.png" id="bg" class="stretch">
+    <audio id="burpSound" preload="auto" playsinline>
+            <source src="burp.m4a" type="audio/mp4">
+        </audio>
 <script>
     const cars = document.querySelectorAll("#a, #b, #c, #d"); 
     const clicked = new Set(); 
@@ -336,6 +339,19 @@ function startCountdown() {
 
 // Initialize
 resetIdle();
+    document.addEventListener("pointerdown", () => {
+
+    const burp = new Audio("burp.m4a");
+
+    burp.playsInline = true;
+
+    burp.volume = 1;
+
+    burp.play().catch(err => {
+        console.log(err);
+    });
+
+});
 </script>
 </body>
 </html>
