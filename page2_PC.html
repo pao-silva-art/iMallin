@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>iMallin Desktop</title>
+        <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                background-image: url(images/testBG-pc.png);
+                background-color: greenyellow;
+                overflow-x: hidden;
+                cursor: url("images/favicon_64x64.png"), auto;
+            }
+
+            #whiteCard {
+            background-color: white;
+            z-index: 200;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: fixed;
+            opacity: 1;
+            transition: opacity 1000ms ease;
+            pointer-events: none;
+        }
+
+
+            #homeBTN {
+                height: 10px;
+                width: 10px;
+                position: absolute;
+                top: 0%;
+                left: 0%;
+                z-index: 14;
+                background-color: rgba(149, 22, 213, 0.5);
+            }
+
+            #control{
+                width: 181px;
+                height: 532px;
+                position: relative;
+                top: -27%;
+                left: -46%;
+                z-index: 10;
+                background-color: none;
+                /* background-image: url(images/remoteCONTROL-PC.png); */
+            }
+
+            #adBOTTOM{
+                height: 100px;
+                width: 700px;
+                position: absolute;
+                top: 102%;
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 10;
+                background-color: red;
+                background-image: url(images/adBOTTOM.png);
+                cursor: pointer;
+            }
+
+            #game1{
+                height: 100px;
+                width: 150px;
+                position: absolute;
+                top: 100%;
+                left: 107%;
+                z-index: 9;
+                background-color: red;
+                cursor: pointer;
+            }
+
+            #game2{
+                height: 100px;
+                width: 150px;
+                position: absolute;
+                top: 75%;
+                left: 110%;
+                z-index: 9;
+                background-color: red;
+                cursor: pointer;
+            }
+
+            #game3{
+                height: 100px;
+                width: 150px;
+                position: absolute;
+                top: 75%;
+                right: 110%;
+                z-index: 9;
+                background-color: red;
+                cursor: pointer;
+            }
+
+            #game4{
+                height: 100px;
+                width: 150px;
+                position: absolute;
+                top: 100%;
+                right: 107%;
+                z-index: 9;
+                background-color: red;
+                cursor: pointer;
+            }
+
+            #adBOTTOM:hover{
+                background-image: url(images/adBOTTOM1.png);
+            }
+
+            #window{
+                height: 520px;
+                width: 800px;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                z-index: 10;
+                background-color: greenyellow;
+            }
+
+            #navigator{
+                height: 100px;
+                width: 600px;
+                position: absolute;
+                top: 0%;
+                left: 106%;
+                z-index: 10;
+                background-image: url(navigator.png);
+                background-color: red;
+            }
+            
+            #logo {
+                height: 100px;
+                width: 188px;
+                position: absolute;
+                top: -21%;
+                left: 0%;
+                z-index: 10;
+                background-image: url(PaoSilva_logoWeb.png);
+                background-size: contain;
+                background-repeat: no-repeat; /* Prevents the image from tiling */
+                background-position: center;
+                background-color: none;
+                filter: hue-rotate(90deg);
+            }
+
+            #pageFrame {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                border: none;
+                z-index: 1;
+            }
+
+
+        </style>
+    </head>
+<body>
+    <div id="whiteCard"></div>
+    
+    <div id="window">
+        <iframe id="pageFrame" src="page2_iPad.html"></iframe>
+
+        <div id="control">
+            <div id="homeBTN"></div>
+        </div>
+        <a href="https://www.paosilva.com/">
+        <div id="logo"><div id="navigator"></div></div></a>
+        <div id="adBOTTOM"></div>
+        <!-- <div id="game1"></div>
+        <div id="game2"></div>
+        <div id="game3"></div>
+        <div id="game4"></div> -->
+    </div>
+    <div id="white"></div>
+<script>
+window.addEventListener("load", () => {
+    const whiteCard = document.getElementById("whiteCard");
+
+    requestAnimationFrame(() => {
+        whiteCard.style.opacity = "0";
+        
+    });
+});
+
+
+
+</script>
+
+</body>
+</html>

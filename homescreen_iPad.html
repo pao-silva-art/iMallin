@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html,body{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: black;
+                font-family: "Arial Rounded MT Bold";
+                color: aliceblue;
+                text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+                height: 100%;
+                position: fixed;
+                width: 100%;
+                font-size: 5vh;
+                background-image: linear-gradient(to bottom, hotpink, cyan);
+                animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: url("images/favicon_64x64.png"), auto;
+            }
+
+            #vignette {
+                left: 0%;
+                top: 0%;
+                position: sticky;
+                pointer-events: none;
+                height: 100%;
+                z-index: 20;
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+           @font-face {
+                font-family: "Arial Rounded MT Bold";
+                src: url("fonts/ARLRDBD.TTF") format("truetype");
+            }
+
+            @font-face {
+                font-family: "Curlz MT Regular";
+                src: url("fonts/CURLZ___.TTF") format("truetype");
+                font-weight: normal;
+                font-style: normal;
+            }
+            
+            @font-face {
+                font-family: "Jokerman";
+                src: url("fonts/JOKERMAN.TTF") format("truetype");
+                font-weight: normal;
+                font-style: normal;
+            }
+
+        #bg {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            z-index: 2;
+        }
+
+        @keyframes pulse {
+                0% { filter: hue-rotate(0deg); }
+                50%   {  filter: hue-rotate(360deg); }
+                100% {  filter: hue-rotate(0deg); }
+        }    
+    
+        #clothes {
+            font-family: Curlz MT Regular;
+            color: red;
+            font-size: 5dvh;
+            animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #diseases {
+            font-family: Jokerman;
+            color: greenyellow;
+            font-size: 5dvh;
+            animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #textContainer {
+        position: absolute;
+        text-align: center;
+        top: 1%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        max-width: 800px;
+         /* slightly smaller helps too */
+        z-index: 10;
+        }
+
+        </style>
+    </head>
+<body>
+    <audio autoplay loop style="display:none;">
+          <source src="shoppingmall_sfx.mp3" type="audio/mp3">
+          Your browser does not support the audio element.
+        </audio>
+    <img src="images/vignette.png" id="vignette" class="stretch">
+    <div id="textContainer">
+        <p><br><br><br>to become a permanent resident of the mall, my mom and i had to get medical evaluations. i saw my mom take her 
+        <a href="dressUp_ipad.html"><span id="clothes"><b>clothes</b></span></a> 
+        off in front of the Mall Officer. i had to strip to my underwear too. she got a mammogram while I was in my training bra. i felt humiliated. the Mall makes sure no 
+        <a href="diseases_iPad.html"><span id="diseases"><b>diseases</b></span></a> 
+        are smuggled within. this is why medical evaluations are so important.</p></div>
+    <img src="images/castleSky.png" id="bg">
+<audio id="burpSound" preload="auto" playsinline>
+            <source src="burp.m4a" type="audio/mp4">
+        </audio>
+<script>
+    document.addEventListener("pointerdown", () => {
+
+    const burp = new Audio("burp.m4a");
+
+    burp.playsInline = true;
+
+    burp.volume = 1;
+
+    burp.play().catch(err => {
+        console.log(err);
+    });
+
+});
+</script>
+</body>
+</html>
