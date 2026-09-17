@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html,body{
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: black;
+                font-family: "Arial Rounded MT Bold";
+                color: aliceblue;
+                text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+                height: 100%;
+                position: fixed;
+                width: 100%;
+                font-size: 5dvh;
+                background-image: linear-gradient(to bottom, hotpink, cyan);
+                animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+            }
+
+            #vignette {
+                left: 0%;
+                top: 0%;
+                position: sticky;
+                pointer-events: none;
+                height: 100%;
+                z-index: 20;
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+           @font-face {
+                font-family: "Arial Rounded MT Bold";
+                src: url("fonts/ARLRDBD.TTF") format("truetype");
+            }
+
+            @font-face {
+                font-family: "Curlz MT Regular";
+                src: url("fonts/CURLZ___.TTF") format("truetype");
+                font-weight: normal;
+                font-style: normal;
+            }
+            
+            @font-face {
+                font-family: "Jokerman";
+                src: url("fonts/JOKERMAN.TTF") format("truetype");
+                font-weight: normal;
+                font-style: normal;
+            }
+
+        #bg {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            z-index: 2;
+        }
+
+        @keyframes pulse {
+                0% { filter: hue-rotate(0deg); }
+                50%   {  filter: hue-rotate(360deg); }
+                100% {  filter: hue-rotate(0deg); }
+        }    
+
+        @keyframes Tpulse {
+                0% { transform: translate(-50%,-50%) scale(0); }
+                90%   {  transform: translate(-50%,-50%) scale(0.8); }
+                100% {  transform: translate(-50%,-50%) scale(1.0); }
+        } 
+    
+        #clothes {
+            font-family: Curlz MT Regular;
+            color: red;
+            font-size: 5dvh;
+            animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #diseases {
+            font-family: Jokerman;
+            color: greenyellow;
+            font-size: 5dvh;
+            animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #card {
+        position: absolute;
+        text-align: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.0);
+        width: 100%;
+        animation: Tpulse 2s forwards ;
+            animation-timing-function: linear;
+         /* slightly smaller helps too */
+        z-index: 10;
+        }
+
+        #supernova {
+  position: fixed;      /* always relative to viewport */
+  top: 50%;
+  left: 50%;
+  width: 300vw;         /* 3x viewport width */
+  height: 300dvh;        /* 3x viewport height */
+  object-fit: cover;    /* cover while keeping aspect ratio */
+  transform: translate(-50%, -50%) rotate(0deg); /* centered */
+  z-index: 1;           /* behind randomImage */
+  opacity: 0.8;
+  pointer-events: none; /* don’t block clicks */
+  animation: spin 4s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+        
+
+        </style>
+    </head>
+<body>
+    <audio autoplay loop style="display: none;" id="bg">
+        <source src="greenEnding.mp3" type="audio/mp3">
+        Your browser does not support this audio element.
+    </audio>
+    <img src="images/vignette.png" id="vignette" class="stretch">
+    <img src="images/greenCard.png" id="card">
+    <img id="supernova" src="images/supernova.png">
+<script>
+    setTimeout(function() {
+   window.location.href = "page2_iPad.html";
+}, 10000);
+</script>
+</body>
+</html>
