@@ -6,6 +6,19 @@
       <link rel="preload" href="images/divination-bg.png" as="image">
       <link rel="preload" href="images/supernova.png" as="image">
       <link rel="preload" href="fortunes_bg.mp3" as="audio">
+         <title>iMallin</title>
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script>
+        window.isMobile = function() {
+            return window.matchMedia("(any-hover: none)").matches;
+        };
+
+        // If the device has a mouse that can hover, use the PC version.
+        // If it cannot hover, stay on index.html.
+        if (!window.isMobile()) {
+            window.location.replace("index-PC.html");
+        }
+    </script>
         <style>
             html,body{
                 margin: 0;
