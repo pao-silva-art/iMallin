@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html>
-    <head>
+    <head> 
+        <title>iMallin</title>
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <script>
+        window.isMobile = function() {
+            return window.matchMedia("(any-hover: none)").matches;
+        };
+
+        // If the device has a mouse that can hover, use the PC version.
+        // If it cannot hover, stay on index.html.
+        if (!window.isMobile()) {
+            window.location.replace("index-PC.html");
+        }
+    </script>
         <style>
         html,body{
                 margin: 0;
