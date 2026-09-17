@@ -2,6 +2,19 @@
 <html>
     <head>
         <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
+        <script>
+            window.isMobile = function() {
+                return window.matchMedia("(any-hover: none)").matches;
+            };
+
+            // If the device cannot hover, redirect to the mobile version.
+            // If it can hover, stay on index-PC.html.
+            if (window.isMobile()) {
+                window.location.replace("index.html");
+            }
+        </script>
+
         <style>
             body{
                 margin: 0;
@@ -36,21 +49,21 @@
             }
 
             @keyframes orbit {
-                from {  -webkit-transform: rotate(0deg) translateX(20px) rotate(0deg); }
-                to   {  -webkit-transform: rotate(360deg) translateX(20px) rotate(-360deg); }
+                from { -webkit-transform: rotate(0deg) translateX(20px) rotate(0deg); }
+                to   { -webkit-transform: rotate(360deg) translateX(20px) rotate(-360deg); }
             }
 
             @keyframes Cpulse {
                 0% { filter: hue-rotate(0deg); }
-                50%   {  filter: hue-rotate(360deg); }
-                100% {  filter: hue-rotate(0deg); }
-        }  
+                50% { filter: hue-rotate(360deg); }
+                100% { filter: hue-rotate(0deg); }
+            }
 
             .stretch {
                 height: auto;
                 width: 100%;
             }
-           
+
             #box {
                 position: absolute;
                 background-color: none;
@@ -100,7 +113,7 @@
                 animation-timing-function: linear;
             }
 
-            #bg{
+            #bg {
                 position: absolute;
                 height: 100%;
                 z-index: 1;
@@ -114,7 +127,7 @@
                 left: 35%;
                 transform: translateX(-50%);
                 z-index: 2;
-                animation: orbit 2s backwards infinite, Cpulse 2s backwards infinite ;
+                animation: orbit 2s backwards infinite, Cpulse 2s backwards infinite;
                 animation-timing-function: linear;
             }
 
@@ -156,75 +169,82 @@
                 height: 100%;
                 z-index: 5;
             }
-
         </style>
+
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
-    <body> 
+
+    <body>
         <div id="whiteCard"></div>
         <div id="test"></div>
+
         <img src="images/text_home_icon.png" id="time" class="stretch">
+
         <div id="strawBox">
             <div id="slider">
-            <img src="images/slideText_home_icon.png" id="text" class="stretch">
-            <img src="images/strawberry_home_icon.png" id="strawberry">
+                <img src="images/slideText_home_icon.png" id="text" class="stretch">
+                <img src="images/strawberry_home_icon.png" id="strawberry">
             </div>
+
             <img src="images/boxslider_home_icon.png" id="box">
         </div>
+
         <div id="bananaHome">
             <img src="images/banana_home_icon.png" id="banana">
             <img src="images/supernova_home_icon.png" id="supernova" class="stretch">
         </div>
+
         <img src="images/mouth_home_icon.png" id="mouth">
         <img src="images/home_icon_bg.png" id="apps">
         <img src="images/home_bg.png" id="bg" class="stretch">
 
-<script>
-const strawberry = document.getElementById("strawberry");
-const slider = document.getElementById("slider");
-const text = document.getElementById("text");
+        <script>
+            const strawberry = document.getElementById("strawberry");
+            const slider = document.getElementById("slider");
+            const text = document.getElementById("text");
 
-let dragging = false;
+            let dragging = false;
 
-strawberry.addEventListener("pointerdown", () => dragging = true);
-document.addEventListener("pointerup", () => dragging = false);
+            strawberry.addEventListener("pointerdown", () => dragging = true);
 
-document.addEventListener("pointermove", (e) => {
-    if (!dragging) return;
+            document.addEventListener("pointerup", () => dragging = false);
 
-    const sliderRect = slider.getBoundingClientRect();
-    const berryRect = strawberry.getBoundingClientRect();
+            document.addEventListener("pointermove", (e) => {
+                if (!dragging) return;
 
-    let x = e.clientX - sliderRect.left - berryRect.width / 2;
+                const sliderRect = slider.getBoundingClientRect();
+                const berryRect = strawberry.getBoundingClientRect();
 
-    const min = 0;
-    const max = sliderRect.width - berryRect.width;
+                let x = e.clientX - sliderRect.left - berryRect.width / 2;
 
-    x = Math.max(min, Math.min(x, max));
+                const min = 0;
+                const max = sliderRect.width - berryRect.width;
 
-    strawberry.style.left = x + "px";
+                x = Math.max(min, Math.min(x, max));
 
-    let progress = x / max;
+                strawberry.style.left = x + "px";
 
-    text.style.opacity = 1 - progress;
+                let progress = x / max;
 
-    if (progress >= 0.98) {
-    const whiteCard = document.getElementById("whiteCard");
+                text.style.opacity = 1 - progress;
 
-    whiteCard.style.display = "block";
-    
-    // Allow the browser to render display:block before starting the fade
-    requestAnimationFrame(() => {
-        whiteCard.style.opacity = "1";
-    });
+                if (progress >= 0.98) {
+                    const whiteCard = document.getElementById("whiteCard");
 
-    // Navigate after the fade finishes
-    setTimeout(() => {
-        window.location.href = "page2_PC.html";
-    }, 800);
-}
+                    whiteCard.style.display = "block";
 
-});
-</script>
+                    // Allow the browser to render display:block
+                    // before starting the fade.
+                    requestAnimationFrame(() => {
+                        whiteCard.style.opacity = "1";
+                    });
+
+                    // Navigate after the fade finishes.
+                    setTimeout(() => {
+                        window.location.href = "page2_PC.html";
+                    }, 800);
+                }
+            });
+        </script>
     </body>
 </html>
