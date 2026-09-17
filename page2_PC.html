@@ -7,7 +7,6 @@
             body {
                 margin: 0;
                 padding: 0;
-                background-image: url(images/testBG-pc.png);
                 background-color: greenyellow;
                 overflow-x: hidden;
                 cursor: url("images/favicon_64x64.png"), auto;
@@ -156,6 +155,17 @@
                 z-index: 1;
             }
 
+            #bg {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                z-index: 0;
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
 
         </style>
     </head>
@@ -177,6 +187,7 @@
         <div id="game4"></div> -->
     </div>
     <div id="white"></div>
+    <img src="images/testBG-pc.png" id="bg" class="stretch">
 <script>
 window.addEventListener("load", () => {
     const whiteCard = document.getElementById("whiteCard");
