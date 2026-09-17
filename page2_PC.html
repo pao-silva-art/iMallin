@@ -1,13 +1,28 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <head>
         <title>iMallin Desktop</title>
+
         <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+
+        <script>
+            window.isMobile = function() {
+                return window.matchMedia("(any-hover: none)").matches;
+            };
+
+            // If the device cannot hover, redirect to the mobile version.
+            // If it can hover, stay on page2_PC.html.
+            if (window.isMobile()) {
+                window.location.replace("page2.html");
+            }
+        </script>
+
         <style>
             body {
                 margin: 0;
                 padding: 0;
-                background-color: greenyellow;
+                background-color: red;
                 overflow-x: hidden;
                 cursor: url("images/favicon_64x64.png"), auto;
             }
