@@ -6,6 +6,7 @@
                 margin: 0;
                 padding: 0;
                 overflow: hidden;
+                cursor: url("images/favicon_64x64.png"), auto;
             }
 
             #fortune {
@@ -178,7 +179,7 @@
     font-family: Arial, Helvetica, sans-serif;
     color: aliceblue;
     text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
-    font-size: 5vW;
+    font-size: 5vw;
     border: none;
     margin-bottom: 10px;
 }
@@ -188,11 +189,11 @@
     color: aliceblue;
     font-size: 2vw;
     text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
-    height: 5dvh;
+    height: 7vh;
     margin: 5px;
     padding: 10px;
     border-radius: 5px;
-    border: NONE;
+    border: none;
     cursor: pointer;
 }
 
@@ -205,6 +206,8 @@
                 z-index: 30;
                 animation: orbit 5s backwards infinite;
                 animation-timing-function: linear;
+                background-color: none;
+                /*missing connection to storymode*/
             }
 
             #fresa{
@@ -213,9 +216,10 @@
                 left: 30%;
                 width: 10%;
                 height: auto;
-                z-index: 5;
+                z-index: 20;
                 animation: orbit 1s backwards infinite;
                 animation-timing-function: linear;
+                background-color: none;
             }
 
             #zanahoria{
@@ -381,8 +385,12 @@
          </a>
         <img src="images/page2_divider.png" id="divider">
         <img src="images/page2_bg.png" class="stretch" id="bg">
-        <img src="images/banana_iPad.png" id="banana_I">
-        <img src="images/fresa_iPad.png" id="fresa">
+        <a href="Citizenship_iPad.html">
+            <img src="images/banana_iPad.png" id="banana_I">
+        </a>
+        <a href="loveCalculator_iPad.html">
+            <img src="images/fresa_iPad.png" id="fresa">
+        </a>
         <a href="dressUp_ipad.html">
             <img src="images/zanahora_iPad.png" id="zanahoria">
         </a>
@@ -394,13 +402,19 @@
         </a>
         <div id="controlContainer">
             <img src="images/remoteCONTROL.png" id="control">
+        <a href="countdown_iPad.html">
             <div id="storyBUTTON"></div>
+            </a>
             <div id="suggestBUTTON"></div>
         <a href="page2_iPad.html">
             <div id="homeBUTTON"></div>
         </a>
+        <a href="8ball_iPad.html">
             <div id="catalogBUTTON"></div>
+        </a>
+        <a href="statement_iPad.html">
             <div id="aboutBUTTON"></div>
+        </a>
             <div id="translateBUTTON"></div>
             <div id="toggle"></div>
         </div>
@@ -482,25 +496,6 @@ submitBtn.addEventListener("click", () => {
     });
 });
 
-const aboutBtn = document.getElementById("aboutBUTTON");
-const aboutPopup = document.getElementById("aboutPopup");
-
-let aboutTimeout;
-
-// Open popup
-aboutBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-
-    aboutPopup.classList.add("active");
-
-    clearTimeout(aboutTimeout);
-
-    // Auto close after 10 seconds
-    aboutTimeout = setTimeout(() => {
-        aboutPopup.classList.remove("active");
-    }, 10000);
-});
-
 // Close when tapping anywhere
 document.addEventListener("pointerdown", () => {
     if (aboutPopup.classList.contains("active")) {
@@ -545,7 +540,7 @@ function startCountdown() {
 
         if (countdownValue <= 0) {
             clearInterval(countdownTimer);
-            window.location.href = "unlock.html";
+            window.location.href = "page2_iPad.html";
         }
     }, 1000);
 }

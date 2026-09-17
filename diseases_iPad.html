@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+        html,body{
+                margin: 0;
+                padding: 0;
+                overflow-x: hidden;
+                background-color: black;
+                font-family: Arial, Helvetica, sans-serif;
+                color: aliceblue;
+                text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+                height: 100%;
+                position: fixed;
+                width: 100%;
+                font-size: 6dvh;
+                background-color: cyan;
+            }
+        
+        #vignette {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                position: absolute;
+                pointer-events: none;
+                height: 100%;
+                z-index: 100;
+        }
+
+        #wheelContainer {
+                left: 50%;
+                top: 3%;
+                transform: translateX(-50%);
+                position: relative;
+                height: 70%;
+                z-index: 10;
+                background-color: none;
+        }
+        
+        #wheel {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                position: relative;
+                pointer-events: none;
+                height: 100%;
+                z-index: 10;
+                animation: Cpulse 6s backwards infinite;
+            animation-timing-function: linear;
+        }
+
+        #frame{
+                z-index: 10;
+                position: absolute;
+                height: 100%;
+                width: auto;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+
+        #back {
+                z-index: 20;
+                width: 8%;
+                height: auto;
+                position: absolute;
+                left: 20%;
+                top: 40%;
+            }
+
+        #bg {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0%;
+            height: 100%;
+            width: auto;
+            z-index: 0;
+            animation: Cpulse 4s backwards infinite;
+            animation-timing-function: linear;
+        }
+
+        #instruction01 {
+            position: absolute;
+            z-index: 20;
+            height: 32%;
+            transform: translateX(-50%);
+            bottom: 3%;
+            left: 50%;
+        }
+
+        #instruction02 {
+            position: absolute;
+            z-index: 20;
+            height: 32%;
+            bottom: 16%;
+            left: 25%;
+        }
+
+        #instruction03 {
+            position: absolute;
+            z-index: 20;
+            height: 32%;
+            bottom: 16%;
+            right: 25%;
+        }
+
+        #ic01 {
+               left: 40%;
+                top: 12%;
+                position: absolute;
+                height: 12%;
+                z-index: 15;
+                animation: Cpulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+            background-color: none;
+        }
+
+        #ic02 {
+               left: 50%;
+                bottom: 13%;
+                transform: translate(-50%,-50%) scale(1);
+                position: absolute;
+                height: 13%;
+                z-index: 15;
+                animation: Tpulse 1s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+            background-color: none;
+                
+        }
+
+        #ic03 {
+               left: 35%;
+                top: 23%;
+                position: absolute;
+                height: 10%;
+                z-index: 15;
+                animation: pulse 1s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+            background-color: none;
+        }
+
+        #ic04 {
+               right: 35%;
+                top: 52%;
+                position: absolute;
+                height: 13%;
+                z-index: 15;
+                animation: pulse 1s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+            background-color: none;
+        }
+
+        #ic05 {
+               right: 35%;
+                top: 23%;
+                position: absolute;
+                height: 13%;
+                z-index: 15;
+                animation: pulse 1s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+            background-color: none;
+        }
+
+        #ic06 {
+               left: 35%;
+                top: 52%;
+                position: absolute;
+                height: 13%;
+                z-index: 15;
+                animation: pulse 1s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+            background-color: none;
+        }
+
+        #ic07 {
+               left: 50%;
+                top: 7%;
+                transform: translateX(-50%);
+                position: absolute;
+                height: 13%;
+                z-index: 15;
+                animation: Dpulse 1s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+            background-color: none;
+        }
+
+        #ic08 {
+               right: 40%;
+                top: 12%;
+                position: absolute;
+                height: 12%;
+                z-index: 15;
+                animation: Cpulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+            background-color: none;
+        }
+
+        #ic09 {
+               left: 40%;
+                bottom: 25%;
+                position: absolute;
+                height: 12%;
+                z-index: 15;
+                animation: Cpulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+            background-color: none;
+        }
+
+        #ic10 {
+               right: 40%;
+                bottom: 25%;
+                position: absolute;
+                height: 12%;
+                z-index: 15;
+                animation: Cpulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+            background-color: none;
+        }
+
+        #ic11 {
+               left: 34%;
+                top: 37%;
+                position: absolute;
+                height: 12%;
+                z-index: 30;
+                animation: Cpulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+            background-color: none;
+        }
+
+        #ic12 {
+               right: 34%;
+                top: 37%;
+                position: absolute;
+                cursor: pointer;
+                height: 12%;
+                z-index: 15;
+                animation: Cpulse 2s backwards infinite;
+            animation-timing-function: linear;
+            background-color: none;
+        }
+
+        .stretch {
+            height: auto;
+            width: 100%;
+        }
+        
+        @keyframes Dpulse {
+                0% { transform: translatex(-50%) scale(1); }
+                50%   {  transform: translatex(-50%) scale(0.8); }
+                100% {  transform: translatex(-50%) scale(1); }
+        }
+
+        @keyframes Tpulse {
+                0% { transform: translate(-50%,-50%) scale(1); }
+                50%   {  transform: translate(-50%,-50%) scale(0.8); }
+                100% {  transform: translate(-50%,-50%) scale(1); }
+        } 
+        
+        @keyframes pulse {
+                0% { transform: scale(1); }
+                50%   {  transform: scale(1.2); }
+                100% {  transform: scale(1); }
+        }  
+
+        @keyframes Cpulse {
+                0% { filter: hue-rotate(0deg); }
+                50%   {  filter: hue-rotate(360deg); }
+                100% {  filter: hue-rotate(0deg); }
+        }  
+        </style>
+    </head>
+<body>
+    <img src="images/dressUp_ipad_bg.png" id="frame">
+    <img src="images/disease01.png" id="instruction01">
+    <img src="images/disease02.png" id="instruction02">
+    <img src="images/disease03-f.png" id="instruction03">
+    <a href="page2_iPad.html">
+        <img src="images/dressUp_back.png" id="back">
+    </a>
+    <img src="images/vignette.png" id="vignette" class="stretch">
+    <div id="wheelContainer">
+    <img src="images/icon01.png" id="ic01">
+    <img src="images/icon02.png" id="ic02">
+    <img src="images/icon03.png" id="ic03">
+    <img src="images/icon04.png" id="ic04">
+    <img src="images/icon05.png" id="ic05">
+    <img src="images/icon06.png" id="ic06">
+    <img src="images/icon07.png" id="ic07">
+    <img src="images/icon01.png" id="ic08">
+    <img src="images/icon01.png" id="ic09">
+    <img src="images/icon01.png" id="ic10">
+    <img src="images/icon01.png" id="ic11">
+    <img src="images/icon01.png" id="ic12">
+    <img src="images/theWheel.png" id="wheel">
+    </div>
+    <img src="images/citizenship_bg.png" id="bg">
+    <audio id="burpSound" preload="auto" playsinline>
+            <source src="burp.m4a" type="audio/mp4">
+        </audio>
+<script>
+    const requiredIcons = ["ic02", "ic04", "ic06", "ic07"];
+    const clickedIcons = new Set();
+
+    requiredIcons.forEach(id => {
+        const icon = document.getElementById(id);
+
+        icon.addEventListener("click", function () {
+            // Brighten the clicked icon
+            this.style.filter = "brightness(8.0)";
+
+            // Remember that it was clicked
+            clickedIcons.add(id);
+
+            // Check whether all four required icons have been clicked
+            if (requiredIcons.every(iconId => clickedIcons.has(iconId))) {
+                
+                // Change disease02.png → disease02-f.png
+                document.getElementById("instruction02").src =
+                    "images/disease02-f.png";
+
+                
+                setTimeout(function () {
+                    window.location.href = "borderCross_iPad.html";
+                }, 5000);
+            }
+        });
+    });
+
+    // Any other #ic... icon reloads the page
+    document.querySelectorAll('[id^="ic"]').forEach(icon => {
+        if (!requiredIcons.includes(icon.id)) {
+            icon.addEventListener("click", function () {
+                window.location.reload();
+            });
+        }
+    });
+document.addEventListener("pointerdown", () => {
+
+    const burp = new Audio("burp.m4a");
+
+    burp.playsInline = true;
+
+    burp.volume = 1;
+
+    burp.play().catch(err => {
+        console.log(err);
+    });
+
+});
+</script>
+</body>
+</html>

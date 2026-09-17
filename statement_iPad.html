@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            html,body{
+                margin: 0;
+                padding: 0;
+                overflow-x: hidden;
+                background-color: black;
+                font-family: "Arial Rounded MT Bold";
+                color: aliceblue;
+                text-shadow: 0px 0px 2dvh blue, 0px 0px 1dvh blue, 0px 0px 7dvh blue;
+                height: 100%;
+                position: fixed;
+                width: 100%;
+                font-size: 8vh;
+                background-image: linear-gradient(to bottom, hotpink, cyan);
+                animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+            }
+
+            #back {
+               z-index: 20;
+                width: 12%;
+                height: auto;
+                position: sticky;
+                left: 10%;
+                top: 75%;
+            }
+
+            #vignette {
+                left: 0%;
+                top: 0%;
+                position: sticky;
+                pointer-events: none;
+                height: 100%;
+                z-index: 20;
+            }
+
+            .stretch {
+                height: auto;
+                width: 100%;
+            }
+
+           @font-face {
+                font-family: "Arial Rounded MT Bold";
+                src: url("fonts/ARLRDBD.TTF") format("truetype");
+            }
+
+            @font-face {
+                font-family: "Curlz MT Regular";
+                src: url("fonts/CURLZ___.TTF") format("truetype");
+                font-weight: normal;
+                font-style: normal;
+            }
+            
+            @font-face {
+                font-family: "Jokerman";
+                src: url("fonts/JOKERMAN.TTF") format("truetype");
+                font-weight: normal;
+                font-style: normal;
+            }
+
+        #bg {
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            z-index: 2;
+        }
+
+        @keyframes pulse {
+                0% { filter: hue-rotate(0deg); }
+                50%   {  filter: hue-rotate(360deg); }
+                100% {  filter: hue-rotate(0deg); }
+        }    
+    
+        #clothes {
+            font-family: Curlz MT Regular;
+            color: red;
+            font-size: 8vh;
+            animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #diseases {
+            font-family: Jokerman;
+            color: greenyellow;
+            font-size: 8vh;
+            animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+            cursor: pointer;
+        }
+
+        #textContainer {
+        position: absolute;
+        text-align: center;
+        top: 1%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        max-width: 800px;
+         /* slightly smaller helps too */
+        z-index: 10;
+        }
+
+        </style>
+    </head>
+<body>
+    <img src="images/vignette.png" id="vignette" class="stretch">
+    <a href="page2_iPad.html">
+        <img src="images/dressUp_back.png" id="back">
+    </a>
+    <div id="textContainer">
+        <p><br><br><br>for most of my life, i lived in tijuana, mexico
+        at the border with the united states. there was the possibility
+    we would move to america, and it seemed to get closer every year.
+crossing the border to san diego every weekend, the united states became synonymous
+with toy aisles, DVD bins, and payless shoes: to go to america was to go to <a href="fortunes.html"><span id="clothes"><b>the mall</b></span></a>.
+to shop like an american was important to me. i wanted to be american so bad. as much as the shopping mall was its own world, the world wide web was another, and through them my hope was to de-Mexicanize.<br>
+you must understand that the internet felt like a real place. because it was: it was my tool for globalization. the internet was a <a href="8ball.html"><span id="diseases">promise:</span></a> that we could become American, that we could be full resolution.
+when my family finally moved to santa ana, california, my dream revealed to be phony. not only was i not american, i never would be. this work is a piece of time travel. i go back in time and i speak to child Pao in the language she would understand: gaudy internet games. i use this language and i warn her. i tell her she is being stupid. i am not sure if she will listen. my wish is to let you into the world of two Paos, cross-eyed: the past Pao venerating plastic and cuteness, the cynical Pao whispering that it's all hideous. somewhere in between there is a truth I still can't write down. and it's all a little pixelated.</p></div>
+    <img src="images/castleSky.png" id="bg">
+</body>
+</html>

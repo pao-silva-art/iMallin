@@ -6,6 +6,13 @@
                 padding: 0;
                 margin: 0;
                 overflow: hidden;
+                font-family: "Arial Rounded MT Bold";
+                cursor: url("images/favicon_64x64.png"), auto;
+            }
+
+            @font-face {
+                font-family: "Arial Rounded MT Bold";
+                src: url("fonts/ARLRDBD.TTF") format("truetype");
             }
 
             #back {
@@ -150,7 +157,7 @@
             }
 
             #idleTitle {
-                font-family: Arial, Helvetica, sans-serif;
+                font-family: "Arial Rounded MT Bold";
                 color: white;
                 font-size: 4vw;
                 text-shadow:
@@ -249,7 +256,7 @@ function startCountdown() {
 
             clearInterval(countdownTimer);
 
-            window.location.href = "unlock.html";
+            window.location.href = "page2_iPad.html";
         }
 
     }, 1000);
@@ -418,30 +425,17 @@ function checkSecretCombo() {
         popup.classList.add("active");
 
         document.getElementById("idleTitle").innerHTML = `
-            You've unlocked<br>
-            1 free print.<br><br>
+            Investigate non-Mall Citizens.<br>
+            They are aliens.<br><br>
 
-            To receive it,<br>
-            find me, and say:<br><br>
-
-            <span style="
-                font-size: 0.65em;
-                display: inline-block;
-                margin-top: 10px;
-            ">
-                "I am a citizen<br>
-                of the Mall."
-            </span>
+            Watch out for<br>
+            the green alien baby.<br><br>
         `;
 
         // Hide popup after 9 seconds
         setTimeout(() => {
 
-            popup.classList.remove("active");
-
-            secretUnlocked = false;
-
-            resetIdle();
+           window.location.href = "standby_comp01_iPad.html";
 
         }, 9000);
     }
@@ -466,7 +460,6 @@ document.addEventListener("pointerdown", () => {
     });
 
 });
-
 </script>
 </body>
 </html>
