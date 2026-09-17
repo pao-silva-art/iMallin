@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+         body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: "Arial Rounded MT Bold";
+        }
+
+        @font-face {
+                font-family: "Arial Rounded MT Bold";
+                src: url("fonts/ARLRDBD.TTF") format("truetype");
+            }
+
+           h1 {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: xx-large;
+            color: transparent;
+            text-shadow:
+                1px 1px 2px white,
+                0 0 1em blue,
+                0 0 0.2em white;
+            text-align: center;
+            z-index: 100;
+            padding: 0;
+            margin: 0;
+        }
+
+          #idlePopup {
+    display: none;
+    position: fixed;
+    z-index: 100000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+#idlePopup.active {
+    display: flex;
+}
+
+#idleBox {
+    background-image: linear-gradient(to bottom, red, yellow);
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+#idleTitle {
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    font-size: 4vw;
+    text-shadow:
+        0 0 5px blue,
+        0 0 10px blue,
+        0 0 20px blue,
+        0 0 40px blue;
+}
+
+#countdown {
+    font-size: 5em;
+    display: inline-block;
+}
+
+        #vignette {
+                left: 50%;
+                top: 50%;
+                transform: translate(-50%,-50%);
+                position: absolute;
+                pointer-events: none;
+                height: 100%;
+                z-index: 100;
+            }
+
+        .stretch {
+            height: auto;
+            width: 100%;
+        }
+
+        #back {
+                z-index: 20;
+                width: 8%;
+                height: auto;
+                position: absolute;
+                left: 30%;
+                top: 40%;
+            }
+
+        #divider {
+            position: absolute;
+            height: 100%;
+            left:20%;
+            z-index: 2;
+        }
+
+        #box {
+            position: absolute;
+            height: 100%;
+            display: block;
+            z-index: 0;
+         }
+
+        #girl {
+            position: absolute;
+            height: 40%;
+            top: 1%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9;
+         }
+
+        .droptarget {
+            width: auto;
+            height: 100%;
+            top: 7%;
+            left: 50%;
+            transform: translateX(-50%);
+            position: relative;
+            z-index: 9;
+            background-color: none;
+         }
+
+        #orb {
+            position: absolute;
+            height: 27%;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 2%;
+            z-index: 11;
+            touch-action: none; /* Prevents mobile scrolling during drag */
+            animation: pulse 2s backwards infinite;
+            animation-timing-function: linear;
+        }
+
+        @keyframes pulse {
+                0% { filter: hue-rotate(0deg); }
+                50%   {  filter: hue-rotate(360deg); }
+                100% {  filter: hue-rotate(0deg); }
+        }        
+        
+
+        #compact {
+            position: absolute;
+            height: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0%;
+            z-index: 9;
+         }
+
+        #compactContainer {
+            position: absolute;
+            height: 50vh;
+            width: 110%;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 0%;
+            z-index: 11;
+            background-color: none;
+         }
+
+        #bg {
+            position: absolute;
+            height: 100%;
+            z-index: 1;
+         }
+    </style>
+</head>
+<body>
+    <audio autoplay loop style="display:none;">
+          <source src="fortunes_bg.mp3" type="audio/mp3">
+          Your browser does not support the audio element.
+        </audio>
+    <a href="page2_iPad.html">
+        <img src="images/dressUp_back.png" id="back">
+    </a>
+    <img src="images/vignette.png" id="vignette" class="stretch"> 
+    <div id="idlePopup">
+    <div id="idleBox">
+        <h1 id="idleTitle">Press anywhere <br> to continue<br><span id="countdown">5</span></h1>
+    </div>
+    </div>
+    <img src="images/story_dialog_Box.png" id="box">
+    <div id="compactContainer">
+        <img src="images/story_compact2.png" id="compact">
+        <!-- Kept desktop drag events inline -->
+        <img src="images/story_orb.png" id="orb" ondragstart="dragStart(event)" draggable="true">
+    </div>
+    <img src="images/story_divider.png" id="divider">
+    <!-- Kept desktop drop events inline -->
+    <img src="images/story_girl2.png" id="girl" class="droptarget" ondrop="drop(event)" ondragover="allowDrop(event)">
+    <img src="images/story_bg.png" id="bg" class="stretch">
+
+<script>
+    const orb = document.getElementById('orb');
+    const girl = document.getElementById('girl');
+    const sound = new Audio('burp.m4a');
+
+    let successCount = 0;
+    let currentBrightness = 1.0;
+    const brightnessIncrement = 0.8;
+
+    // Make sure the sound is loaded
+    sound.preload = 'auto';
+
+    // --- CLICK EVENT ---
+    orb.addEventListener('click', function () {
+        successAction();
+    });
+
+    // --- SHARED ACTION ---
+    function successAction() {
+        console.log("Orb clicked!");
+
+        // Increase the girl's brightness
+        currentBrightness += brightnessIncrement;
+        girl.style.filter = `brightness(${currentBrightness})`;
+
+        // Play the sound effect on every click
+        sound.currentTime = 0;
+        sound.play().catch(err => {
+            console.log("Audio play blocked:", err);
+        });
+
+        // Count clicks
+        successCount++;
+
+        console.log("Click count:", successCount);
+        console.log("Brightness:", currentBrightness);
+
+        // After 9 clicks, go to the next page
+        if (successCount >= 9) {
+            window.location.href = "standby_comp01_iPad.html";
+        }
+    }
+
+    let idleTimer;
+let countdownTimer;
+let countdownValue = 5;
+
+const popup = document.getElementById("idlePopup");
+const countdownEl = document.getElementById("countdown");
+
+// Reset everything on activity
+function resetIdle() {
+    clearTimeout(idleTimer);
+    clearInterval(countdownTimer);
+    popup.classList.remove("active");
+    countdownValue = 10;
+    countdownEl.textContent = countdownValue;
+
+    idleTimer = setTimeout(startCountdown, 10000); // 10 seconds idle
+}
+
+// Start countdown popup
+function startCountdown() {
+    popup.classList.add("active");
+
+    countdownTimer = setInterval(() => {
+        countdownValue--;
+        countdownEl.textContent = countdownValue;
+
+        if (countdownValue <= 0) {
+            clearInterval(countdownTimer);
+            window.location.href = "page2_iPad.html";
+        }
+    }, 1000);
+}
+
+// Listen for ANY pointer activity
+["pointermove", "pointerdown", "touchstart", "click"].forEach(event => {
+    document.addEventListener(event, resetIdle);
+});
+
+// Initialize
+resetIdle();
+</script>
+</body>
+</html>
